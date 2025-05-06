@@ -1,0 +1,129 @@
+@startuml
+
+' Définition de la classe Personnage
+class Personnage {
+    + nom : String
+    + race : Race
+    + classe : Classe
+    + pointsDeVie : Integer
+    + force : Integer
+    + dexterite : Integer
+    + vitesse : Integer
+    + initiative : Integer
+    + inventaire : List<Equipement>
+    + armeEquipee : Arme
+    + armureEquipee : Armure
+
+    + seDeplacer(distance : Integer) : void
+    + attaquer(cible : Monstre) : void
+    + sEquiper(equipement : Equipement) : void
+    + ramasserEquipement(equipement : Equipement) : void
+}
+
+' Définition de la classe Monstre
+class Monstre {
+    + espece : String
+    + numero : Integer
+    + pointsDeVie : Integer
+    + force : Integer
+    + dexterite : Integer
+    + classeArmure : Integer
+    + initiative : Integer
+    + attaque() : void
+}
+
+' Définition de la classe Donjon
+class Donjon {
+    + carte : Carte
+    + obstacles : List<Case>
+    + monstres : List<Monstre>
+    + personnages : List<Personnage>
+    + equipements : List<Equipement>
+
+    + initialiser() : void
+    + jouerTour() : void
+    + terminer() : Boolean
+}
+
+' Définition de la classe Carte
+class Carte {
+    + largeur : Integer
+    + hauteur : Integer
+    + cases : List<List<Case>>
+
+    + ajouterObstacle(position : Case) : void
+    + placerPersonnage(personnage : Personnage, position : Case) : void
+    + placerMonstre(monstre : Monstre, position : Case) : void
+    + placerEquipement(equipement : Equipement, position : Case) : void
+}
+
+' Définition des races
+enum Race {
+    Humain
+    Nain
+    Elfe
+    Halfelin
+}
+
+' Définition des classes
+enum Classe {
+    Guerrier
+    Clerc
+    Magicien
+    Roublard
+}
+
+' Définition de la classe Equipement
+abstract class Equipement {
+    + nom : String
+}
+
+' Définition de la classe Arme (hérite d'Equipement)
+class Arme extends Equipement {
+    + degats : String
+    + portee : Integer
+}
+
+' Définition de la classe Armure (hérite d'Equipement)
+class Armure extends Equipement {
+    + classeArmure : Integer
+}
+
+' Définition de la classe Case
+class Case {
+    + x : Integer
+    + y : Integer
+    + estObstacle : Boolean
+    + contenu : ContenuCase
+
+    + estLibre() : Boolean
+}
+
+' Définition des contenus possibles pour une case
+abstract class ContenuCase
+class PersonnageCase extends ContenuCase
+class MonstreCase extends ContenuCase
+class EquipementCase extends ContenuCase
+
+' Relations entre les classes
+Personnage "1" -- "1" Race
+Personnage "1" -- "1" Classe
+Personnage "1" o-- "1" Arme
+Personnage "1" o-- "1" Armure
+Personnage "1" o-- "1..*" Equipement
+
+Carte "1" o-- "1..*" Case
+Case "1" o-- "0..1" ContenuCase
+Arme --|> Equipement
+Armure --|> Equipement
+
+Donjon "1" o-- "1" Carte
+Donjon "1" o-- "1..*" Monstre
+Donjon "1" o-- "1..*" Personnage
+Donjon "1" o-- "1..*" Equipement
+
+ContenuCase <|-- PersonnageCase
+ContenuCase <|-- MonstreCase
+ContenuCase <|-- EquipementCase
+
+@enduml
