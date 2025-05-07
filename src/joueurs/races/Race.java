@@ -5,4 +5,5 @@ package joueurs.races;
  */
 public interface Race {
 
+  public String presentation();
 }

@@ -17,11 +17,13 @@ public class Personnage {
   private int m_vitesse;
   private int m_initiative;
 
-  private ArrayList<Equipement> equipement;
-  private Equipement armeePortee;
-  private Equipement armurePortee;
+  private ArrayList<Equipement> m_equipement;
+  private Equipement m_armeePortee;
+  private Equipement m_armurePortee;
 
-  public Personnage() {
-
+  public Personnage(String nom, Race race, Classe classe) {
+    this.m_nom = nom;
+    this.m_race = race;
+    this.m_classe = classe;
   }
 }
