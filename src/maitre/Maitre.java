@@ -17,7 +17,7 @@ class Maitre
         String txt = "Le maitre du jeu controle ces monstres : ";
         for (Monstre mstr : m_monstres)
         {
-            txt += mstr.get_espece() + " ";
+            txt += mstr.getEspece() + " ";
         }
         return txt;
     }

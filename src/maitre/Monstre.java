@@ -6,13 +6,11 @@ class Monstre
     private int m_numero;
 
     private String m_nomAttaque;
-    private int[] m_attaque;
-    // m_attaque aura 3 valeurs, ex. : [0, 1, 2]
-    // -> 0 représente les dégàts de l'attaque
-    // -> 1 représente le nombre de dés lancés
-    // -> 2 représente le nombre de faces des dés
-    // dans l'exemple, cette attaque fait 0 dégàts, et c'est un 1d2.
-
+    private int[] m_attaque;    // m_attaque aura 3 valeurs, ex. : [0, 1, 2]
+                                // -> 0 représente les dégàts de l'attaque
+                                // -> 1 représente le nombre de dés lancés
+                                // -> 2 représente le nombre de faces des dés
+                                // dans l'exemple, cette attaque fait 0 dégàts, et c'est un 1d2.
 
     //private  Vector m_position;
 
@@ -36,7 +34,7 @@ class Monstre
         this.m_initiative = initve;
     }
 
-    public String get_espece()
+    public String getEspece()
     {
         /// Avoir l'espece d'un Monstre ///
         return this.m_espece;
