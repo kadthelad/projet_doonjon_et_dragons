@@ -3,6 +3,7 @@ package joueurs;
 import joueurs.races.*;
 import joueurs.classes.*;
 import joueurs.equipements.*;
+import utils.*;
 import java.util.ArrayList;
 
 public class Personnage {
@@ -26,7 +27,11 @@ public class Personnage {
     this.m_race = race;
     this.m_classe = classe;
 
-    this.m_force = race.bonus("force");
+    this.m_force = Des.lancer(4, 4) + 3 + race.bonus("force");
+    this.m_dexterite = Des.lancer(4, 4) + 3 + race.bonus("dexterite");
+    this.m_vitesse = Des.lancer(4, 4) + 3 + race.bonus("vitesse");
+    this.m_initiative = Des.lancer(4, 4) + 3 + race.bonus("initiative");
+
   }
 
   public void changePV(int pv) {
