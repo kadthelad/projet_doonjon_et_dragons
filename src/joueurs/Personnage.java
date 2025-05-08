@@ -25,5 +25,40 @@ public class Personnage {
     this.m_nom = nom;
     this.m_race = race;
     this.m_classe = classe;
+
+    this.m_force = race.bonus("force");
   }
+
+  public void changePV(int pv) {
+    this.m_pv += pv;
+  }
+
+  public void changeForce(int force) {
+    this.m_force = +force;
+  }
+
+  public void changeDexterite(int dexterite) {
+    this.m_dexterite += dexterite;
+  }
+
+  public void changeVitesse(int vitesse) {
+    this.m_vitesse += vitesse;
+  }
+
+  public void changeInitiative(int initiative) {
+    this.m_initiative += initiative;
+  }
+
+  public void changeEquipement(ArrayList<Equipement> equipement) {
+    this.m_equipement = equipement;
+  }
+
+  public void changeArmeePortee(Equipement armeePortee) {
+    this.m_armeePortee = armeePortee;
+  }
+
+  public void changeArmurePortee(Equipement armurePortee) {
+    this.m_armurePortee = armurePortee;
+  }
+
 }

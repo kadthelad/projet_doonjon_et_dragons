@@ -27,8 +27,7 @@ public class Main {
 
   public static int combienJoueurs() {
     System.out.println("Sans compter le maitre du jeu, combien de joueurs y aura-t-il ?");
-    int n = sc.nextInt();
-    return n;
+    return sc.nextInt();
   }
 
   public static int creationPersonnages(int nombreJoueurs) {
@@ -55,5 +54,9 @@ public class Main {
     }
 
     return 1;
+  }
+
+  public static ArrayList<Personnage> getListePersonnages() {
+    return listePersonnages;
   }
 }
