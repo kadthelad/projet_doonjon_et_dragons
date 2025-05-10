@@ -27,7 +27,9 @@ public class Main {
 
   public static int combienJoueurs() {
     System.out.println("Sans compter le maitre du jeu, combien de joueurs y aura-t-il ?");
-    return sc.nextInt();
+    int n = sc.nextInt();
+    sc.nextLine();
+    return n;
   }
 
   public static int creationPersonnages(int nombreJoueurs) {
@@ -43,10 +45,10 @@ public class Main {
       }
       int race = sc.nextInt();
 
-      System.out.println(nom + ", entrer le numéro associé à la race de votre choix :");
+      System.out.println(nom + ", entrer le numéro associé à la classe de votre choix :");
       for (int j = 0; j < listeClasses.size(); j++) {
         // print le nom de la classe et ses charactéristiques spécifiques
-        System.out.print(j + " : " + listeClasses.get(j).presentation());
+        System.out.print(j + " : " + listeClasses.get(j).presentation() + "\n");
       }
       int classe = sc.nextInt();
 
