@@ -26,7 +26,6 @@ public class Jeu {
   // Fonction principale, qui appelle les differentes methodes, doit rester le
   // plus simple possible
   public static void main(String args[]) {
-    System.out.println("Bienvenue dans DOOnjon et Dragons");
     creationPersonnages(combienJoueurs());
 
   }

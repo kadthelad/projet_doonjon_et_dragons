@@ -16,4 +16,9 @@ doc/
 *.tar.gz
 *.rar
 
-
+### Gradle ###
+src/.classpath
+src/.gradle/
+src/.project
+src/.settings/
+src/build/
