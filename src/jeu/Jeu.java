@@ -1,24 +1,30 @@
+package jeu;
+
 import jeu.joueurs.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
 import jeu.joueurs.equipements.*;
+import jeu.utils.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
-public class Main {
+public class Jeu {
 
-  // declare des listes pour facilement keep track des persos, races et classes
+  // Liste des personnages, pour pouvoir facilement les utiliser partout
   private static ArrayList<Personnage> listePersonnages;
+
+  // liste pour facilement énumerer races/classes lors de la création des persos
   private static ArrayList<Race> listeRaces = new ArrayList<>(
       Arrays.asList(new Nain()));
+  // on ne peut pas appeler de methodes en dehors d'un bloc, donc pas de liste.add
+  // directement dans la classe Main, donc Arrays.asList()
+
   private static ArrayList<Classe> listeClasses = new ArrayList<Classe>(
-      // on ne peut pas appeler de methodes en dehors d'un bloc, donc pas de liste.add
-      // directement dans la classe Main
       Arrays.asList(new Clerc(), new Guerrier(), new Magicien(), new Roublard()));
 
-  private static Scanner sc = new Scanner(System.in);
-
+  // Fonction principale, qui appelle les differentes methodes, doit rester le
+  // plus simple possible
   public static void main(String args[]) {
     System.out.println("Bienvenue dans DOOnjon et Dragons");
     creationPersonnages(combienJoueurs());
@@ -27,31 +33,31 @@ public class Main {
 
   public static int combienJoueurs() {
     System.out.println("Sans compter le maitre du jeu, combien de joueurs y aura-t-il ?");
-    int n = sc.nextInt();
-    sc.nextLine();
-    return n;
+    return Input.entier();
   }
 
   public static int creationPersonnages(int nombreJoueurs) {
 
+    // pour chaque joueur...
     for (int i = 0; i < nombreJoueurs; i++) {
       System.out.println("Joueurs " + (i + 1) + ", nommez votre personnage");
-      String nom = sc.nextLine();
+      String nom = Input.string();
 
       System.out.println(nom + ", entrer le numéro associé à la race de votre choix :");
       for (int j = 0; j < listeRaces.size(); j++) {
-        // print le nom de la race et ses charactéristiques spécifiques
+        // on affiche les informations de chaque race
         System.out.print(j + " : " + listeRaces.get(j).presentation());
       }
-      int race = sc.nextInt();
+      int race = Input.entier();
 
       System.out.println(nom + ", entrer le numéro associé à la classe de votre choix :");
       for (int j = 0; j < listeClasses.size(); j++) {
-        // print le nom de la classe et ses charactéristiques spécifiques
+        // informations pour les classes
         System.out.print(j + " : " + listeClasses.get(j).presentation() + "\n");
       }
-      int classe = sc.nextInt();
+      int classe = Input.entier();
 
+      // on crée le personnage en fonction des parametre choisis
       listePersonnages.add(new Personnage(nom, listeRaces.get(race), listeClasses.get(classe)));
     }
 
