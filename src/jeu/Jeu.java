@@ -1,7 +1,7 @@
-import joueurs.*;
-import joueurs.races.*;
-import joueurs.classes.*;
-import joueurs.equipements.*;
+import jeu.joueurs.*;
+import jeu.joueurs.races.*;
+import jeu.joueurs.classes.*;
+import jeu.joueurs.equipements.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;

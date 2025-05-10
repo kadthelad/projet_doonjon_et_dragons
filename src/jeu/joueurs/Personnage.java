@@ -1,9 +1,9 @@
-package joueurs;
+package jeu.joueurs;
 
-import joueurs.races.*;
-import joueurs.classes.*;
-import joueurs.equipements.*;
-import utils.*;
+import jeu.joueurs.races.*;
+import jeu.joueurs.classes.*;
+import jeu.joueurs.equipements.*;
+import jeu.utils.*;
 import java.util.ArrayList;
 
 public class Personnage {

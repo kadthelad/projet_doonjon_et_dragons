@@ -1,10 +1,10 @@
-package joueurs.classes;
+import jeu.joueurs.classes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import joueurs.equipements.Equipement;
-import joueurs.equipements.armes.*;
+import jeu.joueurs.equipements.Equipement;
+import jeu.joueurs.equipements.armes.*;
 
 /**
  * Guerrier

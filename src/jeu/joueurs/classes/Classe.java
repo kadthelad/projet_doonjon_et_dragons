@@ -1,4 +1,4 @@
-package joueurs.classes;
+import jeu.joueurs.classes;
 
 /**
  * Classe

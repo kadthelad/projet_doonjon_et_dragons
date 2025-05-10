@@ -1,6 +1,6 @@
-package joueurs.races;
+import jeu.joueurs.races;
 
-import joueurs.*;
+import jeu.joueurs.*;
 
 /**
  * Race

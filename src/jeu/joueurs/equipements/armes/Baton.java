@@ -1,6 +1,6 @@
-package joueurs.equipements.armes;
+import jeu.joueurs.equipements.armes;
 
-import utils.Des;
+import jeu.utils.Des;
 
 public class Baton implements Arme {
 
