@@ -1,4 +1,4 @@
-import jeu.joueurs.classes;
+package jeu.joueurs.classes;
 
 /**
  * Clerc

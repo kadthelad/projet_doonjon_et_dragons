@@ -1,4 +1,4 @@
-import jeu.joueurs.races;
+package jeu.joueurs.races;
 
 import jeu.joueurs.*;
 

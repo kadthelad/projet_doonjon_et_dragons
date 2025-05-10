@@ -1,4 +1,4 @@
-import jeu.joueurs.equipements.armes;
+package jeu.joueurs.equipements.armes;
 
 import jeu.joueurs.equipements.Equipement;
 
