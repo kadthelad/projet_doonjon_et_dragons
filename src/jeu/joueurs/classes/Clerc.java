@@ -1,4 +1,4 @@
-package joueurs.classes;
+package jeu.joueurs.classes;
 
 /**
  * Clerc

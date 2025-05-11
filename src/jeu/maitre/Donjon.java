@@ -1,7 +1,7 @@
 package maitre;
 
-import joueurs.equipements.Equipement;
-import joueurs.Personnage;
+import jeu.joueurs.equipements.Equipement;
+import jeu.joueurs.Personnage;
 import mapLogic.Vector;
 
 
