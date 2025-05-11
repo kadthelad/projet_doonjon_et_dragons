@@ -161,7 +161,7 @@ Donjon --> Personnage
 Donjon --> Equipement
 Monstre --> Vector
 
-' Implementations with dashed arrows
+' Implementations  des interfaces
 Nain ..|> Race
 Clerc ..|> Classe
 Guerrier ..|> Classe
