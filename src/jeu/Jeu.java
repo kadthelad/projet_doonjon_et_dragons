@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Jeu {
 
   // Liste des personnages, pour pouvoir facilement les utiliser partout
-  private static ArrayList<Personnage> listePersonnages;
+  private static ArrayList<Personnage> listePersonnages = new ArrayList<>();
 
   // liste pour facilement énumerer races/classes lors de la création des persos
   private static ArrayList<Race> listeRaces = new ArrayList<>(
