@@ -14,6 +14,10 @@ public class Jeu {
   // Liste des personnages, pour pouvoir facilement les utiliser partout
   private static ArrayList<Personnage> listePersonnages = new ArrayList<>();
 
+  public static ArrayList<Personnage> getListePersonnages() {
+    return listePersonnages;
+  }
+
   // liste pour facilement énumerer races/classes lors de la création des persos
   private static ArrayList<Race> listeRaces = new ArrayList<>(
       Arrays.asList(new Nain()));
@@ -22,6 +26,13 @@ public class Jeu {
 
   private static ArrayList<Classe> listeClasses = new ArrayList<Classe>(
       Arrays.asList(new Clerc(), new Guerrier(), new Magicien(), new Roublard()));
+
+  static private ArrayList<String> listeCaracteristiques = new ArrayList<>(
+      Arrays.asList("force", "dexterite", "vitesse", "initiative"));
+
+  static public ArrayList<String> getListeCaracteristiques() {
+    return listeCaracteristiques;
+  }
 
   // Fonction principale, qui appelle les differentes methodes, doit rester le
   // plus simple possible
@@ -58,12 +69,15 @@ public class Jeu {
 
       // on crée le personnage en fonction des parametre choisis
       listePersonnages.add(new Personnage(nom, listeRaces.get(race), listeClasses.get(classe)));
+      Personnage p = listePersonnages.get(i);
+      String recap = "Voici votre personnage :\n";
+      recap += "Nom : " + p.getNom() + "\n";
+      recap += "Race : " + p.getRace() + "\n";
+      recap += "Classe : " + p.getClasse() + "\n";
+      recap += "Caractéristiques, pv : " + 
     }
 
     return 1;
   }
 
-  public static ArrayList<Personnage> getListePersonnages() {
-    return listePersonnages;
-  }
 }

@@ -5,6 +5,8 @@ import jeu.joueurs.classes.*;
 import jeu.joueurs.equipements.*;
 import jeu.utils.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Personnage {
 
@@ -13,10 +15,14 @@ public class Personnage {
   private Classe m_classe;
 
   private int m_pv;
-  private int m_force;
-  private int m_dexterite;
-  private int m_vitesse;
-  private int m_initiative;
+
+  private Map<String, Integer> mapCaracteristiques = new HashMap<>();
+  {
+    mapCaracteristiques.put("force", 0);
+    mapCaracteristiques.put("dexterite", 0);
+    mapCaracteristiques.put("vitesse", 0);
+    mapCaracteristiques.put("initiative", 0);
+  }
 
   private ArrayList<Equipement> m_equipement;
   private Equipement m_armeePortee;
@@ -32,6 +38,9 @@ public class Personnage {
     this.m_vitesse = Des.lancer(4, 4) + 3 + race.bonus("vitesse");
     this.m_initiative = Des.lancer(4, 4) + 3 + race.bonus("initiative");
 
+    for (Map.entry(k, v) : mapCaracteristiques.entrySet()) {
+
+    }
   }
 
   public void changePV(int pv) {
@@ -64,6 +73,38 @@ public class Personnage {
 
   public void changeArmurePortee(Equipement armurePortee) {
     this.m_armurePortee = armurePortee;
+  }
+
+  public String getNom() {
+    return m_nom;
+  }
+
+  public Race getRace() {
+    return m_race;
+  }
+
+  public Classe getClasse() {
+    return m_classe;
+  }
+
+  public int getPV() {
+    return m_pv;
+  }
+
+  public int getForce() {
+    return m_force;
+  }
+
+  public int getVitesse() {
+    return m_vitesse;
+  }
+
+  public int getInitiative() {
+    return m_initiative;
+  }
+
+  public int getDexterite() {
+    return m_dexterite;
   }
 
 }
