@@ -33,15 +33,11 @@ public class Personnage {
     this.m_race = race;
     this.m_classe = classe;
 
-    // OLD VERSION, TO BE REMOVED
-    this.m_force = Des.lancer(4, 4) + 3 + race.bonus("force");
-    this.m_dexterite = Des.lancer(4, 4) + 3 + race.bonus("dexterite");
-    this.m_vitesse = Des.lancer(4, 4) + 3 + race.bonus("vitesse");
-    this.m_initiative = Des.lancer(4, 4) + 3 + race.bonus("initiative");
-
     // nouvelle version
-    for (Map.entry(k, v) : mapCaracteristiques.entrySet()) {
-
+    for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
+      String key = entry.getKey();
+      int value = Des.lancer(4, 4) + race.bonus(key);
+      entry.setValue(value);
     }
   }
 
@@ -49,20 +45,19 @@ public class Personnage {
     this.m_pv += pv;
   }
 
-  public void changeForce(int force) {
-    this.m_force = +force;
+  public void changeCaracteristique(String c, int v) {
+    this.mapCaracteristiques.put(c, v);
   }
 
-  public void changeDexterite(int dexterite) {
-    this.m_dexterite += dexterite;
+  public int getCaracteristique(String c) {
+    return this.mapCaracteristiques.get(c);
   }
 
-  public void changeVitesse(int vitesse) {
-    this.m_vitesse += vitesse;
-  }
-
-  public void changeInitiative(int initiative) {
-    this.m_initiative += initiative;
+  // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
+  public void getCaracteristique() {
+    for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
+      System.out.println(entry.getKey() + " : " + entry.getValue().toString() + ".\n");
+    }
   }
 
   public void changeEquipement(ArrayList<Equipement> equipement) {
@@ -92,21 +87,4 @@ public class Personnage {
   public int getPV() {
     return m_pv;
   }
-
-  public int getForce() {
-    return m_force;
-  }
-
-  public int getVitesse() {
-    return m_vitesse;
-  }
-
-  public int getInitiative() {
-    return m_initiative;
-  }
-
-  public int getDexterite() {
-    return m_dexterite;
-  }
-
 }

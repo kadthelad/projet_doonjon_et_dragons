@@ -24,4 +24,9 @@ public class Nain implements Race {
       return 0;
     }
   }
+
+  public String getNom() {
+    return m_nom;
+  }
+
 }

@@ -25,4 +25,9 @@ public class Guerrier implements Classe {
     }
     return pres;
   }
+
+  public String getNom() {
+    return m_nom;
+  }
+
 }

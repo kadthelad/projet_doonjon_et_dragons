@@ -38,7 +38,6 @@ public class Jeu {
   // plus simple possible
   public static void main(String args[]) {
     creationPersonnages(combienJoueurs());
-
   }
 
   public static int combienJoueurs() {
@@ -72,9 +71,10 @@ public class Jeu {
       Personnage p = listePersonnages.get(i);
       String recap = "Voici votre personnage :\n";
       recap += "Nom : " + p.getNom() + "\n";
-      recap += "Race : " + p.getRace() + "\n";
-      recap += "Classe : " + p.getClasse() + "\n";
-      recap += "Caractéristiques, pv : " + 
+      recap += "Race : " + p.getRace().getNom() + "\n";
+      recap += "Classe : " + p.getClasse().getNom() + "\n" + "Caractéristiques :\n";
+      System.out.print(recap);
+      p.getCaracteristique();
     }
 
     return 1;
