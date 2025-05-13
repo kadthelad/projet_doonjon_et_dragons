@@ -33,11 +33,13 @@ public class Personnage {
     this.m_race = race;
     this.m_classe = classe;
 
+    // OLD VERSION, TO BE REMOVED
     this.m_force = Des.lancer(4, 4) + 3 + race.bonus("force");
     this.m_dexterite = Des.lancer(4, 4) + 3 + race.bonus("dexterite");
     this.m_vitesse = Des.lancer(4, 4) + 3 + race.bonus("vitesse");
     this.m_initiative = Des.lancer(4, 4) + 3 + race.bonus("initiative");
 
+    // nouvelle version
     for (Map.entry(k, v) : mapCaracteristiques.entrySet()) {
 
     }
