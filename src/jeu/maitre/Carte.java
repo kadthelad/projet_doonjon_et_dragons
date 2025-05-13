@@ -1,17 +1,14 @@
-package maitre;
+package jeu.maitre;
 
-import mapLogic.Vector;
+import jeu.utils.*;
 
-import java.util.Scanner;
 
 public class Carte {
-    private static Scanner sc = new Scanner(System.in);
-    //int n = sc.nextInt();
 
     private int taille;
-    private Vector[] obstacles;
+    private Position[] obstacles;
 
-    public Carte(int tailleMap, Vector[] obs)
+    public Carte(int tailleMap, Position[] obs)
     {
         ///  CONSTRUCTEUR DE LA CLASSE Carte ///
         this.taille = tailleMap;

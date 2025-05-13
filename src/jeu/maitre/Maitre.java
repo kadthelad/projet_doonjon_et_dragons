@@ -1,4 +1,4 @@
-package maitre;
+package jeu.maitre;
 
 class Maitre
 {
