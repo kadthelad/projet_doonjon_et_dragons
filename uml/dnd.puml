@@ -1,5 +1,14 @@
 @startuml
 
+' Définition de la classe Vector
+class Vector {
+    + x : Integer
+    + y : Integer
+
+    + getPosX() : Integer
+    + getPosY() : Integer
+}
+
 ' Définition de la classe Personnage
 class Personnage {
     + nom : String
@@ -20,41 +29,43 @@ class Personnage {
     + ramasserEquipement(equipement : Equipement) : void
 }
 
+class Maitre {
+    + monstres : List<Monstre>
+}
+
 ' Définition de la classe Monstre
 class Monstre {
     + espece : String
     + numero : Integer
+    + attaques : List<Integer>
     + pointsDeVie : Integer
     + force : Integer
     + dexterite : Integer
     + classeArmure : Integer
     + initiative : Integer
-    + attaque() : void
 }
 
 ' Définition de la classe Donjon
 class Donjon {
     + carte : Carte
-    + obstacles : List<Case>
-    + monstres : List<Monstre>
     + personnages : List<Personnage>
     + equipements : List<Equipement>
 
-    + initialiser() : void
+    + initialiserJeu() : void
     + jouerTour() : void
-    + terminer() : Boolean
+    + quitterJeu() : void
+    + placerPersonnage(personnage : Personnage, position : Vector) : void
+    + placerMonstre(monstre : Monstre, position : Vector) : void
+    + placerEquipement(equipement : Equipement, position : Vector) : void
 }
 
 ' Définition de la classe Carte
 class Carte {
-    + largeur : Integer
-    + hauteur : Integer
-    + cases : List<List<Case>>
+    + taille : Integer
+    + obstacles : List<Vector>
 
-    + ajouterObstacle(position : Case) : void
-    + placerPersonnage(personnage : Personnage, position : Case) : void
-    + placerMonstre(monstre : Monstre, position : Case) : void
-    + placerEquipement(equipement : Equipement, position : Case) : void
+
+    + afficherCarte(obstacles : List<Vector>, personnages : List<Personnage>, monstre : List<Monstre>, equipement : List<Equipement>)
 }
 
 ' Définition des races
@@ -90,20 +101,20 @@ class Armure extends Equipement {
 }
 
 ' Définition de la classe Case
-class Case {
-    + x : Integer
-    + y : Integer
-    + estObstacle : Boolean
-    + contenu : ContenuCase
-
-    + estLibre() : Boolean
-}
+'class Case {
+'    + x : Integer
+'    + y : Integer
+'    + estObstacle : Boolean
+'    + contenu : ContenuCase
+'
+'    + estLibre() : Boolean
+'}
 
 ' Définition des contenus possibles pour une case
-abstract class ContenuCase
-class PersonnageCase extends ContenuCase
-class MonstreCase extends ContenuCase
-class EquipementCase extends ContenuCase
+'abstract class ContenuCase
+'class PersonnageCase extends ContenuCase
+'class MonstreCase extends ContenuCase
+'class EquipementCase extends ContenuCase
 
 ' Relations entre les classes
 Personnage "1" -- "1" Race
@@ -112,18 +123,19 @@ Personnage "1" o-- "1" Arme
 Personnage "1" o-- "1" Armure
 Personnage "1" o-- "1..*" Equipement
 
-Carte "1" o-- "1..*" Case
-Case "1" o-- "0..1" ContenuCase
+Maitre "1" -- "1" Monstre
+Maitre "1" -- "1" Donjon
+
+'Carte "1" o-- "1..*" Case
+'Case "1" o-- "0..1" ContenuCase
 Arme --|> Equipement
 Armure --|> Equipement
 
 Donjon "1" o-- "1" Carte
 Donjon "1" o-- "1..*" Monstre
-Donjon "1" o-- "1..*" Personnage
-Donjon "1" o-- "1..*" Equipement
 
-ContenuCase <|-- PersonnageCase
-ContenuCase <|-- MonstreCase
-ContenuCase <|-- EquipementCase
+'ContenuCase <|-- PersonnageCase
+'ContenuCase <|-- MonstreCase
+'ContenuCase <|-- EquipementCase
 
 @enduml
