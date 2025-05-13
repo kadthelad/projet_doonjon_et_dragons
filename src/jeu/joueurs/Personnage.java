@@ -54,10 +54,12 @@ public class Personnage {
   }
 
   // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
-  public void getCaracteristique() {
+  public String getCaracteristique() {
+    String c = "";
     for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
-      System.out.println(entry.getKey() + " : " + entry.getValue().toString() + ".\n");
+      c += "  - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
+    return c;
   }
 
   public void changeEquipement(ArrayList<Equipement> equipement) {
@@ -87,4 +89,13 @@ public class Personnage {
   public int getPV() {
     return m_pv;
   }
+
+  @Override
+  public String toString() {
+
+    return "Votre Personnage est " + this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
+        + this.getRace().getNom()
+        + "\nCaractéristiques :\n" + this.getCaracteristique();
+  }
+
 }

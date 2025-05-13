@@ -6,8 +6,11 @@ import jeu.joueurs.classes.*;
 import jeu.joueurs.equipements.*;
 import jeu.utils.*;
 
+import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Jeu {
 
@@ -42,15 +45,28 @@ public class Jeu {
 
   public static int combienJoueurs() {
     System.out.println("Sans compter le maitre du jeu, combien de joueurs y aura-t-il ?");
-    return Input.entier();
+    int n = Input.entier();
+    while (n < 0) {
+      System.out.print("Merci d'entrer un nombre entier positif : ");
+      n = Input.entier();
+    }
+    return n;
   }
 
   public static int creationPersonnages(int nombreJoueurs) {
 
     // pour chaque joueur...
     for (int i = 0; i < nombreJoueurs; i++) {
-      System.out.println("Joueurs " + (i + 1) + ", nommez votre personnage");
+      Pattern pattern = Pattern.compile("([a-z]+([ -][a-z]+)?)*", Pattern.CASE_INSENSITIVE);
+      System.out.println("Joueur " + (i + 1) + ", nommez votre personnage");
       String nom = Input.string();
+      Matcher matcher = pattern.matcher(nom);
+      while (!matcher.matches()) {
+        System.out
+            .println("Votre nom ne doit contenir que des lettres et eventuellement un \" \" ou un \"-\" au milieu.");
+        nom = Input.string();
+        matcher = pattern.matcher(nom);
+      }
 
       System.out.println(nom + ", entrer le numéro associé à la race de votre choix :");
       for (int j = 0; j < listeRaces.size(); j++) {
@@ -69,12 +85,7 @@ public class Jeu {
       // on crée le personnage en fonction des parametre choisis
       listePersonnages.add(new Personnage(nom, listeRaces.get(race), listeClasses.get(classe)));
       Personnage p = listePersonnages.get(i);
-      String recap = "Voici votre personnage :\n";
-      recap += "Nom : " + p.getNom() + "\n";
-      recap += "Race : " + p.getRace().getNom() + "\n";
-      recap += "Classe : " + p.getClasse().getNom() + "\n" + "Caractéristiques :\n";
-      System.out.print(recap);
-      p.getCaracteristique();
+      System.out.println(p.toString());
     }
 
     return 1;
