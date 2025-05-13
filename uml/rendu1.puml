@@ -1,0 +1,174 @@
+@startuml
+
+!define Interface <<interface>>
+skinparam classAttributeIconSize 0
+
+class Jeu {
+    - static ArrayList<Personnage> listePersonnages
+    - static ArrayList<Race> listeRaces
+    - static ArrayList<Classe> listeClasses
+    + static main(String[])
+    + static combienJoueurs(): int
+    + static creationPersonnages(int): int
+    + static getListePersonnages(): ArrayList<Personnage>
+}
+
+class Personnage {
+    - String m_nom
+    - Race m_race
+    - Classe m_classe
+    - int m_pv
+    - int m_force
+    - int m_dexterite
+    - int m_vitesse
+    - int m_initiative
+    - ArrayList<Equipement> m_equipement
+    - Equipement m_armeePortee
+    - Equipement m_armurePortee
+    + changePV(int)
+    + changeForce(int)
+    + changeDexterite(int)
+    + changeVitesse(int)
+    + changeInitiative(int)
+    + changeEquipement(ArrayList<Equipement>)
+    + changeArmeePortee(Equipement)
+    + changeArmurePortee(Equipement)
+}
+
+interface Race <<interface>> {
+    +{abstract} presentation(): String
+    +{abstract} bonus(c: String): int
+}
+
+class Nain {
+    + presentation(): String
+    + bonus(c: String): int
+}
+
+interface Classe <<interface>> {
+    +{abstract} presentation(): String
+}
+
+class Clerc {
+    - int m_pv
+    + presentation(): String
+}
+
+class Guerrier {
+    - int m_pv
+    - String m_nom
+    - ArrayList<Equipement> listeEquipement
+    + presentation(): String
+}
+
+class Magicien {
+    - int m_pv
+    + presentation(): String
+}
+
+class Roublard {
+    - int m_pv
+    + presentation(): String
+}
+
+interface Equipement <<interface>> {
+    +{abstract} presentation(): String
+}
+
+interface Arme <<interface>> {
+    +{abstract} degats(): int
+    +{abstract} portee(): int
+}
+
+class Baton {
+    - String m_nom
+    - String m_des
+    - int m_portee
+    + degats(): int
+    + portee(): int
+    + presentation(): String
+}
+
+class Des {
+    + static lancer(int, int): int
+    + static lancer(): int
+}
+
+class Input {
+    + static entier(): int
+    + static string(): String
+}
+
+class Carte {
+    - int taille
+    - Vector[] obstacles
+    + afficherCarte()
+}
+
+class Donjon {
+    - Carte carte
+    - Vector[] obstacles
+    - Personnage[] personnages
+    - Equipement[] equipements
+    - int tour
+    + créerJeu(): Donjon
+    + initialiserCarte(Carte)
+    + jouerTour()
+    + quitterJeu()
+}
+
+class Maitre {
+    - Monstre[] m_monstres
+    + toString(): String
+}
+
+class Monstre {
+    - String m_espece
+    - int m_numero
+    - String m_nomAttaque
+    - int[] m_attaque
+    - int m_ptVie
+    - int m_force
+    - int m_dexterite
+    - int m_classeArmure
+    - int m_initiative
+    + getEspece(): String
+    + toString(): String
+}
+
+class Vector {
+    - int x
+    - int y
+    + getPosX(): int
+    + getPosY(): int
+}
+
+class Main {
+    + main(String[])
+}
+
+' Associations
+Jeu --> Personnage
+Personnage --> Race
+Personnage --> Classe
+Guerrier --> Baton
+Arme <|.. Baton
+Equipement <|.. Arme
+Des --> Personnage
+Input --> Jeu
+Donjon --> Carte
+Donjon --> Personnage
+Donjon --> Equipement
+Monstre --> Vector
+
+' Implementations  des interfaces
+Nain ..|> Race
+Clerc ..|> Classe
+Guerrier ..|> Classe
+Magicien ..|> Classe
+Roublard ..|> Classe
+
+' Main calls main in Jeu
+Main --> Jeu : main()
+
+@enduml
