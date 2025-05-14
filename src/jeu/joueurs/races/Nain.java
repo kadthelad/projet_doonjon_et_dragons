@@ -1,11 +1,20 @@
 package jeu.joueurs.races;
 
+import jeu.Jeu;
 import jeu.joueurs.*;
 
 public class Nain implements Race {
+  String m_nom = "Nain";
 
   public String presentation() {
-    return "yolo";
+    String pres = m_nom + ": ";
+    for (String s : Jeu.getListeCaracteristiques()) {
+      int n = bonus(s);
+      if (n != 0) {
+        pres += s + " + " + n;
+      }
+    }
+    return pres;
   }
 
   public int bonus(String c) {
@@ -15,4 +24,9 @@ public class Nain implements Race {
       return 0;
     }
   }
+
+  public String getNom() {
+    return m_nom;
+  }
+
 }

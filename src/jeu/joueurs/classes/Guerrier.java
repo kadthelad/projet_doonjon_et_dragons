@@ -19,10 +19,15 @@ public class Guerrier implements Classe {
 
   // presentation de la classe, pv et armes
   public String presentation() {
-    String pres = m_nom += "- pv : " + m_pv + "\n";
+    String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :\n";
     for (int i = 0; i < listeEquipement.size(); i++) {
-      pres += "  - " + listeEquipement.get(i).presentation() + "\n";
+      pres += "\t- " + listeEquipement.get(i).presentation() + "\n";
     }
     return pres;
   }
+
+  public String getNom() {
+    return m_nom;
+  }
+
 }

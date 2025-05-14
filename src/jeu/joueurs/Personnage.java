@@ -5,6 +5,8 @@ import jeu.joueurs.classes.*;
 import jeu.joueurs.equipements.*;
 import jeu.utils.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Personnage {
 
@@ -13,10 +15,14 @@ public class Personnage {
   private Classe m_classe;
 
   private int m_pv;
-  private int m_force;
-  private int m_dexterite;
-  private int m_vitesse;
-  private int m_initiative;
+
+  private Map<String, Integer> mapCaracteristiques = new HashMap<>();
+  {
+    mapCaracteristiques.put("force", 0);
+    mapCaracteristiques.put("dexterite", 0);
+    mapCaracteristiques.put("vitesse", 0);
+    mapCaracteristiques.put("initiative", 0);
+  }
 
   private ArrayList<Equipement> m_equipement;
   private Equipement m_armeePortee;
@@ -27,31 +33,33 @@ public class Personnage {
     this.m_race = race;
     this.m_classe = classe;
 
-    this.m_force = Des.lancer(4, 4) + 3 + race.bonus("force");
-    this.m_dexterite = Des.lancer(4, 4) + 3 + race.bonus("dexterite");
-    this.m_vitesse = Des.lancer(4, 4) + 3 + race.bonus("vitesse");
-    this.m_initiative = Des.lancer(4, 4) + 3 + race.bonus("initiative");
-
+    // nouvelle version
+    for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
+      String key = entry.getKey();
+      int value = Des.lancer(4, 4) + race.bonus(key);
+      entry.setValue(value);
+    }
   }
 
   public void changePV(int pv) {
     this.m_pv += pv;
   }
 
-  public void changeForce(int force) {
-    this.m_force = +force;
+  public void changeCaracteristique(String c, int v) {
+    this.mapCaracteristiques.put(c, v);
   }
 
-  public void changeDexterite(int dexterite) {
-    this.m_dexterite += dexterite;
+  public int getCaracteristique(String c) {
+    return this.mapCaracteristiques.get(c);
   }
 
-  public void changeVitesse(int vitesse) {
-    this.m_vitesse += vitesse;
-  }
-
-  public void changeInitiative(int initiative) {
-    this.m_initiative += initiative;
+  // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
+  public String getCaracteristique() {
+    String c = "";
+    for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
+      c += "  - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
+    }
+    return c;
   }
 
   public void changeEquipement(ArrayList<Equipement> equipement) {
@@ -64,6 +72,30 @@ public class Personnage {
 
   public void changeArmurePortee(Equipement armurePortee) {
     this.m_armurePortee = armurePortee;
+  }
+
+  public String getNom() {
+    return m_nom;
+  }
+
+  public Race getRace() {
+    return m_race;
+  }
+
+  public Classe getClasse() {
+    return m_classe;
+  }
+
+  public int getPV() {
+    return m_pv;
+  }
+
+  @Override
+  public String toString() {
+
+    return "Votre Personnage est " + this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
+        + this.getRace().getNom()
+        + "\nCaractéristiques :\n" + this.getCaracteristique();
   }
 
 }

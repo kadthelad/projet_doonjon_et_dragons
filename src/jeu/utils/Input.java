@@ -4,15 +4,19 @@ import java.util.Scanner;
 
 public class Input {
 
-  private static Scanner sc = new Scanner(System.in);
+  private static Scanner scanner = new Scanner(System.in);
 
   public static int entier() {
-    int n = sc.nextInt();
-    sc.nextLine();
-    return n;
+    // on verifie que l'utilisateur soumet bien un entier et pas autre chose qui
+    // pourrait faire crash le programme
+    while (!scanner.hasNextInt()) {
+      System.out.print("Merci d'entrer un entier valide : ");
+      scanner.next();
+    }
+    return scanner.nextInt();
   }
 
   public static String string() {
-    return sc.nextLine();
+    return scanner.nextLine();
   }
 }
