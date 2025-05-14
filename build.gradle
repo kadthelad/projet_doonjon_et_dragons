@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'Main' // or fully qualified like 'jeu.Jeu' if needed
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+
+run {
+    standardInput = System.in
+}
+
+task interactiveRun(type: JavaExec) {
+    mainClass = 'Main' // Replace with fully qualified name if necessary
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
+gradle.startParameter.consoleOutput = org.gradle.api.logging.configuration.ConsoleOutput.Plain

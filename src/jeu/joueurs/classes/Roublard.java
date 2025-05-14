@@ -6,6 +6,11 @@ package jeu.joueurs.classes;
 public class Roublard implements Classe {
 
   private int m_pv = 16;
+  private String m_nom = "Roublard";
+
+  public String getNom() {
+    return m_nom;
+  }
 
   public String presentation() {
     return "Roublard : \n\t- " + m_pv
