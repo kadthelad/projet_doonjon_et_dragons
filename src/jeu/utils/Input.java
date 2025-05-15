@@ -13,7 +13,9 @@ public class Input {
       System.out.print("Merci d'entrer un entier valide : ");
       scanner.next();
     }
-    return scanner.nextInt();
+    int entier = scanner.nextInt();
+    scanner.nextLine();
+    return entier;
   }
 
   public static String string() {
