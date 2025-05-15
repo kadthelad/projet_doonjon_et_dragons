@@ -6,6 +6,8 @@ import jeu.joueurs.classes.*;
 import jeu.joueurs.equipements.*;
 import jeu.utils.*;
 
+import jeu.maitre.*;
+
 import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,10 +39,15 @@ public class Jeu {
     return listeCaracteristiques;
   }
 
+  // Liste des cartes (il faudra probablement naviguer sur plusieurs cartes dans l'étape 2, donc je prévois le coup)
+  private static ArrayList<Carte> listeCartes = new ArrayList<>();
+
   // Fonction principale, qui appelle les differentes methodes, doit rester le
   // plus simple possible
   public static void main(String args[]) {
-    creationPersonnages(combienJoueurs());
+    //creationPersonnages(combienJoueurs());
+    //creationCarte();
+    ajoutCarte();
   }
 
   public static int combienJoueurs() {
@@ -53,6 +60,11 @@ public class Jeu {
     return n;
   }
 
+  public static int ajoutCarte()
+  {
+    listeCartes.add(creationCarte());
+    return 1;
+  }
   public static int creationPersonnages(int nombreJoueurs) {
 
     // pour chaque joueur...
@@ -91,4 +103,52 @@ public class Jeu {
     return 1;
   }
 
+  public static Carte creationCarte()
+  {
+    int userInput;
+    String userStrInput;
+
+    // Création de la carte //
+    System.out.println("Quelle sera la taille de la carte?");
+    int mapTaille = Input.entier();
+    Carte carteCree = new Carte(mapTaille);
+    boolean inMapEditor = true;
+
+    while (inMapEditor)
+    {
+      carteCree.afficherCarte(mapTaille, carteCree.getObstacles());
+      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un obstacle\n[1] Supprimer un obstacle\n[2] Continuer");
+      userInput = Input.entier();
+      switch (userInput)
+      {
+        case 0:
+          System.out.print("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez créer un obstacle (exemple:" +
+                  "2, 3): ");
+          userStrInput = Input.string();
+          String[] result = userStrInput.split(",");
+          if (result.length != 2)
+          {
+            System.out.println("Veuillez respecter le format '2, 3'.");
+          }
+          break;
+        case 1:
+          if (carteCree.getObstacles().length > 0) {
+            System.out.print("--- SUPPRESSION D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez retirer un obstacle (exemple:" +
+                    "2, 3): ");
+            userStrInput = Input.string();
+            // COMPLETER
+          }
+          else
+          {
+            System.out.println("Il n'y a pas d'obstacles dans la carte!");
+          }
+          break;
+        case 2:
+          inMapEditor = false;
+          break;
+      }
+    }
+
+    return carteCree;
+  }
 }

@@ -11,6 +11,7 @@ public class Position {
         this.y = posy;
     }
 
+
     public int getX()
     {
         return this.x;
@@ -19,6 +20,11 @@ public class Position {
     public int getY()
     {
         return this.y;
+    }
+
+
+    public boolean equalsTo(Position pos2) {
+        return this.getX() == pos2.getX() && this.getY() == pos2.getY();
     }
 
     @Override

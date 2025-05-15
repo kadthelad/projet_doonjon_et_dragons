@@ -17,6 +17,6 @@ public class Input {
   }
 
   public static String string() {
-    return scanner.nextLine();
+    return scanner.next();
   }
 }
