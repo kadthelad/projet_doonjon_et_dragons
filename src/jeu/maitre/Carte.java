@@ -2,11 +2,14 @@ package jeu.maitre;
 
 import jeu.utils.*;
 
+import java.util.ArrayList;
+
 
 public class Carte {
 
+    private String name = "Carte sans nom";
     private int taille;
-    private Position[] obstacles = {};
+    private ArrayList<Position> obstacles = new ArrayList<Position>() {};
 
     public Carte(int tailleMap)
     {
@@ -14,12 +17,55 @@ public class Carte {
         this.taille = tailleMap;
     }
 
-    public Position[] getObstacles()
+    public ArrayList<Position> getObstacles()
     {
         return this.obstacles;
     }
 
-    public void afficherCarte(int taille, Position[] obs)
+    public void addObstacle(Position pos)
+    {
+        this.obstacles.add(pos);
+    }
+
+    public void removeObstacle(Position pos)
+    {
+        for (int i=0; i<this.obstacles.size(); i++)
+        {
+            if (pos.equalsTo(this.obstacles.get(i)))
+            {
+                this.obstacles.remove(i);
+            }
+        }
+    }
+
+    public boolean obstacleAt(Position pos)
+    {
+        for (Position obs : obstacles)
+        {
+            if (obs.equalsTo(pos))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public void setName(String setName)
+    {
+        this.name = setName;
+    }
+
+    public int getTaille()
+    {
+        return this.taille;
+    }
+
+    public void afficherCarte()
     {
         String ligneAbscisse = "   *";
         System.out.print("   ");
@@ -53,10 +99,10 @@ public class Carte {
             {
                 // Si dans une case il y a un obstacle, changer le point . en [ ]
                 boolean isObstacle = false;
-                if (obs.length>0)
+                if (!this.obstacles.isEmpty())
                 {
-                    for (Position obsPos : obs) {
-                        if (new Position(i, y).equalsTo(obsPos)) {
+                    for (Position obsPos : this.obstacles) {
+                        if (new Position(i+1, y+1).equalsTo(obsPos)) {
                             isObstacle = true;
                             break;
                         }
