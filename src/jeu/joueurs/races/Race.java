@@ -7,8 +7,6 @@ import jeu.joueurs.*;
  */
 public interface Race {
 
-  public String presentation();
-
   public int bonus(String c);
 
   public String getNom();
