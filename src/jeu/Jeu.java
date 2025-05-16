@@ -52,10 +52,39 @@ public class Jeu {
   // Fonction principale, qui appelle les differentes methodes, doit rester le
   // plus simple possible
   public static void main(String args[]) {
-    //creationPersonnages(combienJoueurs());
-    //creationCarte();
-    //ajoutCarte();
-    creationMonstres();
+    boolean game = true;
+    while (game)
+    {
+      System.out.println("|=|=|=|=| PROJET DOOnjon et dragons |=|=|=|=|\n====== MENU PRINCIPAL ======\n" +
+              "\n[0] Création des personnages" +
+              "\n[1] Création des cartes" +
+              "\n[2] Création des monstres" +
+              "\n[1000] Crédits" +
+              "\n[1001] Quitter");
+      int userInt1 = Input.entier();
+
+      switch (userInt1)
+      {
+        case 0:
+          creationPersonnages(combienJoueurs());
+          break;
+        case 1:
+          ajoutCarte();
+          break;
+        case 2:
+          creationMonstres();
+          break;
+        case 1000:
+          System.out.println("Projet de Kadir EKICI et Ivanoë MEGNIN-PREISS\nTP3 INFO IUTRS Illkirch");
+          break;
+        case 1001:
+          game = false;
+          break;
+        default:
+          System.out.println("Entrez une commande valide!");
+          break;
+      }
+    }
   }
 
   public static int combienJoueurs() {
@@ -70,10 +99,11 @@ public class Jeu {
 
   public static int ajoutCarte()
   {
-    Carte cartecree = creationCarte();
-    dictCartes.put(cartecree.getName(), cartecree);
+    Carte carteCreee = creationCarte();
+    dictCartes.put(carteCreee.getName(), carteCreee);
     return 1;
   }
+
   public static int creationPersonnages(int nombreJoueurs) {
 
     // pour chaque joueur...
@@ -279,9 +309,45 @@ public class Jeu {
 
     // Création de la carte //
     System.out.println("| =-=-=-=-= | EDITEUR DE CARTE | =-=-=-=-= |");
-    System.out.println("Quelle sera la taille de la carte?");
-    int mapTaille = Input.entier();
-    Carte carteCree = new Carte(mapTaille);
+    System.out.println("Quelle sera la taille de la carte?(exemple:2, 3): ");
+    userStrInput = Input.string();
+    boolean inMapSizeEditor = true;
+    String[] result;
+    int taillex = 15;
+    int tailley = 15;
+
+    while (inMapSizeEditor)
+    {
+      userStrInput = Input.string();
+      result = userStrInput.split(", ");
+      if (result.length != 2)
+      {
+        System.out.println("Veuillez respecter le format '2, 3'.");
+      }
+      else
+      {
+        try
+        {
+          taillex = Integer.parseInt(result[0]);
+          taillex = Integer.parseInt(result[0]);
+          tailley = Integer.parseInt(result[1]);
+
+          if ((taillex >= 15 && taillex <= 25) && (tailley >= 15 && tailley <= 25))
+          {
+            inMapSizeEditor = false;
+          }
+          else
+          {
+            System.out.println("Vous devez choisir une taille entre 15 et 25!");
+          }
+        }
+        catch (NumberFormatException e)
+        {
+          System.out.println("Entrez des valeurs numériques!");
+        }
+      }
+    }
+    Carte carteCree = new Carte(taillex, tailley);
     boolean inMapEditor = true;
 
     while (inMapEditor)
@@ -373,7 +439,7 @@ public class Jeu {
           int posx = Integer.parseInt(result[0]);
           int posy = Integer.parseInt(result[1]);
 
-          if (posx <= carteCree.getTaille() && posy <= carteCree.getTaille()) {
+          if (posx <= carteCree.getTaille().getX() && posy <= carteCree.getTaille().getY()) {
             if (!carteCree.obstacleAt(new Position(posx, posy))) {
               carteCree.addObstacle(new Position(posx, posy));
               dansAjout = false;
@@ -421,7 +487,7 @@ public class Jeu {
           {
             int posx = Integer.parseInt(result[0]);
             int posy = Integer.parseInt(result[1]);
-            if (posx <= carteCree.getTaille() && posy <= carteCree.getTaille()) {
+            if (posx <= carteCree.getTaille().getX() && posy <= carteCree.getTaille().getY()) {
               if (carteCree.obstacleAt(new Position(posx, posy))) {
                 carteCree.removeObstacle(new Position(posx, posy));
                 dansSuppr = false;
