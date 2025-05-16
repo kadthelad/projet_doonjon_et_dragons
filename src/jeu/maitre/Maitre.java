@@ -1,20 +1,26 @@
 package jeu.maitre;
 
-class Maitre
+import java.util.ArrayList;
+
+public class Maitre
 {
-    private Monstre[] m_monstres; // Cet attribut comportera une liste de tous les
+    private ArrayList<Monstre> m_monstres = new ArrayList<Monstre>() {}; // Cet attribut comportera une liste de tous les
                                   // monstres que le maitre peut controller
 
-    public Maitre(Monstre[] monstresList)
+    public Maitre()
     {
-        ///  CONSTRUCTEUR DE LA CLASSE Maitre ///
-        this.m_monstres = monstresList;
+
+    }
+
+    public ArrayList<Monstre> getM_monstres()
+    {
+        return this.m_monstres;
     }
 
     @Override
     ///  String Override ///
     public String toString() {
-        String txt = "Le maitre du jeu controle ces monstres : ";
+        String txt = "Monstres contrôlés par le MDJ : ";
         for (Monstre mstr : m_monstres)
         {
             txt += mstr.getEspece() + " ";

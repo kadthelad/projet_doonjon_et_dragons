@@ -9,6 +9,7 @@ import jeu.utils.*;
 
 import jeu.maitre.*;
 
+import javax.sql.rowset.serial.SQLInputImpl;
 import java.awt.print.Paper;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -42,12 +43,19 @@ public class Jeu {
   // Liste des cartes (il faudra probablement naviguer sur plusieurs cartes dans l'étape 2, donc je prévois le coup)
   private static Dictionary<String, Carte> dictCartes = new Hashtable<String, Carte>() {};
 
+  // Liste des races de monstre
+  private static ArrayList<String> listRacesMonstre = new ArrayList<String>() {};
+
+  // Liste des monstres crées
+  private static ArrayList<Monstre> listMonstres = new ArrayList<Monstre>() {};
+
   // Fonction principale, qui appelle les differentes methodes, doit rester le
   // plus simple possible
   public static void main(String args[]) {
     //creationPersonnages(combienJoueurs());
     //creationCarte();
-    ajoutCarte();
+    //ajoutCarte();
+    creationMonstres();
   }
 
   public static int combienJoueurs() {
@@ -70,16 +78,8 @@ public class Jeu {
 
     // pour chaque joueur...
     for (int i = 0; i < nombreJoueurs; i++) {
-      Pattern pattern = Pattern.compile("([a-z]+([ -][a-z]+)?)+", Pattern.CASE_INSENSITIVE);
-      System.out.println("Joueur " + (i + 1) + ", nommez votre personnage");
-      String nom = Input.string();
-      Matcher matcher = pattern.matcher(nom);
-      while (!matcher.matches()) {
-        System.out
-            .println("Votre nom ne doit contenir que des lettres et eventuellement un \" \" ou un \"-\" au milieu.");
-        nom = Input.string();
-        matcher = pattern.matcher(nom);
-      }
+      String nom = demanderNomStr("Joueur " + (i + 1) + ", nommez votre personnage");
+
 
       System.out.println(nom + ", entrer le numéro associé à la race de votre choix :");
       for (int j = 0; j < listeRaces.size(); j++) {
@@ -102,6 +102,174 @@ public class Jeu {
     }
 
     return 1;
+  }
+
+  public static int creationMonstres()
+  {
+    int userInput;
+    String userStrInput;
+
+    // Création des monstres //
+    System.out.println("| =-=-=-=-= | EDITEUR DE MONSTRES | =-=-=-=-= |");
+    boolean inMstrEditor = true;
+
+    while (inMstrEditor)
+    {
+      if (listMonstres.isEmpty())
+      {
+        System.out.println("[Vous n'avez aucun monstre crée pour l'instant!]");
+      }
+      else
+      {
+        System.out.println("Vous avez déjà crée ce(s) monstre(s):");
+        for (int i=0; i<listMonstres.size(); i++)
+        {
+          System.out.println(listMonstres.get(i).getEspece());
+        }
+      }
+
+      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Continuer");
+      userInput = Input.entier();
+      switch (userInput)
+      {
+        case 0:
+          listMonstres.add(ajoutMonstre());
+          break;
+        case 1:
+          supprMonstre();
+          break;
+        case 2:
+          inMstrEditor = false;
+          break;
+        default:
+          System.out.println("Veuillez entrer une commande valide!");
+          break;
+      }
+    }
+    return 1;
+  }
+
+  private static Monstre ajoutMonstre()
+  {
+    String nomMstr;
+    String attMstr = "";
+    int[] speAttMstr = {0, 0, 0};
+    int pdv = 0;
+    Map<String, Integer> caraMstr = new HashMap<>();
+    {
+      caraMstr.put("force", 0);
+      caraMstr.put("dexterite", 0);
+      caraMstr.put("vitesse", 0);
+      caraMstr.put("initiative", 0);
+      caraMstr.put("classeArmure", 0);
+    }
+
+
+    System.out.println("----- CREATION DE MONSTRE -----");
+    // nommer le monstre
+    nomMstr = demanderNomStr("Nommez votre monstre (ce sera le nom de sa race)");
+
+    // créer une attaque
+    boolean inAttEditor = true;
+    while (inAttEditor)
+    {
+      attMstr = demanderNomStr("Nommez le nom de son attaque");
+
+      System.out.println("Combien de dégâts fera votre attaque?");
+      speAttMstr[0] = Input.entier();
+      System.out.println("Combien de dés devra-t'il jeter?");
+      speAttMstr[1] = Input.entier();
+      System.out.println("Quelle sera la valeur de son/ses dé(s)?");
+      speAttMstr[2] = Input.entier();
+
+      System.out.println("----- Caractéristiques de l'attaque " + attMstr + " -----");
+      System.out.println(speAttMstr[0] + " dégàt(s), " + speAttMstr[1]+"d"+speAttMstr[2]);
+      System.out.println("--------------\nVoulez vous garder cette attaque?\n[0] Oui, continuer\n[1] Non, refaire");
+      int userInt = Input.entier();
+      switch (userInt)
+      {
+        case 0:
+          inAttEditor = false;
+          break;
+        case 1:
+          break;
+        default:
+          System.out.println("Veuillez entrer une commande valide!");
+          break;
+      }
+    }
+
+    // set les caractéristiques du monstre
+    boolean inCaraEditor = true;
+    while (inCaraEditor)
+    {
+      // pour avoir chaque valeur des caractéristiques dans une clé
+      List<String> keys = new ArrayList<>(caraMstr.keySet());
+      System.out.println("Choisir les caractéristiques du monstre : " +
+              "\n[0] - " + pdv + " HP");
+
+      for (int i=0; i<caraMstr.size(); i++)
+      {
+        System.out.println("["+(i+1)+"] - " + caraMstr.get(keys.get(i)) + " " + keys.get(i));
+      }
+      System.out.println("["+(caraMstr.size()+1)+"] - Pour quitter l'éditeur de caractéristiques.");
+      int userInt1 = Input.entier();
+      int userInt2;
+      if (userInt1 < 0 || userInt1>caraMstr.size())
+      {
+        inCaraEditor = false;
+      }
+      else if (userInt1 == 0)
+      {
+        System.out.print("Entrez une nouvelle valeur pour cette caracteristique: ");
+        userInt2 = Input.entier();
+        pdv = userInt2;
+      }
+      else
+      {
+        System.out.print("Entrez une nouvelle valeur pour cette caracteristique: ");
+        userInt2 = Input.entier();
+        caraMstr.replace(keys.get(userInt1-1), userInt2);
+      }
+    }
+
+    System.out.println("Le monstre " + nomMstr + " est ajouté dans la liste des monstres!");
+    return new Monstre(nomMstr, attMstr, speAttMstr, pdv, caraMstr);
+  }
+
+  private static void supprMonstre()
+  {
+    boolean inDeleting = true;
+
+    while (inDeleting)
+    {
+      if (listMonstres.isEmpty())
+      {
+        System.out.println("[!] Il n'y a pas de monstres crée!");
+        return;
+      }
+      // supprimer un monstre
+      System.out.println("-- Quel monstre voulez-vous supprimer? --");
+      for (int i = 0; i < listMonstres.size(); i++)
+      {
+        System.out.println("[" + (i) + "] - " + listMonstres.get(i).getEspece());
+      }
+      System.out.println("[" + listMonstres.size() + "] - Revenir à l'éditeur de monstre");
+      int userInt = Input.entier();
+      if (userInt == listMonstres.size() + 1)
+      {
+        return;
+      }
+      else if (userInt <= listMonstres.size())
+      {
+        System.out.println("[!] Monstre " + listMonstres.get(userInt).getEspece() + " supprimé!");
+        listMonstres.remove(userInt);
+      }
+      else
+      {
+        System.out.println("Entrez une commande existante!");
+      }
+    }
   }
 
   public static Carte creationCarte()
@@ -179,7 +347,7 @@ public class Jeu {
     return carteCree;
   }
 
-  public static void ajoutObstacle(Carte carteCree)
+  private static void ajoutObstacle(Carte carteCree)
   {
     String userStrInput;
     String[] result;
@@ -228,7 +396,7 @@ public class Jeu {
     }
   }
 
-  public static void supprObstacle(Carte carteCree)
+  private static void supprObstacle(Carte carteCree)
   {
     String userStrInput;
     String[] result;
@@ -280,5 +448,22 @@ public class Jeu {
     {
       System.out.println("Il n'y a pas d'obstacles dans la carte!");
     }
+  }
+
+
+  private static String demanderNomStr(String raison)
+  {
+    Pattern pattern = Pattern.compile("([a-z]+([ -][a-z]+)?)+", Pattern.CASE_INSENSITIVE);
+    System.out.println(raison);
+    String nom = Input.string();
+    Matcher matcher = pattern.matcher(nom);
+    while (!matcher.matches()) {
+      System.out.println("Votre nom ne doit contenir que des lettres et eventuellement un \" \"" +
+              " ou un \"-\" au milieu.");
+      nom = Input.string();
+      matcher = pattern.matcher(nom);
+    }
+
+    return nom;
   }
 }
