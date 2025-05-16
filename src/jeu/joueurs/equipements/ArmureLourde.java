@@ -3,8 +3,13 @@ package jeu.joueurs.equipements;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArmureLourde implements Equipement {
+public class ArmureLourde implements Armure {
   int classeArmure;
+
+  public void setBonusCaracteristiques(Map<String, Integer> bonusCaracteristiques) {
+    this.bonusCaracteristiques = bonusCaracteristiques;
+  }
+
   String nom;
 
   private Map<String, Integer> bonusCaracteristiques = new HashMap<>() {
