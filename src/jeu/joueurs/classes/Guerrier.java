@@ -17,17 +17,22 @@ public class Guerrier implements Classe {
   private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>(
       Arrays.asList(new Baton()));
 
+  public String getNom() {
+    return m_nom;
+  }
+
+  public int getPV() {
+    return this.m_pv;
+  }
+
   // presentation de la classe, pv et armes
-  public String presentation() {
+  @Override
+  public String toString() {
     String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :\n";
     for (int i = 0; i < listeEquipement.size(); i++) {
       pres += "\t- " + listeEquipement.get(i).presentation() + "\n";
     }
     return pres;
-  }
-
-  public String getNom() {
-    return m_nom;
   }
 
 }

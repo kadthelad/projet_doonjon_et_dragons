@@ -14,14 +14,14 @@ public class Personnage {
   private Race m_race;
   private Classe m_classe;
 
-  private int m_pv;
+  private int m_pv = 0;
 
-  private Map<String, Integer> mapCaracteristiques = new HashMap<>();
+  private Map<String, Integer> caracteristiques = new HashMap<>();
   {
-    mapCaracteristiques.put("force", 0);
-    mapCaracteristiques.put("dexterite", 0);
-    mapCaracteristiques.put("vitesse", 0);
-    mapCaracteristiques.put("initiative", 0);
+    caracteristiques.put("force", 0);
+    caracteristiques.put("dexterite", 0);
+    caracteristiques.put("vitesse", 0);
+    caracteristiques.put("initiative", 0);
   }
 
   private ArrayList<Equipement> m_equipement;
@@ -34,10 +34,14 @@ public class Personnage {
     this.m_classe = classe;
 
     // nouvelle version
-    for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
+    for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
       String key = entry.getKey();
       int value = Des.lancer(4, 4) + race.bonus(key);
       entry.setValue(value);
+    }
+
+    if (race instanceof Humain) {
+      this.changePV(Humain.getBonus());
     }
   }
 
@@ -46,17 +50,18 @@ public class Personnage {
   }
 
   public void changeCaracteristique(String c, int v) {
-    this.mapCaracteristiques.put(c, v);
+    int value = this.caracteristiques.get(c);
+    this.caracteristiques.put(c, value + v);
   }
 
   public int getCaracteristique(String c) {
-    return this.mapCaracteristiques.get(c);
+    return this.caracteristiques.get(c);
   }
 
   // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
   public String getCaracteristique() {
     String c = "";
-    for (Map.Entry<String, Integer> entry : mapCaracteristiques.entrySet()) {
+    for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
       c += "  - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
     return c;
@@ -87,7 +92,7 @@ public class Personnage {
   }
 
   public int getPV() {
-    return m_pv;
+    return this.caracteristiques.get("pv");
   }
 
   @Override

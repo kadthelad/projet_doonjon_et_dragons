@@ -5,7 +5,7 @@ package jeu.joueurs.classes;
  */
 public interface Classe {
 
-  public String presentation();
-
   public String getNom();
+
+  public int getPV();
 }
