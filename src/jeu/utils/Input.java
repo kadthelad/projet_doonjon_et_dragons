@@ -13,11 +13,9 @@ public class Input {
       System.out.print("Merci d'entrer un entier valide : ");
       scanner.next();
     }
-    int val = scanner.nextInt();
-    // Sans sauter de ligne après l'obtention d'une valeur, la commande Input.string() fonctionne pas,
-    // ce qui skippe totalement le Input.string() lorsqu'on l'utilise.
+    int entier = scanner.nextInt();
     scanner.nextLine();
-    return val;
+    return entier;
   }
 
   public static String string() {

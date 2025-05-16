@@ -70,7 +70,7 @@ public class Jeu {
 
     // pour chaque joueur...
     for (int i = 0; i < nombreJoueurs; i++) {
-      Pattern pattern = Pattern.compile("([a-z]+([ -][a-z]+)?)*", Pattern.CASE_INSENSITIVE);
+      Pattern pattern = Pattern.compile("([a-z]+([ -][a-z]+)?)+", Pattern.CASE_INSENSITIVE);
       System.out.println("Joueur " + (i + 1) + ", nommez votre personnage");
       String nom = Input.string();
       Matcher matcher = pattern.matcher(nom);
