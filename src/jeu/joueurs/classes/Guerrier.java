@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import jeu.joueurs.equipements.Equipement;
-import jeu.joueurs.equipements.armes.*;
 
 /**
  * Guerrier
@@ -14,8 +13,7 @@ public class Guerrier implements Classe {
   private int m_pv = 20;
   private String m_nom = "Guerrier";
 
-  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>(
-      Arrays.asList(new Baton()));
+private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
 
   public String getNom() {
     return m_nom;
@@ -30,7 +28,7 @@ public class Guerrier implements Classe {
   public String toString() {
     String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :\n";
     for (int i = 0; i < listeEquipement.size(); i++) {
-      pres += "\t- " + listeEquipement.get(i).presentation() + "\n";
+      pres += "\t- " + listeEquipement.get(i).toString() + "\n";
     }
     return pres;
   }
