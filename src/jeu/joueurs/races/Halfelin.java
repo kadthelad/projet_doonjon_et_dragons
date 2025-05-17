@@ -1,12 +1,13 @@
 package jeu.joueurs.races;
 
+import jeu.Caracteristique;
 import java.util.HashMap;
 
 public class Halfelin extends Race {
   public Halfelin() {
     nom = "Halfelin";
     bonusCaracteristiques = new HashMap<>();
-    bonusCaracteristiques.put("dexterite", 4);
-    bonusCaracteristiques.put("vitesse", 2);
+    bonusCaracteristiques.put(Caracteristique.DEXTERITE, 4);
+    bonusCaracteristiques.put(Caracteristique.VITESSE, 2);
   }
 }

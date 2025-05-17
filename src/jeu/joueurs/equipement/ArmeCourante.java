@@ -1,4 +1,3 @@
-
 package jeu.joueurs.equipement;
 
 public class ArmeCourante implements Arme {

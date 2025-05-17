@@ -1,5 +1,6 @@
 package jeu.joueurs.races;
 
+import jeu.Caracteristique;
 import java.util.HashMap;
 
 public class Humain extends Race {
@@ -8,11 +9,11 @@ public class Humain extends Race {
   public Humain() {
     nom = "Humain.e";
     bonusCaracteristiques = new HashMap<>();
-    bonusCaracteristiques.put("dexterite", valeurBonus);
-    bonusCaracteristiques.put("vitesse", valeurBonus);
-    bonusCaracteristiques.put("initiative", valeurBonus);
-    bonusCaracteristiques.put("force", valeurBonus);
-    bonusCaracteristiques.put("pv", valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.DEXTERITE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.VITESSE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.INITIATIVE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.FORCE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.PV, valeurBonus);
   }
 
   public static int getBonus() {

@@ -1,20 +1,17 @@
 package jeu.joueurs.equipement;
 
+import jeu.Caracteristique;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ArmureLourde implements Armure {
   int classeArmure;
 
-  public void setBonusCaracteristiques(Map<String, Integer> bonusCaracteristiques) {
-    this.bonusCaracteristiques = bonusCaracteristiques;
-  }
-
   String nom;
 
-  private Map<String, Integer> bonusCaracteristiques = new HashMap<>() {
+  private Map<Caracteristique, Integer> bonusCaracteristiques = new HashMap<>() {
     {
-      put("vitesse", -4);
+      put(Caracteristique.VITESSE, -4);
     }
   };
 
@@ -35,18 +32,18 @@ public class ArmureLourde implements Armure {
     return nom;
   }
 
-  public Map<String, Integer> getBonusCaracteristiques() {
+  public Map<Caracteristique, Integer> getBonusCaracteristiques(Caracteristique c) {
     return bonusCaracteristiques;
   }
 
-  public void setBonusCaracteristiques(String key, Integer value) {
+  public void setBonusCaracteristiques(Caracteristique key, Integer value) {
     this.bonusCaracteristiques.put(key, value);
   }
 
   @Override
   public String toString() {
     String pres = this.nom + ", Classe d'Armure: " + this.classeArmure;
-    for (Map.Entry<String, Integer> entry : bonusCaracteristiques.entrySet()) {
+    for (Map.Entry<Caracteristique, Integer> entry : bonusCaracteristiques.entrySet()) {
       pres += ", ";
     }
     return pres;

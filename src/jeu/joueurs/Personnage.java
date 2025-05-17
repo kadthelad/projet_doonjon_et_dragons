@@ -1,5 +1,6 @@
 package jeu.joueurs;
 
+import jeu.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
 import jeu.joueurs.equipement.*;
@@ -16,12 +17,12 @@ public class Personnage {
 
   private int m_pv = 0;
 
-  private Map<String, Integer> caracteristiques = new HashMap<>();
+  private Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
   {
-    caracteristiques.put("force", 0);
-    caracteristiques.put("dexterite", 0);
-    caracteristiques.put("vitesse", 0);
-    caracteristiques.put("initiative", 0);
+    caracteristiques.put(Caracteristique.FORCE, 0);
+    caracteristiques.put(Caracteristique.DEXTERITE, 0);
+    caracteristiques.put(Caracteristique.VITESSE, 0);
+    caracteristiques.put(Caracteristique.INITIATIVE, 0);
   }
 
   private ArrayList<Equipement> m_equipement;
@@ -34,8 +35,8 @@ public class Personnage {
     this.m_classe = classe;
     this.m_pv = classe.getPV();
 
-    for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
-      String key = entry.getKey();
+    for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
+      Caracteristique key = entry.getKey();
       int value = Des.lancer(4, 4) + race.bonus(key);
       entry.setValue(value);
     }
@@ -49,7 +50,7 @@ public class Personnage {
     this.m_pv += pv;
   }
 
-  public void changeCaracteristique(String c, int v) {
+  public void changeCaracteristique(Caracteristique c, int v) {
     int value = this.caracteristiques.get(c);
     this.caracteristiques.put(c, value + v);
   }
@@ -62,7 +63,7 @@ public class Personnage {
   public String getCaracteristique() {
     String c = "";
     c += "  - pv : " + this.m_pv + "\n";
-    for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
+    for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       c += "	- " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
     return c;
