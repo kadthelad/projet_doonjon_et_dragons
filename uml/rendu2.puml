@@ -1,0 +1,192 @@
+@startuml
+
+
+' ======= PACKAGE jeu =======
+package jeu {
+    enum Caracteristique {
+        FORCE
+        DEXTERITE
+        VITESSE
+        INITIATIVE
+        PV
+        + toString(): String
+    }
+
+    class Jeu {
+        - ArrayList<Personnage> listePersonnages
+        - ArrayList<Race> listeRaces
+        - ArrayList<Classe> listeClasses
+        - ArrayList<Caracteristique> listeCaracteristiques
+        + getListePersonnages(): ArrayList<Personnage>
+        + getListeCaracteristiques(): ArrayList<Caracteristique>
+        + main(args: String[])
+        + combienJoueurs(): int
+        + creationPersonnages(nombreJoueurs: int)
+        - demanderNom(): String
+        - afficherChoix(liste: ArrayList<T>)
+        - demanderIndiceValide(tailleListe: int): int
+    }
+}
+
+' ======= PACKAGE jeu.joueurs =======
+package "jeu.joueurs" {
+    class Personnage {
+        - String m_nom
+        - Race m_race
+        - Classe m_classe
+        - int m_pv
+        - Map<Caracteristique, Integer> caracteristiques
+        - ArrayList<Equipement> m_equipement
+        - Equipement m_armeePortee
+        - Equipement m_armurePortee
+        + Personnage(nom, race, classe)
+        + changePV(pv: int)
+        + changeCaracteristique(c: Caracteristique, v: int)
+        + getCaracteristique(c: String): int
+        + getCaracteristique(): String
+        + changeEquipement(equipement: ArrayList<Equipement>)
+        + changeArmeePortee(armeePortee: Equipement)
+        + changeArmurePortee(armurePortee: Equipement)
+        + getNom(): String
+        + getRace(): Race
+        + getClasse(): Classe
+        + getPV(): int
+        + toString(): String
+    }
+
+    ' ======= PACKAGE races =======
+    package races {
+        abstract class Race {
+            # String nom
+            # Map<Caracteristique, Integer> bonusCaracteristiques
+            + getNom(): String
+            + bonus(c: Caracteristique): int
+            + toString(): String
+        }
+        class Elfe {
+            + Elfe()
+            ..bonusCaracteristiques: DEXTERITE+6..
+        }
+        class Halfelin {
+            + Halfelin()
+            ..bonusCaracteristiques: DEXTERITE+4, VITESSE+2..
+        }
+        class Humain {
+            + Humain()
+            + getBonus(): int
+            ..valeurBonus: int..
+            ..bonusCaracteristiques: toutes..
+        }
+        class Nain {
+            + Nain()
+            ..bonusCaracteristiques: FORCE+6..
+        }
+        Race <|-- Elfe
+        Race <|-- Halfelin
+        Race <|-- Humain
+        Race <|-- Nain
+    }
+
+    ' ======= PACKAGE classes =======
+    package classes {
+        abstract class Classe {
+            # String nom
+            # int pv
+            # List<Equipement> listeEquipement
+            + getNom(): String
+            + getPV(): int
+            + toString(): String
+        }
+        class Guerrier {
+            + Guerrier()
+            ..nom="Guerrier.re", pv=20..
+            ..équipement: ArmeDeGuerre, ArmureLourde, ArmeDistance..
+        }
+        class Clerc {
+            + Clerc()
+            ..nom="Clerc", pv=16..
+            ..équipement: ArmeCourante, ArmureLegere, ArmeDistance..
+        }
+        class Magicien {
+            + Magicien()
+            ..nom="Magicien.ne", pv=12..
+            ..équipement: ArmeCourante, ArmeDistance..
+        }
+        class Roublard {
+            + Roublard()
+            ..nom="Roublard.e", pv=16..
+            ..équipement: ArmeDeGuerre, ArmeDistance..
+        }
+        Classe <|-- Guerrier
+        Classe <|-- Clerc
+        Classe <|-- Magicien
+        Classe <|-- Roublard
+    }
+
+    ' ======= PACKAGE equipement =======
+    package equipement {
+        interface Equipement {
+            + getNom(): String
+        }
+        interface Arme {
+            + getDegats(): String
+            + getPortee(): int
+        }
+        Equipement <|.. Arme
+        class ArmeCourante {
+            - String nom
+            - String degats
+            - int portee
+        }
+        class ArmeDeGuerre {
+            - String nom
+            - String degats
+            - int portee
+        }
+        class ArmeDistance {
+            - String nom
+            - String degats
+            - int portee
+        }
+        Arme <|.. ArmeCourante
+        Arme <|.. ArmeDeGuerre
+        Arme <|.. ArmeDistance
+
+        interface Armure {
+            + getClasseArmure(): int
+            + setClasseArmure(classeArmure: int)
+            + getNom(): String
+        }
+        Equipement <|.. Armure
+        class ArmureLegere {
+            - int classeArmure
+            - String nom
+        }
+        class ArmureLourde {
+            - int classeArmure
+            - String nom
+            - Map<Caracteristique, Integer> bonusCaracteristiques
+        }
+        Armure <|.. ArmureLegere
+        Armure <|.. ArmureLourde
+    }
+
+    ' Relations au sein de jeu.joueurs
+    Personnage --> races.Race : m_race
+    Personnage --> classes.Classe : m_classe
+    Personnage --> equipement.Equipement : m_equipement
+    classes.Classe --> equipement.Equipement : listeEquipement
+}
+
+' ======= Relations avec jeu =======
+jeu.Jeu --> jeu.joueurs.Personnage
+jeu.Jeu --> jeu.joueurs.races.Race
+jeu.Jeu --> jeu.joueurs.classes.Classe
+jeu.Jeu --> jeu.Caracteristique
+
+' ======= Relations inter packages supplémentaires =======
+jeu.joueurs.races.Race ..> jeu.Caracteristique
+jeu.joueurs.Personnage ..> jeu.Caracteristique
+jeu.joueurs.Personnage ..> jeu.utils.Des
+
+@enduml
