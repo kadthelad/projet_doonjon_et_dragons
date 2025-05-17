@@ -63,7 +63,7 @@ public class Personnage {
     String c = "";
     c += "  - pv : " + this.m_pv + "\n";
     for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
-      c += "  - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
+      c += "	- " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
     return c;
   }

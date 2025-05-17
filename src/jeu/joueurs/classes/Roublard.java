@@ -3,7 +3,7 @@ package jeu.joueurs.classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import jeu.joueurs.equipement.Equipement;
+import jeu.joueurs.equipement.*;
 
 /**
  * Roublard
@@ -13,7 +13,10 @@ public class Roublard implements Classe {
   private int m_pv = 16;
   private String m_nom = "Roublard.e";
 
-  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
+  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>(
+      Arrays.asList(
+          new ArmeDeGuerre("Rapiere", "1d8", 1),
+          new ArmeDistance("Arc Court", "1d6", 16)));
 
   public String getNom() {
     return m_nom;

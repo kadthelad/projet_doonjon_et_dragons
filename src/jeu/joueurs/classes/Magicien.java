@@ -3,7 +3,7 @@ package jeu.joueurs.classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import jeu.joueurs.equipement.Equipement;
+import jeu.joueurs.equipement.*;
 
 /**
  * Magicien
@@ -13,7 +13,10 @@ public class Magicien implements Classe {
   private int m_pv = 12;
   private String m_nom = "Magicien.ne";
 
-  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
+  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>(
+      Arrays.asList(
+          new ArmeCourante("Baton", "1d6", 1),
+          new ArmeDistance("Fronde", "1d4", 6)));
 
   public String getNom() {
     return m_nom;
