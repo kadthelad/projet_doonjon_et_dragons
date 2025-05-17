@@ -51,7 +51,7 @@ public class Jeu {
   public static void creationPersonnages(int nombreJoueurs) {
     // pour chaque joueur...
     for (int i = 0; i < nombreJoueurs; i++) {
-      System.out.println("\nJoueur " + (i + 1) + ", nommez votre personnage :");
+      System.out.println("Joueur " + (i + 1) + ", nommez votre personnage :");
       String nom = demanderNom();
 
       // Choix de la race

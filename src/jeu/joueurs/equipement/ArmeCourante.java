@@ -38,6 +38,6 @@ public class ArmeCourante implements Arme {
 
   @Override
   public String toString() {
-    return this.nom + ", degats: " + this.degats + ", portee :" + this.portee + "\n";
+    return this.nom + ", degats: " + this.degats + ", portee :" + this.portee;
   }
 }

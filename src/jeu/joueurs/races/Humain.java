@@ -35,11 +35,11 @@ public class Humain implements Race {
 
   @Override
   public String toString() {
-    String pres = m_nom + ": ";
+    String pres = m_nom;
     for (String s : Jeu.getListeCaracteristiques()) {
       int n = bonus(s);
       if (n != 0) {
-        pres += "\n    " + s + " + " + n;
+        pres += "\n\t" + s + " + " + n;
       }
     }
     return pres;

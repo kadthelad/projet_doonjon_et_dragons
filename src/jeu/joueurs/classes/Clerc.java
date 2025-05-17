@@ -31,9 +31,9 @@ public class Clerc implements Classe {
   // presentation de la classe, pv et armes
   @Override
   public String toString() {
-    String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :\n";
+    String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :";
     for (int i = 0; i < listeEquipement.size(); i++) {
-      pres += "\t- " + listeEquipement.get(i).toString() + "\n";
+      pres += "\n\t- " + listeEquipement.get(i).toString();
     }
     return pres;
   }
