@@ -7,6 +7,4 @@ public interface Armure extends Equipement {
   public void setClasseArmure(int classeArmure);
 
   public String getNom();
-
-  public String setNom();
 }

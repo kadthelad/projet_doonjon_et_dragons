@@ -1,4 +1,4 @@
-package jeu.joueurs.equipements;
+package jeu.joueurs.equipement;
 
 public class ArmeDeGuerre implements Arme {
   String nom;

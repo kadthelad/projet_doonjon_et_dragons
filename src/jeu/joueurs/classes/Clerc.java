@@ -3,7 +3,7 @@ package jeu.joueurs.classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import jeu.joueurs.equipements.Equipement;
+import jeu.joueurs.equipement.Equipement;
 
 /**
  * Clerc

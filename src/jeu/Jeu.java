@@ -3,7 +3,7 @@ package jeu;
 import jeu.joueurs.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
-import jeu.joueurs.equipements.*;
+import jeu.joueurs.equipement.*;
 import jeu.utils.*;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class Jeu {
   private static ArrayList<Classe> listeClasses = new ArrayList<>(
       Arrays.asList(new Clerc(), new Guerrier(), new Magicien(), new Roublard()));
   private static ArrayList<String> listeCaracteristiques = new ArrayList<>(
-      Arrays.asList("force", "dexterite", "vitesse", "initiative"));
+      Arrays.asList("force", "dexterite", "vitesse", "initiative", "pv"));
 
   public static ArrayList<Personnage> getListePersonnages() {
     return listePersonnages;

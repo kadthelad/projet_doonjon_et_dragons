@@ -1,6 +1,6 @@
 package maitre;
 
-import jeu.joueurs.equipements.Equipement;
+import jeu.joueurs.equipement.Equipement;
 import jeu.joueurs.Personnage;
 import mapLogic.Vector;
 
@@ -13,7 +13,7 @@ public class Donjon {
     private Carte carte;
     private Vector[] obstacles;
     private Personnage[] personnages;
-    private Equipement[] equipements;
+    private Equipement[] equipement;
 
     private int tour = 0;
 
@@ -23,14 +23,14 @@ public class Donjon {
         this.carte = carteJeu;
         this.obstacles = lstObstacles;
         this.personnages = lstPersonnages;
-        this.equipements = lstEquipements;
+        this.equipement = lstEquipements;
     }
 
     public Donjon créerJeu()
     {
         ///  Méthode pour créer le jeu ///
         // Lors de l'appel de la méthode, le maitre du jeu devra créer la carte, l'emplacement des obstacles, des
-        // personnages et des equipements
+        // personnages et des equipement
         System.out.println("Au tour du Maitre du Jeu!");
 
         // Création de la carte //

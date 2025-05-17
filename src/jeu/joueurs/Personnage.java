@@ -2,7 +2,7 @@ package jeu.joueurs;
 
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
-import jeu.joueurs.equipements.*;
+import jeu.joueurs.equipement.*;
 import jeu.utils.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -32,8 +32,8 @@ public class Personnage {
     this.m_nom = nom;
     this.m_race = race;
     this.m_classe = classe;
+    this.m_pv = classe.getPV();
 
-    // nouvelle version
     for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
       String key = entry.getKey();
       int value = Des.lancer(4, 4) + race.bonus(key);
@@ -55,12 +55,13 @@ public class Personnage {
   }
 
   public int getCaracteristique(String c) {
-    return this.caracteristiques.get(c);
+    return c == "pv" ? this.m_pv : caracteristiques.get(c);
   }
 
   // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
   public String getCaracteristique() {
     String c = "";
+    c += "  - pv : " + this.m_pv + "\n";
     for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
       c += "  - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }

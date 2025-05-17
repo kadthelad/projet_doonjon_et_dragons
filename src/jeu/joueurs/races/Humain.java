@@ -17,6 +17,7 @@ public class Humain implements Race {
       put("vitesse", valeurBonus);
       put("initiative", valeurBonus);
       put("force", valeurBonus);
+      put("pv", valeurBonus);
     }
   };
 

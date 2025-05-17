@@ -1,4 +1,4 @@
-package jeu.joueurs.equipements;
+package jeu.joueurs.equipement;
 
 public class ArmureLegere implements Armure {
   int classeArmure;
@@ -19,10 +19,6 @@ public class ArmureLegere implements Armure {
 
   public String getNom() {
     return nom;
-  }
-
-  public void setNom(String nom) {
-    this.nom = nom;
   }
 
   @Override

@@ -1,4 +1,4 @@
-package jeu.joueurs.equipements;
+package jeu.joueurs.equipement;
 
 public interface Arme extends Equipement {
   public String getDegats();

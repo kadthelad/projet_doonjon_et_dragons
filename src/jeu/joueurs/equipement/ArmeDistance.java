@@ -1,27 +1,15 @@
+package jeu.joueurs.equipement;
 
-package jeu.joueurs.equipements;
+public class ArmeDistance implements Arme {
 
-public class ArmeCourante implements Arme {
   String nom;
   String degats = "0d0";
   int portee = 0;
 
-  public ArmeCourante(String nom, String d, int p) {
+  public ArmeDistance(String nom, String d, int p) {
     this.nom = nom;
     this.degats = d;
     this.portee = p;
-  }
-
-  public void setNom(String nom) {
-    this.nom = nom;
-  }
-
-  public void setDegats(String degats) {
-    this.degats = degats;
-  }
-
-  public void setPortee(int portee) {
-    this.portee = portee;
   }
 
   public String getNom() {
@@ -32,8 +20,16 @@ public class ArmeCourante implements Arme {
     return degats;
   }
 
+  public void setDegats(String degats) {
+    this.degats = degats;
+  }
+
   public int getPortee() {
     return portee;
+  }
+
+  public void setPortee(int portee) {
+    this.portee = portee;
   }
 
   @Override
