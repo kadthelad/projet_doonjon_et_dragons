@@ -17,18 +17,20 @@ public class Jeu {
   // on ne peut pas appeler de methodes en dehors d'un bloc, donc pas de liste.add
   // directement dans la classe Main, donc Arrays.asList()
   private static ArrayList<Personnage> listePersonnages = new ArrayList<>();
+
   private static ArrayList<Race> listeRaces = new ArrayList<>(
       Arrays.asList(new Nain(), new Elfe(), new Humain(), new Halfelin()));
   private static ArrayList<Classe> listeClasses = new ArrayList<>(
       Arrays.asList(new Clerc(), new Guerrier(), new Magicien(), new Roublard()));
-  private static ArrayList<String> listeCaracteristiques = new ArrayList<>(
-      Arrays.asList("force", "dexterite", "vitesse", "initiative", "pv"));
+
+  private static ArrayList<Caracteristique> listeCaracteristiques = new ArrayList<>(
+      Arrays.asList(Caracteristique.values()));
 
   public static ArrayList<Personnage> getListePersonnages() {
     return listePersonnages;
   }
 
-  public static ArrayList<String> getListeCaracteristiques() {
+  public static ArrayList<Caracteristique> getListeCaracteristiques() {
     return listeCaracteristiques;
   }
 

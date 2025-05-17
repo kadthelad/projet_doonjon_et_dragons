@@ -1,28 +1,30 @@
 package jeu.joueurs.races;
 
+import jeu.*;
 import java.util.Map;
 
 public abstract class Race {
-    protected String nom;
-    protected Map<String, Integer> bonusCaracteristiques;
+  protected String nom;
 
-    public String getNom() {
-        return nom;
-    }
+  protected Map<Caracteristique, Integer> bonusCaracteristiques;
 
-    public int bonus(String c) {
-        return bonusCaracteristiques.getOrDefault(c, 0);
-    }
+  public String getNom() {
+    return nom;
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder pres = new StringBuilder(nom);
-        for (String s : jeu.Jeu.getListeCaracteristiques()) {
-            int n = bonus(s);
-            if (n != 0) {
-                pres.append("\n\t").append(s).append(" + ").append(n);
-            }
-        }
-        return pres.toString();
+  public int bonus(Caracteristique c) {
+    return bonusCaracteristiques.getOrDefault(c, 0);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder pres = new StringBuilder(nom);
+    for (Caracteristique c : Jeu.getListeCaracteristiques()) {
+      int n = bonus(c);
+      if (n != 0) {
+        pres.append("\n\t").append(c).append(" + ").append(n);
+      }
     }
+    return pres.toString();
+  }
 }
