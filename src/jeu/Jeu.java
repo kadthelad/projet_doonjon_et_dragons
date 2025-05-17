@@ -38,7 +38,7 @@ public class Jeu {
 
   // Demander le nombre de joueurs
   public static int combienJoueurs() {
-    System.out.println("Sans compter le maitre du jeu, combien de joueurs y aura-t-il ?");
+    System.out.println("Sans compter la ou le MJ, combien de joueurs y aura-t-il ?");
     int n = Input.entier();
     while (n <= 0) {
       System.out.print("Merci d'entrer un nombre entier strictement positif : ");

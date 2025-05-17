@@ -11,9 +11,9 @@ import jeu.joueurs.equipement.Equipement;
 public class Guerrier implements Classe {
 
   private int m_pv = 20;
-  private String m_nom = "Guerrier";
+  private String m_nom = "Guerrier.re";
 
-private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
+  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
 
   public String getNom() {
     return m_nom;

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Nain implements Race {
-  String m_nom = "Nain";
+  String m_nom = "Nain.e";
 
   // caracteristiques par defaut
   private Map<String, Integer> bonusCaracteristiques = new HashMap<>() {

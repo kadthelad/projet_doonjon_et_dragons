@@ -11,9 +11,9 @@ import jeu.joueurs.equipement.Equipement;
 public class Magicien implements Classe {
 
   private int m_pv = 12;
-  private String m_nom = "Magicien";
+  private String m_nom = "Magicien.ne";
 
-private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
+  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>();
 
   public String getNom() {
     return m_nom;

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Humain implements Race {
-  String m_nom = "Humain";
+  String m_nom = "Humain.e";
   static int valeurBonus = 2;
 
   // caracteristiques par defaut
