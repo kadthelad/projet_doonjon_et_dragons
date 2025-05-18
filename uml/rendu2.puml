@@ -1,0 +1,182 @@
+@startuml
+
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+class Main {
+  + main(args: String[]): void
+}
+
+package jeu {
+  enum Caracteristique {
+    FORCE
+    DEXTERITE
+    VITESSE
+    INITIATIVE
+    PV
+  }
+
+  abstract class Entite {
+    # position: Position
+    + getPosition(): Position
+    + TP(x: Integer, y: Integer): Position
+    + move(x: Integer, y: Integer): Position
+    + distance(x: Integer, y: Integer): Integer
+  }
+
+  class Jeu {
+    - listePersonnages: ArrayList<Personnage>
+    + getListePersonnages(): ArrayList<Personnage>
+    + main(args: String[]): void
+  }
+}
+
+package jeu.joueurs {
+  class InitialisationJoueurs {
+    - listePersonnages: ArrayList<Personnage>
+    - listeRaces: ArrayList<Race>
+    - listeClasses: ArrayList<Classe>
+    + combienJoueurs(): Integer
+    + creationPersonnages(nombreJoueurs: Integer): ArrayList<Personnage>
+  }
+
+  class Personnage {
+    - nom: String
+    - race: Race
+    - classe: Classe
+    - caracteristiques: Map<Caracteristique, Integer>
+    - equipement: List<Equipement>
+    - armeePortee: Equipement
+    - armurePortee: Equipement
+    + Personnage(nom: String, race: Race, classe: Classe)
+    + changePV(pv: Integer): void
+    + getPV(): void
+    + changeCaracteristique(c: Caracteristique, v: Integer): void
+    + getCaracteristique(c: Caracteristique): Integer
+    + getCaracteristique(): String
+    + addEquipement(e: Equipement): void
+    + changeArmeePortee(armeePortee: Equipement): void
+    + changeArmurePortee(armurePortee: Equipement): void
+    + getNom(): String
+    + getRace(): Race
+    + getClasse(): Classe
+  }
+}
+
+package jeu.joueurs.classes {
+  abstract class Classe {
+    # nom: String
+    # pv: Integer
+    # listeEquipement: List<Equipement>
+    + getNom(): String
+    + getPV(): Integer
+    + getListeEquipement(): List<Equipement>
+  }
+  class Clerc
+  class Guerrier
+  class Magicien
+  class Roublard
+
+  Clerc --|> Classe
+  Guerrier --|> Classe
+  Magicien --|> Classe
+  Roublard --|> Classe
+}
+
+package jeu.joueurs.equipement {
+  interface Equipement {
+    + getNom(): String
+  }
+  interface Arme {
+    + getDegats(): String
+    + getPortee(): Integer
+  }
+  class ArmeCourante
+  class ArmeDeGuerre
+  class ArmeDistance
+
+  ArmeCourante ..|> Arme
+  ArmeDeGuerre ..|> Arme
+  ArmeDistance ..|> Arme
+  Arme ..|> Equipement
+
+  interface Armure {
+    + getClasseArmure(): Integer
+    + setClasseArmure(ca: Integer): void
+    + getNom(): String
+  }
+  class ArmureLegere
+  class ArmureLourde
+
+  ArmureLegere ..|> Armure
+  ArmureLourde ..|> Armure
+  Armure ..|> Equipement
+}
+
+package jeu.joueurs.races {
+  abstract class Race {
+    # nom: String
+    # bonusCaracteristiques: Map<Caracteristique, Integer>
+    + getNom(): String
+    + bonus(c: Caracteristique): Integer
+  }
+  class Elfe
+  class Halfelin
+  class Humain {
+    - valeurBonus: Integer
+    + getBonus(): Integer
+  }
+  class Nain
+
+  Elfe --|> Race
+  Halfelin --|> Race
+  Humain --|> Race
+  Nain --|> Race
+}
+
+package jeu.utils {
+  class Des {
+    + lancer(nombreDeDes: Integer, nombreDeFaces: Integer): Integer
+    + lancer(): Integer
+    + lancer(degats: String): Integer
+  }
+
+  class Input {
+    + entier(): Integer
+    + string(): String
+  }
+
+  class Position {
+    - x: Integer
+    - y: Integer
+    + Position(x: Integer, y: Integer)
+    + getX(): Integer
+    + getY(): Integer
+    + TP(x: Integer, y: Integer): Position
+    + move(x: Integer, y: Integer): Position
+    + get(): Position
+    + distance(x: Integer, y: Integer): Integer
+    + equalsTo(pos2: Position): Boolean
+  }
+}
+
+
+jeu.Entite <|-- jeu.joueurs.Personnage
+jeu.Entite --> jeu.utils.Position
+jeu.joueurs.Personnage --> jeu.joueurs.races.Race
+jeu.joueurs.Personnage --> jeu.joueurs.classes.Classe
+jeu.joueurs.Personnage --> jeu.joueurs.equipement.Equipement : *
+jeu.joueurs.classes.Classe --> jeu.joueurs.equipement.Equipement : *
+
+jeu.Jeu --> jeu.joueurs.Personnage : *
+jeu.joueurs.InitialisationJoueurs --> jeu.joueurs.Personnage : 0..*
+jeu.joueurs.InitialisationJoueurs --> jeu.joueurs.races.Race : 0..*
+jeu.joueurs.InitialisationJoueurs --> jeu.joueurs.classes.Classe : 0..*
+
+jeu.joueurs.InitialisationJoueurs ..> jeu.utils.Input
+jeu.joueurs.Personnage ..> jeu.utils.Des
+jeu.Jeu ..> jeu.joueurs.InitialisationJoueurs
+Main ..> jeu.Jeu
+
+@enduml

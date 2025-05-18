@@ -1,41 +1,42 @@
 package jeu.joueurs;
 
+import jeu.*;
+import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
-import jeu.joueurs.equipements.*;
-import jeu.utils.*;
+import jeu.joueurs.equipement.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Personnage {
+public class Personnage extends Entite {
 
-  private String m_nom;
-  private Race m_race;
-  private Classe m_classe;
+  private String nom;
+  private Race race;
+  private Classe classe;
 
-  private int m_pv = 0;
-
-  private Map<String, Integer> caracteristiques = new HashMap<>();
+  private Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
   {
-    caracteristiques.put("force", 0);
-    caracteristiques.put("dexterite", 0);
-    caracteristiques.put("vitesse", 0);
-    caracteristiques.put("initiative", 0);
+    caracteristiques.put(Caracteristique.FORCE, 0);
+    caracteristiques.put(Caracteristique.DEXTERITE, 0);
+    caracteristiques.put(Caracteristique.VITESSE, 0);
+    caracteristiques.put(Caracteristique.INITIATIVE, 0);
+    caracteristiques.put(Caracteristique.PV, 0);
   }
 
-  private ArrayList<Equipement> m_equipement;
-  private Equipement m_armeePortee;
-  private Equipement m_armurePortee;
+  private List<Equipement> equipement;
+  private Equipement armeePortee;
+  private Equipement armurePortee;
 
   public Personnage(String nom, Race race, Classe classe) {
-    this.m_nom = nom;
-    this.m_race = race;
-    this.m_classe = classe;
+    this.nom = nom;
+    this.race = race;
+    this.classe = classe;
+    this.caracteristiques.put(Caracteristique.PV, classe.getPV());
 
-    // nouvelle version
-    for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
-      String key = entry.getKey();
+    for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
+      Caracteristique key = entry.getKey();
       int value = Des.lancer(4, 4) + race.bonus(key);
       entry.setValue(value);
     }
@@ -43,64 +44,65 @@ public class Personnage {
     if (race instanceof Humain) {
       this.changePV(Humain.getBonus());
     }
+
+    this.equipement = classe.getListeEquipement();
   }
 
   public void changePV(int pv) {
-    this.m_pv += pv;
+    this.changeCaracteristique(Caracteristique.PV, pv);
   }
 
-  public void changeCaracteristique(String c, int v) {
-    int value = this.caracteristiques.get(c);
-    this.caracteristiques.put(c, value + v);
+  public void getPV() {
+    this.getCaracteristique(Caracteristique.PV);
   }
 
-  public int getCaracteristique(String c) {
-    return this.caracteristiques.get(c);
+  public void changeCaracteristique(Caracteristique c, int v) {
+    int previous = this.caracteristiques.get(c);
+    this.caracteristiques.put(c, previous + v);
+  }
+
+  public int getCaracteristique(Caracteristique c) {
+    return caracteristiques.get(c);
   }
 
   // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
   public String getCaracteristique() {
     String c = "";
-    for (Map.Entry<String, Integer> entry : caracteristiques.entrySet()) {
-      c += "  - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
+    for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
+      c += "	- " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
     return c;
   }
 
-  public void changeEquipement(ArrayList<Equipement> equipement) {
-    this.m_equipement = equipement;
+  public void addEquipement(Equipement e) {
+    this.equipement.add(e);
   }
 
   public void changeArmeePortee(Equipement armeePortee) {
-    this.m_armeePortee = armeePortee;
+    this.armeePortee = armeePortee;
   }
 
   public void changeArmurePortee(Equipement armurePortee) {
-    this.m_armurePortee = armurePortee;
+    this.armurePortee = armurePortee;
   }
 
   public String getNom() {
-    return m_nom;
+    return nom;
   }
 
   public Race getRace() {
-    return m_race;
+    return race;
   }
 
   public Classe getClasse() {
-    return m_classe;
-  }
-
-  public int getPV() {
-    return this.caracteristiques.get("pv");
+    return classe;
   }
 
   @Override
   public String toString() {
 
-    return "Votre Personnage est " + this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
+    return this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
         + this.getRace().getNom()
         + "\nCaractéristiques :\n" + this.getCaracteristique();
   }
-
 }

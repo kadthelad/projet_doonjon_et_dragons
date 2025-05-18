@@ -1,47 +1,22 @@
 package jeu.joueurs.races;
 
-import jeu.Jeu;
-import jeu.joueurs.*;
-
-import java.util.Map;
+import jeu.Caracteristique;
 import java.util.HashMap;
 
-public class Humain implements Race {
-  String m_nom = "Humain";
+public class Humain extends Race {
   static int valeurBonus = 2;
 
-  // caracteristiques par defaut
-  private Map<String, Integer> bonusCaracteristiques = new HashMap<>() {
-    {
-      put("dexterite", valeurBonus);
-      put("vitesse", valeurBonus);
-      put("initiative", valeurBonus);
-      put("force", valeurBonus);
-    }
-  };
-
-  public String getNom() {
-    return m_nom;
+  public Humain() {
+    nom = "Humain.e";
+    bonusCaracteristiques = new HashMap<>();
+    bonusCaracteristiques.put(Caracteristique.DEXTERITE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.VITESSE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.INITIATIVE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.FORCE, valeurBonus);
+    bonusCaracteristiques.put(Caracteristique.PV, valeurBonus);
   }
 
-  public int bonus(String c) {
-    return bonusCaracteristiques.getOrDefault(c, 0);
-  }
-
-  static public int getBonus() {
+  public static int getBonus() {
     return valeurBonus;
   }
-
-  @Override
-  public String toString() {
-    String pres = m_nom + ": ";
-    for (String s : Jeu.getListeCaracteristiques()) {
-      int n = bonus(s);
-      if (n != 0) {
-        pres += "\n    " + s + " + " + n;
-      }
-    }
-    return pres;
-  }
-
 }

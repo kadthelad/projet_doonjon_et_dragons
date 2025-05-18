@@ -1,38 +1,18 @@
 package jeu.joueurs.classes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import jeu.joueurs.equipements.Equipement;
-import jeu.joueurs.equipements.armes.*;
+import jeu.joueurs.equipement.*;
 
-/**
- * Guerrier
- */
-public class Guerrier implements Classe {
+public class Guerrier extends Classe {
 
-  private int m_pv = 20;
-  private String m_nom = "Guerrier";
-
-  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>(
-      Arrays.asList(new Baton()));
-
-  public String getNom() {
-    return m_nom;
-  }
-
-  public int getPV() {
-    return this.m_pv;
-  }
-
-  // presentation de la classe, pv et armes
-  @Override
-  public String toString() {
-    String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :\n";
-    for (int i = 0; i < listeEquipement.size(); i++) {
-      pres += "\t- " + listeEquipement.get(i).presentation() + "\n";
+    public Guerrier() {
+        nom = "Guerrier.re";
+        pv = 20;
+        listeEquipement = Arrays.asList(
+            new ArmeDeGuerre("Epee Longue", "1d8", 1),
+            new ArmureLourde("Cotte de Mailles", 11),
+            new ArmeDistance("Arbalete Legere", "1d8", 16)
+        );
     }
-    return pres;
-  }
-
 }

@@ -1,40 +1,12 @@
 package jeu.joueurs.races;
 
-import jeu.Jeu;
-import jeu.joueurs.*;
-
-import java.util.Map;
+import jeu.Caracteristique;
 import java.util.HashMap;
 
-public class Elfe implements Race {
-  String m_nom = "Elfe";
-
-  // caracteristiques par defaut
-  private Map<String, Integer> bonusCaracteristiques = new HashMap<>() {
-    {
-      put("dexterite", 6);
-    }
-  };
-
-  public String getNom() {
-    return m_nom;
+public class Elfe extends Race {
+  public Elfe() {
+    nom = "Elfe";
+    bonusCaracteristiques = new HashMap<>();
+    bonusCaracteristiques.put(Caracteristique.DEXTERITE, 6);
   }
-
-  public int bonus(String c) {
-    return bonusCaracteristiques.getOrDefault(c, 0);
-
-  }
-
-  @Override
-  public String toString() {
-    String pres = m_nom + ": ";
-    for (String s : Jeu.getListeCaracteristiques()) {
-      int n = bonus(s);
-      if (n != 0) {
-        pres += "\n    " + s + " + " + n;
-      }
-    }
-    return pres;
-  }
-
 }

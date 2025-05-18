@@ -1,39 +1,18 @@
 package jeu.joueurs.classes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import jeu.joueurs.equipements.Equipement;
-import jeu.joueurs.equipements.armes.*;
+import jeu.joueurs.equipement.*;
 
-/**
- * Clerc
- */
-public class Clerc implements Classe {
+public class Clerc extends Classe {
 
-  private String m_nom = "Clerc";
-
-  private int m_pv = 16;
-
-  private ArrayList<Equipement> listeEquipement = new ArrayList<Equipement>(
-      Arrays.asList(new Baton()));
-
-  public String getNom() {
-    return m_nom;
-  }
-
-  public int getPV() {
-    return this.m_pv;
-  }
-
-  // presentation de la classe, pv et armes
-  @Override
-  public String toString() {
-    String pres = m_nom + "\n\tPV : " + m_pv + "\n\tÉquipement :\n";
-    for (int i = 0; i < listeEquipement.size(); i++) {
-      pres += "\t- " + listeEquipement.get(i).presentation() + "\n";
+    public Clerc() {
+        nom = "Clerc";
+        pv = 16;
+        listeEquipement = Arrays.asList(
+            new ArmeCourante("Masse d'Armes", "1d6", 1),
+            new ArmureLegere("Armure d'Ecailles", 9),
+            new ArmeDistance("Arbalete Legere", "1d8", 16)
+        );
     }
-    return pres;
-  }
-
 }
