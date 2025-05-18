@@ -6,14 +6,15 @@ import jeu.joueurs.classes.*;
 import jeu.joueurs.equipement.*;
 import jeu.utils.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
 public class Personnage {
 
-  private String m_nom;
-  private Race m_race;
-  private Classe m_classe;
+  private String nom;
+  private Race race;
+  private Classe classe;
 
   private Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
   {
@@ -24,14 +25,14 @@ public class Personnage {
     caracteristiques.put(Caracteristique.PV, 0);
   }
 
-  private ArrayList<Equipement> equipement;
+  private List<Equipement> equipement;
   private Equipement armeePortee;
   private Equipement armurePortee;
 
   public Personnage(String nom, Race race, Classe classe) {
-    this.m_nom = nom;
-    this.m_race = race;
-    this.m_classe = classe;
+    this.nom = nom;
+    this.race = race;
+    this.classe = classe;
     this.caracteristiques.put(Caracteristique.PV, classe.getPV());
 
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
@@ -73,34 +74,34 @@ public class Personnage {
     return c;
   }
 
-  public void changeEquipement(ArrayList<Equipement> equipement) {
-    this.m_equipement = equipement;
+  public void addEquipement(Equipement e) {
+    this.equipement.add(e);
   }
 
   public void changeArmeePortee(Equipement armeePortee) {
-    this.m_armeePortee = armeePortee;
+    this.armeePortee = armeePortee;
   }
 
   public void changeArmurePortee(Equipement armurePortee) {
-    this.m_armurePortee = armurePortee;
+    this.armurePortee = armurePortee;
   }
 
   public String getNom() {
-    return m_nom;
+    return nom;
   }
 
   public Race getRace() {
-    return m_race;
+    return race;
   }
 
   public Classe getClasse() {
-    return m_classe;
+    return classe;
   }
 
   @Override
   public String toString() {
 
-    return "Votre Personnage est " + this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
+    return this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
         + this.getRace().getNom()
         + "\nCaractéristiques :\n" + this.getCaracteristique();
   }

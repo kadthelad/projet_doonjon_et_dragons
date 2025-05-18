@@ -31,14 +31,14 @@ package jeu {
 ' ======= PACKAGE jeu.joueurs =======
 package "jeu.joueurs" {
     class Personnage {
-        - String m_nom
-        - Race m_race
-        - Classe m_classe
-        - int m_pv
+        - String nom
+        - Race race
+        - Classe classe
+        - int pv
         - Map<Caracteristique, Integer> caracteristiques
-        - ArrayList<Equipement> m_equipement
-        - Equipement m_armeePortee
-        - Equipement m_armurePortee
+        - ArrayList<Equipement> equipement
+        - Equipement armeePortee
+        - Equipement armurePortee
         + Personnage(nom, race, classe)
         + changePV(pv: int)
         + changeCaracteristique(c: Caracteristique, v: int)
@@ -172,9 +172,9 @@ package "jeu.joueurs" {
     }
 
     ' Relations au sein de jeu.joueurs
-    Personnage --> races.Race : m_race
-    Personnage --> classes.Classe : m_classe
-    Personnage --> equipement.Equipement : m_equipement
+    Personnage --> races.Race : race
+    Personnage --> classes.Classe : classe
+    Personnage --> equipement.Equipement : equipement
     classes.Classe --> equipement.Equipement : listeEquipement
 }
 

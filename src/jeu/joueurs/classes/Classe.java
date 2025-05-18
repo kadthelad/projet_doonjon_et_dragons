@@ -10,7 +10,7 @@ import jeu.joueurs.equipement.Equipement;
 public abstract class Classe {
   protected String nom;
   protected int pv;
-  protected ArrayList<Equipement> listeEquipement;
+  protected List<Equipement> listeEquipement;
 
   public String getNom() {
     return nom;
@@ -20,7 +20,7 @@ public abstract class Classe {
     return pv;
   }
 
-  public ArrayList<Equipement> getListeEquipement() {
+  public List<Equipement> getListeEquipement() {
     return listeEquipement;
   }
 
