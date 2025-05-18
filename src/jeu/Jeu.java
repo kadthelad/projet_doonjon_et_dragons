@@ -23,7 +23,6 @@ public class Jeu {
   private static ArrayList<Classe> listeClasses = new ArrayList<>(
       Arrays.asList(new Clerc(), new Guerrier(), new Magicien(), new Roublard()));
 
-
   public static ArrayList<Personnage> getListePersonnages() {
     return listePersonnages;
   }
@@ -55,17 +54,31 @@ public class Jeu {
       // Choix de la race
       String valide;
       do {
-      System.out.println(nom + ", entrez le numéro associé à la race de votre choix :");
-      afficherChoix(listeRaces);
-      indexRace = demanderIndiceValide(listeRaces.size());
-      System.out.println("Vous avez choisis la race " + listeRaces.get(indexRace) + ", appuyer sur entrée pour valider ou n'importe quelle autre lettre pour changer.");
-      valide = Input.string();
+        try {
+          System.out.print("\033\143");
+        } catch (Exception e) {
+        }
+        System.out.println(nom + ", entrez le numéro associé à la race de votre choix :");
+        afficherChoix(listeRaces);
+        indexRace = demanderIndiceValide(listeRaces.size());
+        System.out.println("Vous avez choisis la race " + listeRaces.get(indexRace).getNom()
+            + ", appuyer sur entrée pour valider ou une autre lettre pour changer de race.");
+        valide = Input.string();
       } while (valide != "");
 
       // Choix de la classe
-      System.out.println(nom + ", entrez le numéro associé à la classe de votre choix :");
-      afficherChoix(listeClasses);
-      indexClasse = demanderIndiceValide(listeClasses.size());
+      do {
+        try {
+          System.out.print("\033\143");
+        } catch (Exception e) {
+        }
+        System.out.println(nom + ", entrez le numéro associé à la classe de votre choix :");
+        afficherChoix(listeClasses);
+        indexClasse = demanderIndiceValide(listeClasses.size());
+        System.out.println("Vous avez choisis la race " + listeClasses.get(indexClasse).getNom()
+            + ", appuyer sur entrée pour valider ou une autre lettre pour changer de classe.");
+        valide = Input.string();
+      } while (valide != "");
 
       // Création du personnage
       Race raceChoisie = listeRaces.get(indexRace);
