@@ -1,16 +1,16 @@
 package jeu.joueurs;
 
 import jeu.*;
+import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
 import jeu.joueurs.equipement.*;
-import jeu.utils.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Personnage {
+public class Personnage extends Entite {
 
   private String nom;
   private Race race;
