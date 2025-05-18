@@ -1,19 +1,17 @@
 package jeu.joueurs.classes;
 
-/**
- * Roublard
- */
-public class Roublard implements Classe {
+import java.util.Arrays;
 
-  private int m_pv = 16;
-  private String m_nom = "Roublard";
+import jeu.joueurs.equipement.*;
 
-  public String getNom() {
-    return m_nom;
-  }
+public class Roublard extends Classe {
 
-  public String presentation() {
-    return "Roublard : \n\t- " + m_pv
-        + "\n\t- équipement :\n\t\t- rapière\n\t\t- arc court";
-  }
+    public Roublard() {
+        nom = "Roublard.e";
+        pv = 16;
+        listeEquipement = Arrays.asList(
+            new ArmeDeGuerre("Rapiere", "1d8", 1),
+            new ArmeDistance("Arc Court", "1d6", 16)
+        );
+    }
 }

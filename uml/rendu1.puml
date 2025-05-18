@@ -1,5 +1,7 @@
 @startuml
 
+skinparam linetype ortho
+
 !define Interface <<interface>>
 skinparam classAttributeIconSize 0
 

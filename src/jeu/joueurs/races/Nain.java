@@ -1,32 +1,12 @@
 package jeu.joueurs.races;
 
-import jeu.Jeu;
-import jeu.joueurs.*;
+import jeu.Caracteristique;
+import java.util.HashMap;
 
-public class Nain implements Race {
-  String m_nom = "Nain";
-
-  public String presentation() {
-    String pres = m_nom + ": ";
-    for (String s : Jeu.getListeCaracteristiques()) {
-      int n = bonus(s);
-      if (n != 0) {
-        pres += s + " + " + n;
-      }
-    }
-    return pres;
+public class Nain extends Race {
+  public Nain() {
+    nom = "Nain.e";
+    bonusCaracteristiques = new HashMap<>();
+    bonusCaracteristiques.put(Caracteristique.FORCE, 6);
   }
-
-  public int bonus(String c) {
-    if (c == "force") {
-      return 6;
-    } else {
-      return 0;
-    }
-  }
-
-  public String getNom() {
-    return m_nom;
-  }
-
 }

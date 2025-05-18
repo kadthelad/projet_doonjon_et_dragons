@@ -1,15 +1,29 @@
 package jeu.joueurs.races;
 
-import jeu.joueurs.*;
+import jeu.*;
+import java.util.Map;
 
-/**
- * Race
- */
-public interface Race {
+public abstract class Race {
+  protected String nom;
 
-  public String presentation();
+  protected Map<Caracteristique, Integer> bonusCaracteristiques;
 
-  public int bonus(String c);
+  public String getNom() {
+    return nom;
+  }
 
-  public String getNom();
+  public int bonus(Caracteristique c) {
+    return bonusCaracteristiques.getOrDefault(c, 0);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder pres = new StringBuilder(nom);
+    for (Caracteristique c : Caracteristique.values()) {
+      int n = bonus(c); if (n != 0) {
+        pres.append("\n\t").append(c).append(" + ").append(n);
+      }
+    }
+    return pres.toString();
+  }
 }

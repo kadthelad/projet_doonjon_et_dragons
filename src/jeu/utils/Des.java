@@ -16,4 +16,18 @@ public class Des {
   public static int lancer() {
     return lancer(1, 20);
   }
+
+  public static int lancer(String degats) {
+    String arr[] = degats.split("d");
+    int nombreDeDes, nombreDeFaces;
+    try {
+      nombreDeDes = Integer.parseInt(arr[0]);
+      nombreDeFaces = Integer.parseInt(arr[1]);
+
+    } catch (Exception e) {
+      System.out.println("Merci d'entrer un format de lancer valide : 2d4 pour 2 des de 4 faces.");
+      return -1;
+    }
+    return lancer(nombreDeDes, nombreDeFaces);
+  }
 }

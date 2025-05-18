@@ -1,19 +1,17 @@
 package jeu.joueurs.classes;
 
-/**
- * Magicien
- */
-public class Magicien implements Classe {
+import java.util.Arrays;
 
-  private int m_pv = 12;
-  private String m_nom = "Magicien";
+import jeu.joueurs.equipement.*;
 
-  public String getNom() {
-    return m_nom;
-  }
+public class Magicien extends Classe {
 
-  public String presentation() {
-    return "Magicien : \n\t- " + m_pv
-        + "\n\t- équipement :\n\t\t- baton\n\t\t- fronde";
-  }
+    public Magicien() {
+        nom = "Magicien.ne";
+        pv = 12;
+        listeEquipement = Arrays.asList(
+            new ArmeCourante("Baton", "1d6", 1),
+            new ArmeDistance("Fronde", "1d4", 6)
+        );
+    }
 }

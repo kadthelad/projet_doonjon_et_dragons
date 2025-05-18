@@ -1,21 +1,18 @@
 package jeu.joueurs.classes;
 
-/**
- * Clerc
- */
-public class Clerc implements Classe {
+import java.util.Arrays;
 
-  private String m_nom = "Clerc";
+import jeu.joueurs.equipement.*;
 
-  public String getNom() {
-    return m_nom;
-  }
+public class Clerc extends Classe {
 
-  private int m_pv = 16;
-
-  public String presentation() {
-    return "Clerc : \n\t- " + m_pv
-        + "\n\t- équipement :\n\t\t- masse d'arme\n\t\t- armure d'écaille\n\t\t- arbalète légère";
-  }
-
+    public Clerc() {
+        nom = "Clerc";
+        pv = 16;
+        listeEquipement = Arrays.asList(
+            new ArmeCourante("Masse d'Armes", "1d6", 1),
+            new ArmureLegere("Armure d'Ecailles", 9),
+            new ArmeDistance("Arbalete Legere", "1d8", 16)
+        );
+    }
 }
