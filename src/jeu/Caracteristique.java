@@ -1,7 +1,5 @@
 package jeu;
 
-import jeu.Caracteristique;
-
 public enum Caracteristique {
   FORCE,
   DEXTERITE,

@@ -15,25 +15,24 @@ public class Personnage {
   private Race m_race;
   private Classe m_classe;
 
-  private int m_pv = 0;
-
   private Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
   {
     caracteristiques.put(Caracteristique.FORCE, 0);
     caracteristiques.put(Caracteristique.DEXTERITE, 0);
     caracteristiques.put(Caracteristique.VITESSE, 0);
     caracteristiques.put(Caracteristique.INITIATIVE, 0);
+    caracteristiques.put(Caracteristique.PV, 0);
   }
 
-  private ArrayList<Equipement> m_equipement;
-  private Equipement m_armeePortee;
-  private Equipement m_armurePortee;
+  private ArrayList<Equipement> equipement;
+  private Equipement armeePortee;
+  private Equipement armurePortee;
 
   public Personnage(String nom, Race race, Classe classe) {
     this.m_nom = nom;
     this.m_race = race;
     this.m_classe = classe;
-    this.m_pv = classe.getPV();
+    this.caracteristiques.put(Caracteristique.PV, classe.getPV());
 
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       Caracteristique key = entry.getKey();
@@ -44,25 +43,30 @@ public class Personnage {
     if (race instanceof Humain) {
       this.changePV(Humain.getBonus());
     }
+
+    this.equipement = classe.getListeEquipement();
   }
 
   public void changePV(int pv) {
-    this.m_pv += pv;
+    this.changeCaracteristique(Caracteristique.PV, pv);
+  }
+
+  public void getPV() {
+    this.getCaracteristique(Caracteristique.PV);
   }
 
   public void changeCaracteristique(Caracteristique c, int v) {
-    int value = this.caracteristiques.get(c);
-    this.caracteristiques.put(c, value + v);
+    int previous = this.caracteristiques.get(c);
+    this.caracteristiques.put(c, previous + v);
   }
 
-  public int getCaracteristique(String c) {
-    return c == "pv" ? this.m_pv : caracteristiques.get(c);
+  public int getCaracteristique(Caracteristique c) {
+    return caracteristiques.get(c);
   }
 
   // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
   public String getCaracteristique() {
     String c = "";
-    c += "  - pv : " + this.m_pv + "\n";
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       c += "	- " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
@@ -93,10 +97,6 @@ public class Personnage {
     return m_classe;
   }
 
-  public int getPV() {
-    return this.caracteristiques.get("pv");
-  }
-
   @Override
   public String toString() {
 
@@ -104,5 +104,4 @@ public class Personnage {
         + this.getRace().getNom()
         + "\nCaractéristiques :\n" + this.getCaracteristique();
   }
-
 }

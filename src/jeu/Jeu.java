@@ -23,15 +23,9 @@ public class Jeu {
   private static ArrayList<Classe> listeClasses = new ArrayList<>(
       Arrays.asList(new Clerc(), new Guerrier(), new Magicien(), new Roublard()));
 
-  private static ArrayList<Caracteristique> listeCaracteristiques = new ArrayList<>(
-      Arrays.asList(Caracteristique.values()));
 
   public static ArrayList<Personnage> getListePersonnages() {
     return listePersonnages;
-  }
-
-  public static ArrayList<Caracteristique> getListeCaracteristiques() {
-    return listeCaracteristiques;
   }
 
   public static void main(String args[]) {
@@ -55,16 +49,23 @@ public class Jeu {
     for (int i = 0; i < nombreJoueurs; i++) {
       System.out.println("Joueur " + (i + 1) + ", nommez votre personnage :");
       String nom = demanderNom();
+      int indexRace;
+      int indexClasse;
 
       // Choix de la race
+      String valide;
+      do {
       System.out.println(nom + ", entrez le numéro associé à la race de votre choix :");
       afficherChoix(listeRaces);
-      int indexRace = demanderIndiceValide(listeRaces.size());
+      indexRace = demanderIndiceValide(listeRaces.size());
+      System.out.println("Vous avez choisis la race " + listeRaces.get(indexRace) + ", appuyer sur entrée pour valider ou n'importe quelle autre lettre pour changer.");
+      valide = Input.string();
+      } while (valide != "");
 
       // Choix de la classe
       System.out.println(nom + ", entrez le numéro associé à la classe de votre choix :");
       afficherChoix(listeClasses);
-      int indexClasse = demanderIndiceValide(listeClasses.size());
+      indexClasse = demanderIndiceValide(listeClasses.size());
 
       // Création du personnage
       Race raceChoisie = listeRaces.get(indexRace);

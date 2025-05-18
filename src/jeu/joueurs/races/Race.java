@@ -19,9 +19,8 @@ public abstract class Race {
   @Override
   public String toString() {
     StringBuilder pres = new StringBuilder(nom);
-    for (Caracteristique c : Jeu.getListeCaracteristiques()) {
-      int n = bonus(c);
-      if (n != 0) {
+    for (Caracteristique c : Caracteristique.values()) {
+      int n = bonus(c); if (n != 0) {
         pres.append("\n\t").append(c).append(" + ").append(n);
       }
     }
