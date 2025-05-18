@@ -34,6 +34,10 @@ public class Position {
     return this;
   }
 
+  public int distance(int x, int y) {
+    return Math.abs((x - this.x) + (y - this.y));
+  }
+
 
   public boolean equalsTo(Position pos2) {
     return this.getX() == pos2.getX() && this.getY() == pos2.getY();
