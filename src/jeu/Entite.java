@@ -6,18 +6,16 @@ public abstract class Entite {
   private Position position;  
 
   public Position getPosition() {
-    return this.position;
+    return this.position.get();
   }
 
   public Position TP(int x, int y) {
-    this.position = new Position(x, y);
+    this.position = this.position.TP(x, y);
     return this.position;
   }
 
-  public Position move(int movex, int movey) {
-    int x = this.position.getX();
-    int y = this.position.getY();
-    this.position = new Position(x + movex, y + movey);
+  public Position move(int x, int y) {
+    this.position = this.position.move(x, y);
     return this.position;
   }
 }
