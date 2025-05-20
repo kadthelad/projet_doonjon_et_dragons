@@ -1,8 +1,9 @@
-package maitre;
+package jeu.maitre;
 
 import jeu.joueurs.equipement.Equipement;
 import jeu.joueurs.Personnage;
-import mapLogic.Vector;
+import jeu.utils.Position;
+import jeu.maitre.Carte;
 
 
 public class Donjon {
@@ -11,13 +12,13 @@ public class Donjon {
 
 
     private Carte carte;
-    private Vector[] obstacles;
+    private Position[] obstacles;
     private Personnage[] personnages;
     private Equipement[] equipement;
 
     private int tour = 0;
 
-    public Donjon(Carte carteJeu, Vector[] lstObstacles, Personnage[] lstPersonnages, Equipement[] lstEquipements)
+    public Donjon(Carte carteJeu, Position[] lstObstacles, Personnage[] lstPersonnages, Equipement[] lstEquipements)
     {
         ///  CONSTRUCTEUR DE LA CLASSE Donjon ///
         this.carte = carteJeu;

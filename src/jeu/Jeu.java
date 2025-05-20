@@ -1,11 +1,26 @@
 package jeu;
 
 import jeu.joueurs.*;
+import jeu.maitre.*;
+import jeu.maitre.maitreJeu.InterfaceUtilisateur;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Jeu {
+  // Liste des Cartes
+  private static ArrayList<Carte> listeCartes = new ArrayList<>();
+
+  public static ArrayList<Carte> getListeCartes() {
+    return listeCartes;
+  }
+
+  // Liste des Monstres
+  private static ArrayList<Monstre> listeMonstres = new ArrayList<>();
+
+  public static ArrayList<Monstre> getListeMonstres () {
+    return listeMonstres;
+  }
 
   // Liste des personnages
   private static ArrayList<Personnage> listePersonnages = new ArrayList<>();
@@ -14,9 +29,21 @@ public class Jeu {
     return listePersonnages;
   }
 
+
+
   public static void main(String args[]) {
-    int nombreJoueurs = InitialisationJoueurs.combienJoueurs();
-    // creation des personnages
-    listePersonnages = InitialisationJoueurs.creationPersonnages(nombreJoueurs);
+    boolean game = true;
+    while (game)
+    {
+      int exitValue = InterfaceUtilisateur.MainMenu(listeCartes, listeMonstres, listePersonnages);
+      switch (exitValue)
+      {
+        case 0: // QUITTER LE JEU
+          game = false;
+          break;
+        case 1: // CONTINUER LE JEU
+          break;
+      }
+    }
   }
 }

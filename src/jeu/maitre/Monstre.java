@@ -1,12 +1,13 @@
 package jeu.maitre;
 
+import jeu.Entite;
 import jeu.utils.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Monstre
+public class Monstre extends Entite
 {
     private String m_espece = "";
     private int m_numero = 0; // si il existe plusieurs monstres de la meme espece
