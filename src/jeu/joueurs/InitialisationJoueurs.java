@@ -54,7 +54,7 @@ public class InitialisationJoueurs {
         afficherChoix(listeRaces);
         indexRace = demanderIndiceValide(listeRaces.size());
         System.out.println("Vous avez choisis la race " + listeRaces.get(indexRace).getNom()
-            + ", appuyer sur entrée pour valider ou une autre lettre pour changer de race.");
+            + ".\nAppuyer sur entrée pour valider ou sur une autre lettre pour changer de race.");
         valide = Input.string();
       } while (valide != "");
 
@@ -68,7 +68,7 @@ public class InitialisationJoueurs {
         afficherChoix(listeClasses);
         indexClasse = demanderIndiceValide(listeClasses.size());
         System.out.println("Vous avez choisis la classe " + listeClasses.get(indexClasse).getNom()
-            + ", appuyer sur entrée pour valider ou une autre lettre pour changer de classe.");
+            + ".\nAppuyer sur entrée pour valider ou sur une autre lettre pour changer de classe.");
         valide = Input.string();
       } while (valide != "");
 
