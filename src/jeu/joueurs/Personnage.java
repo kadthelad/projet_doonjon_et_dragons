@@ -37,12 +37,14 @@ public class Personnage extends Entite {
 
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       Caracteristique key = entry.getKey();
-      int value = Des.lancer(4, 4) + race.bonus(key);
-      entry.setValue(value);
-    }
-
-    if (race instanceof Humain) {
-      this.changePV(Humain.getBonus());
+      int value;
+      if (key == Caracteristique.PV) {
+        value = race.bonus(key) + entry.getValue();
+        entry.setValue(value);
+      } else {
+        value = Des.lancer(4, 4) + race.bonus(key);
+        entry.setValue(value);
+      }
     }
 
     this.equipement = classe.getListeEquipement();

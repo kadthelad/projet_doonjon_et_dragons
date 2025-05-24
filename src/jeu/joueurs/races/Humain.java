@@ -15,8 +15,4 @@ public class Humain extends Race {
     bonusCaracteristiques.put(Caracteristique.FORCE, valeurBonus);
     bonusCaracteristiques.put(Caracteristique.PV, valeurBonus);
   }
-
-  public static int getBonus() {
-    return valeurBonus;
-  }
 }
