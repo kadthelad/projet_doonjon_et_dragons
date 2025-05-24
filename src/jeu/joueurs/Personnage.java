@@ -26,8 +26,8 @@ public class Personnage extends Entite {
   }
 
   private List<Equipement> equipement;
-  private Equipement armeePortee;
-  private Equipement armurePortee;
+  private Arme armeePortee;
+  private Armure armurePortee;
 
   public Personnage(String nom, Race race, Classe classe) {
     this.nom = nom;
@@ -67,7 +67,7 @@ public class Personnage extends Entite {
     return caracteristiques.get(c);
   }
 
-  // si aucune caracteristique n'est spécifié on print toutes les caractéristiques
+  // si aucune caractéristique n'est spécifié on print toutes les caractéristiques
   public String getCaracteristique() {
     String c = "";
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
@@ -80,11 +80,11 @@ public class Personnage extends Entite {
     this.equipement.add(e);
   }
 
-  public void changeArmeePortee(Equipement armeePortee) {
+  public void changeArmeePortee(Arme armeePortee) {
     this.armeePortee = armeePortee;
   }
 
-  public void changeArmurePortee(Equipement armurePortee) {
+  public void changeArmurePortee(Armure armurePortee) {
     this.armurePortee = armurePortee;
   }
 
@@ -98,6 +98,20 @@ public class Personnage extends Entite {
 
   public Classe getClasse() {
     return classe;
+  }
+
+  public boolean attaque(Entite cible) {
+    int d = distance(cible.getPosition());
+    if (d > this.armeePortee.getPortee()) {
+      Output.print("La cible est trop loin ( " + d + ")");
+      return false;
+    }
+    int degats = Des.lancer();
+    degats += (this.armeePortee instanceof ArmeDistance) 
+        ? this.getCaracteristique(Caracteristique.DEXTERITE)
+        : this.getCaracteristique(Caracteristique.FORCE);
+
+    return true;
   }
 
   @Override
