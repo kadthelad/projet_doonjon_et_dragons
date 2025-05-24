@@ -102,14 +102,24 @@ public class Personnage extends Entite {
 
   public boolean attaque(Entite cible) {
     int d = distance(cible.getPosition());
-    if (d > this.armeePortee.getPortee()) {
-      Output.print("La cible est trop loin ( " + d + ")");
+    int portee = this.armeePortee.getPortee();
+    if (d > portee ) {
+      Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
       return false;
     }
-    int degats = Des.lancer();
-    degats += (this.armeePortee instanceof ArmeDistance) 
+    int jet = Des.lancer();
+    jet += (this.armeePortee instanceof ArmeDistance) 
         ? this.getCaracteristique(Caracteristique.DEXTERITE)
         : this.getCaracteristique(Caracteristique.FORCE);
+
+    if (jet < cible.getCA()) {
+      return false;
+    }
+
+    int degats = Des.lancer(this.armeePortee.getDegats()); 
+    cible.changePV(degats * -1);
+
+    Output.print("Vous avez infligé " + degats + " degats à " + cible.getNom());
 
     return true;
   }

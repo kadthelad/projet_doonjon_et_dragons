@@ -109,7 +109,7 @@ public class InitialisationJoueurs {
   private static int demanderIndiceValide(int tailleListe) {
     int choix = Input.entier();
     while (choix < 0 || choix >= tailleListe) {
-      System.out.println("Merci de choisir un numéro valide entre 0 et " + (tailleListe - 1) + " :");
+      System.out.println("Merci de choisir un numéro entre 0 et " + (tailleListe - 1) + " :");
       choix = Input.entier();
     }
     return choix;

@@ -28,4 +28,10 @@ public abstract class Entite {
   }
 
   public abstract boolean attaque(Entite cible);
+
+  public abstract int getCA();
+
+  public abstract String getNom();
+
+  public abstract void changePV(int pv);
 }
