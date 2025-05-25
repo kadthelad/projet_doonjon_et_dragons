@@ -22,4 +22,16 @@ public abstract class Entite {
   public int distance(int x, int y) {
     return this.position.distance(x, y);
   }
+
+  public int distance(Position p) {
+    return this.position.distance(p);
+  }
+
+  public abstract boolean attaque(Entite cible);
+
+  public abstract int getCA();
+
+  public abstract String getNom();
+
+  public abstract void changePV(int pv);
 }
