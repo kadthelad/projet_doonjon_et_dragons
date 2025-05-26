@@ -80,11 +80,11 @@ public class Personnage extends Entite {
     this.equipement.add(e);
   }
 
-  public void changeArmeePortee(Arme arme) {
+  public void changeArmeeEquipee(Arme arme) {
     this.armeEquipee = arme;
   }
 
-  public void changeArmurePortee(Armure armure) {
+  public void changeArmureEquipee(Armure armure) {
     this.armureEquipee = armure;
   }
 
