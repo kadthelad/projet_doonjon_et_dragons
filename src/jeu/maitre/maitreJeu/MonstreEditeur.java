@@ -41,7 +41,7 @@ public class MonstreEditeur
           listMonstres.add(ajoutMonstre());
           break;
         case 1:
-          //supprMonstre();
+          supprMonstre(listMonstres);
           break;
         case 2:
           inMstrEditor = false;
@@ -54,9 +54,9 @@ public class MonstreEditeur
     return 1;
   }
 
-  private static jeu.maitre.Monstre ajoutMonstre()
+  private static Monstre ajoutMonstre()
   {
-    String nomMstr;
+    String nomMstr = "";
     String attMstr = "";
     int[] speAttMstr = {0, 0, 0};
     int pdv = 0;
@@ -72,15 +72,28 @@ public class MonstreEditeur
 
     System.out.println("----- CREATION DE MONSTRE -----");
     // nommer le monstre
-    System.out.println("Donnez un nom à votre monstre");
-    nomMstr = Input.string();
+    boolean chooseName = true;
+    while (chooseName)
+    {
+      System.out.println("Donnez un nom à l'espèce du monstre");
+      nomMstr = Input.string();
+      if (nomMstr != "")
+      {
+        chooseName = false;
+      }
+      else
+      {
+        System.out.println("[!] Veuillez écrire un nom pour l'espèce du monstre!\n");
+      }
+    }
+
 
     // créer une attaque
     boolean inAttEditor = true;
     while (inAttEditor)
     {
       System.out.println("Donnez un nom à l'attaque du monstre " + nomMstr);
-      nomMstr = Input.string();
+      attMstr = Input.string();
 
       System.out.println("Combien de dégâts fera votre attaque?");
       speAttMstr[0] = jeu.utils.Input.entier();
@@ -141,7 +154,7 @@ public class MonstreEditeur
     }
 
     System.out.println("Le monstre " + nomMstr + " est ajouté dans la liste des monstres!");
-    return new jeu.maitre.Monstre(nomMstr, attMstr, speAttMstr, pdv, caraMstr);
+    return new Monstre(nomMstr, attMstr, speAttMstr, pdv, caraMstr);
   }
 
   private static void supprMonstre(ArrayList<Monstre> listMonstres)
@@ -152,7 +165,7 @@ public class MonstreEditeur
     {
       if (listMonstres.isEmpty())
       {
-        System.out.println("[!] Il n'y a pas de monstres crée!");
+        System.out.println("[!] Il n'y a pas de monstre crée!\n");
         return;
       }
       // supprimer un monstre
@@ -169,7 +182,7 @@ public class MonstreEditeur
       }
       else if (userInt <= listMonstres.size())
       {
-        System.out.println("[!] Monstre " + listMonstres.get(userInt).getEspece() + " supprimé!");
+        System.out.println("[!] Monstre " + listMonstres.get(userInt).getEspece() + " supprimé!\n");
         listMonstres.remove(userInt);
       }
       else

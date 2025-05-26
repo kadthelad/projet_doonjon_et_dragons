@@ -2,6 +2,7 @@ package jeu.maitre;
 
 import jeu.utils.*;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 
@@ -17,6 +18,15 @@ public class Carte {
         ///  CONSTRUCTEUR DE LA CLASSE Carte ///
         this.taillex = tailleMapx;
         this.tailley = tailleMapy;
+    }
+
+    // pour copier la carte (utilisé dans CarteEditeur.editerCarte())
+    public Carte(Carte autreCarte)
+    {
+        this.taillex = autreCarte.getTaille().getX();
+        this.tailley = autreCarte.getTaille().getY();
+        this.name = autreCarte.getName();
+        this.obstacles.addAll(autreCarte.getObstacles());
     }
 
     public ArrayList<Position> getObstacles()
@@ -110,6 +120,9 @@ public class Carte {
                         }
                     }
                 }
+                // Si il y a un ennemi, changer le . en son icone
+                // CODE
+
                 if (isObstacle) {
                     if (y>=9)
                     {
@@ -136,4 +149,26 @@ public class Carte {
         }
     }
 
+    public void changeSize(int x, int y)
+    {
+        this.taillex = x;
+        this.tailley = y;
+
+        if (!this.obstacles.isEmpty())
+        {
+            ArrayList<Position> posToDelete = new ArrayList<>() {};
+            for (Position obsPos : this.obstacles)
+            {
+                // Supprimer tous les obstacles out of bounds
+                if (obsPos.getX() > x || obsPos.getY() > y)
+                {
+                    posToDelete.add(obsPos);
+                }
+            }
+            for (Position pos : posToDelete)
+            {
+                this.obstacles.remove(pos);
+            }
+        }
+    }
 }

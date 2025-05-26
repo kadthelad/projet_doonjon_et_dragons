@@ -38,22 +38,23 @@ public class InterfaceUtilisateur
           boolean verif = true;
           if (listeCartes.isEmpty())
           {
-            System.out.println("[!] Il faut avoir crée au moins une carte pour jouer!");
+            System.out.println("[!] Il faut avoir crée au moins une carte pour jouer!\n");
             verif = false;
           }
           if (listeMonstres.isEmpty())
           {
-            System.out.println("[!] Il faut avoir crée au moins un monstre crée pour jouer!");
+            System.out.println("[!] Il faut avoir crée au moins un monstre pour jouer!\n");
             verif = false;
           }
           if (listePersonnages.isEmpty())
           {
-            System.out.println("[!] Il faut avoir crée au moins un joueur pour jouer!");
+            System.out.println("[!] Il faut avoir crée au moins un joueur pour jouer!\n");
             verif = false;
           }
           if (verif)
           {
-            return 1;
+
+            return InterfaceJeu.commencerJeu(listeCartes, listeMonstres, listePersonnages);
           }
           else
           {

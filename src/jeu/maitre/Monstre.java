@@ -2,6 +2,7 @@ package jeu.maitre;
 
 import jeu.Entite;
 import jeu.utils.Position;
+import jeu.Caracteristique;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,21 @@ public class Monstre extends Entite
     public Position getPosition()
     {
         return this.m_position;
+    }
+
+    public boolean attaque(Entite cible)
+    {
+        return false;
+    }
+
+    public int getCA()
+    {
+        return this.mapCaracteristiques.get("classeArmure");
+    }
+
+    public String getNom()
+    {
+        return this.m_espece+this.m_numero;
     }
 
     @Override
