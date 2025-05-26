@@ -38,6 +38,10 @@ public class Position {
     return Math.abs((x - this.x) + (y - this.y));
   }
 
+  public int distance(Position p) {
+    return this.distance(p.getX(), p.getY());
+  }
+
 
   public boolean equalsTo(Position pos2) {
     return this.getX() == pos2.getX() && this.getY() == pos2.getY();
