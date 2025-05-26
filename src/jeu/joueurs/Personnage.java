@@ -5,7 +5,6 @@ import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
 import jeu.joueurs.equipement.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -117,7 +116,7 @@ public class Personnage extends Entite {
       Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
       return false;
     }
-    int jet = Des.lancer();
+    int jet = Des.lancer() + this.armeEquipee.getBonus();
     jet += (this.armeEquipee instanceof ArmeDistance) 
         ? this.getCaracteristique(Caracteristique.DEXTERITE)
         : this.getCaracteristique(Caracteristique.FORCE);
