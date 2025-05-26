@@ -1,7 +1,6 @@
 package jeu;
 
 import jeu.joueurs.*;
-import jeu.maitre.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
