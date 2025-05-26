@@ -1,6 +1,7 @@
 package jeu;
 
 import jeu.joueurs.*;
+import jeu.maitre.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +16,13 @@ public class Jeu {
   }
 
   public static void main(String args[]) {
-    int nombreJoueurs = InitialisationJoueurs.combienJoueurs();
+    // creation des monstres cartes etc
+
     // creation des personnages
+    int nombreJoueurs = InitialisationJoueurs.combienJoueurs();
     listePersonnages = InitialisationJoueurs.creationPersonnages(nombreJoueurs);
+
+    // debut jeu
+    
   }
 }

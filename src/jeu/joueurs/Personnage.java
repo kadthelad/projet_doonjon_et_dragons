@@ -117,6 +117,7 @@ public class Personnage extends Entite {
         : this.getCaracteristique(Caracteristique.FORCE);
 
     if (jet < cible.getCA()) {
+      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :" + cible.getCA() + ")");
       return false;
     }
 
