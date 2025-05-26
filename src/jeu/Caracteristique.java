@@ -5,6 +5,7 @@ public enum Caracteristique {
   DEXTERITE,
   VITESSE,
   INITIATIVE,
+  PV_MAX,
   PV;
 
   @Override

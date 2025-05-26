@@ -23,6 +23,7 @@ public class Personnage extends Entite {
     caracteristiques.put(Caracteristique.VITESSE, 0);
     caracteristiques.put(Caracteristique.INITIATIVE, 0);
     caracteristiques.put(Caracteristique.PV, 0);
+    caracteristiques.put(Caracteristique.PV_MAX, 0);
   }
 
   private List<Equipement> equipement;
@@ -38,7 +39,7 @@ public class Personnage extends Entite {
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       Caracteristique key = entry.getKey();
       int value;
-      if (key == Caracteristique.PV) {
+      if (key == Caracteristique.PV || key == Caracteristique.PV_MAX) {
         value = race.bonus(key) + entry.getValue();
         entry.setValue(value);
       } else {
@@ -52,6 +53,11 @@ public class Personnage extends Entite {
 
   public void changePV(int pv) {
     this.changeCaracteristique(Caracteristique.PV, pv);
+
+    int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
+    if (this.caracteristiques.get(Caracteristique.PV) >  pvMax ){
+      this.caracteristiques.put(Caracteristique.PV, pvMax);
+    }
   }
 
   public void getPV() {
