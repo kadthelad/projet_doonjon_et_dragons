@@ -2,6 +2,7 @@ package jeu.maitre.maitreJeu;
 import jeu.maitre.Carte;
 import jeu.maitre.Monstre;
 import jeu.utils.Input;
+import jeu.utils.Output;
 import jeu.utils.Position;
 
 import java.util.ArrayList;
@@ -162,7 +163,7 @@ public class CarteEditeur
     int userInput;
     String userStrInput;
 
-    Carte carteCreee = new Carte(0, 0);
+    Carte carteCreee = new Carte(15, 15);
     changerTailleMap(carteCreee);
 
     boolean inMapEditor = true;
@@ -203,7 +204,9 @@ public class CarteEditeur
                 {
                   carteCreee.setName(userStrInput);
                 }
+
                 listCartes.add(carteCreee);
+                Output.print("La carte " + carteCreee.getName() + " à été sauvegardé avec succès!");
                 confirmExit = false;
                 inMapEditor = false;
                 break;
@@ -347,6 +350,7 @@ public class CarteEditeur
           else
           {
             System.out.println("Il n'y a pas d'obstacle à " + new Position(taillex, tailley).toString());
+            inObstacleRemv = false;
           }
         }
         else

@@ -1,7 +1,11 @@
 package jeu.maitre.maitreJeu;
+import jeu.Caracteristique;
+import jeu.maitre.Carte;
 import jeu.maitre.Monstre;
 import jeu.utils.Input;
+import jeu.utils.Output;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +37,7 @@ public class MonstreEditeur
         }
       }
 
-      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Continuer");
+      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Modifier un monstre\n[3] Continuer");
       userInput = jeu.utils.Input.entier();
       switch (userInput)
       {
@@ -44,6 +48,9 @@ public class MonstreEditeur
           supprMonstre(listMonstres);
           break;
         case 2:
+          modifMonstre(listMonstres);
+          break;
+        case 3:
           inMstrEditor = false;
           break;
         default:
@@ -56,17 +63,17 @@ public class MonstreEditeur
 
   private static Monstre ajoutMonstre()
   {
+    // variables
     String nomMstr = "";
-    String attMstr = "";
-    int[] speAttMstr = {0, 0, 0};
-    int pdv = 0;
-    Map<String, Integer> caraMstr = new HashMap<>();
+    String attMstr[];
+    Map<Caracteristique, Integer> caraMstr = new HashMap<>();
     {
-      caraMstr.put("force", 0);
-      caraMstr.put("dexterite", 0);
-      caraMstr.put("vitesse", 0);
-      caraMstr.put("initiative", 0);
-      caraMstr.put("classeArmure", 0);
+      caraMstr.put(Caracteristique.PV, 0);
+      caraMstr.put(Caracteristique.DEXTERITE, 0);
+      caraMstr.put(Caracteristique.VITESSE, 0);
+      caraMstr.put(Caracteristique.INITIATIVE, 0);
+      caraMstr.put(Caracteristique.FORCE, 0);
+      caraMstr.put(Caracteristique.CLASSE_ARMURE, 0);
     }
 
 
@@ -87,74 +94,25 @@ public class MonstreEditeur
       }
     }
 
+    // setup son attaque
+    attMstr = editMonstreAttaque();
 
-    // créer une attaque
-    boolean inAttEditor = true;
-    while (inAttEditor)
+
+    // setup les caractéristiques
+    Output.print("--- Caractéristiques ---\n");
+    for (Map.Entry<Caracteristique, Integer> cara : caraMstr.entrySet())
     {
-      System.out.println("Donnez un nom à l'attaque du monstre " + nomMstr);
-      attMstr = Input.string();
-
-      System.out.println("Combien de dégâts fera votre attaque?");
-      speAttMstr[0] = jeu.utils.Input.entier();
-      System.out.println("Combien de dés devra-t'il jeter?");
-      speAttMstr[1] = jeu.utils.Input.entier();
-      System.out.println("Quelle sera la valeur de son/ses dé(s)?");
-      speAttMstr[2] = jeu.utils.Input.entier();
-
-      System.out.println("----- Caractéristiques de l'attaque " + attMstr + " -----");
-      System.out.println(speAttMstr[0] + " dégàt(s), " + speAttMstr[1]+"d"+speAttMstr[2]);
-      System.out.println("--------------\nVoulez vous garder cette attaque?\n[0] Oui, continuer\n[1] Non, refaire");
-      int userInt = jeu.utils.Input.entier();
-      switch (userInt)
-      {
-        case 0:
-          inAttEditor = false;
-          break;
-        case 1:
-          break;
-        default:
-          System.out.println("Veuillez entrer une commande valide!");
-          break;
-      }
+      Output.print("Entrez une valeur pour la caractéristique de " + cara.getKey() + " : ");
+      int userInt = Input.entier();
+      caraMstr.replace(cara.getKey(), userInt);
     }
 
-    // set les caractéristiques du monstre
-    boolean inCaraEditor = true;
-    while (inCaraEditor)
-    {
-      // pour avoir chaque valeur des caractéristiques dans une clé
-      List<String> keys = new ArrayList<>(caraMstr.keySet());
-      System.out.println("Choisir les caractéristiques du monstre : " +
-              "\n[0] - " + pdv + " HP");
+    Monstre monstreCree = new Monstre(nomMstr, attMstr[0], attMstr[1], caraMstr);
 
-      for (int i=0; i<caraMstr.size(); i++)
-      {
-        System.out.println("["+(i+1)+"] - " + caraMstr.get(keys.get(i)) + " " + keys.get(i));
-      }
-      System.out.println("["+(caraMstr.size()+1)+"] - Pour quitter l'éditeur de caractéristiques.");
-      int userInt1 = jeu.utils.Input.entier();
-      int userInt2;
-      if (userInt1 < 0 || userInt1>caraMstr.size())
-      {
-        inCaraEditor = false;
-      }
-      else if (userInt1 == 0)
-      {
-        System.out.print("Entrez une nouvelle valeur pour cette caracteristique: ");
-        userInt2 = jeu.utils.Input.entier();
-        pdv = userInt2;
-      }
-      else
-      {
-        System.out.print("Entrez une nouvelle valeur pour cette caracteristique: ");
-        userInt2 = jeu.utils.Input.entier();
-        caraMstr.replace(keys.get(userInt1-1), userInt2);
-      }
-    }
+    Output.print("Voici le monstre crée : \n" + monstreCree);
 
-    System.out.println("Le monstre " + nomMstr + " est ajouté dans la liste des monstres!");
-    return new Monstre(nomMstr, attMstr, speAttMstr, pdv, caraMstr);
+    System.out.println("Le monstre " + monstreCree.getEspece() + " est ajouté dans la liste des monstres!");
+    return monstreCree;
   }
 
   private static void supprMonstre(ArrayList<Monstre> listMonstres)
@@ -190,5 +148,154 @@ public class MonstreEditeur
         System.out.println("Entrez une commande existante!");
       }
     }
+  }
+
+  private static void modifMonstre(ArrayList<Monstre> listMonstre)
+  {
+    if (listMonstre.isEmpty())
+    {
+      Output.print("Vous n'avez pas crée de monstre pour l'instant!");
+      return;
+    }
+
+    Output.print("--- Modification Monstre ---\nQuel monstre voulez-vous modifier?\n");
+    for (Monstre mstr : listMonstre)
+    {
+      Output.print("[" + listMonstre.indexOf(mstr) + "]" + mstr.getEspece());
+    }
+    int userInt = Input.entier();
+    if (userInt < listMonstre.size())
+    {
+      boolean inMstrEditing = true;
+      Monstre mstrChoisi = listMonstre.get(userInt);
+      Monstre mstrNonSauvegarde = new Monstre(mstrChoisi);
+
+      while (inMstrEditing)
+      {
+        Output.print("Vous éditez " + mstrChoisi.getEspece() +
+                "\n[0] Changer son nom" +
+                "\n[1] Changer son attaque" +
+                "\n[2] Changer ses caractéristiques" +
+                "\n[3] Voir le monstre" +
+                "\n[4] Sauvegarder et revenir à l'éditeur de monstre" +
+                "\n[5] Revenir à l'éditeur de monstre sans sauvegarder");
+        int userInt2 = Input.entier();
+        switch (userInt2)
+        {
+          case 0:
+            Output.print("Entrez un noveau nom : ");
+            mstrChoisi.setEspece(Input.string());
+            break;
+          case 1:
+            String[] attInfo = editMonstreAttaque();
+            mstrChoisi.setNomAtt(attInfo[0]);
+            mstrChoisi.setSpeAtt(attInfo[1]);
+            break;
+          case 2:
+            editMonstreCaracteristiques(mstrChoisi);
+            break;
+          case 3:
+            Output.print(mstrChoisi.toString());
+            break;
+          case 4:
+            Output.print("Le monstre " + mstrChoisi.getEspece() + " à été sauvegardé avec succès!");
+            inMstrEditing = false;
+            break;
+          case 5:
+            Output.print("Êtes-vous sûr.e de quitter sans sauvegarder? (toutes vos modifications seront perdues!)" +
+                    "\n[0] Oui" +
+                    "\n[1] Non");
+            int userDecision = Input.entier();
+            switch (userDecision)
+            {
+              case 0:
+                listMonstre.set(userInt, mstrNonSauvegarde);
+                Output.print("Le monstre " + mstrNonSauvegarde.getEspece() + " à été rétabli par défaut");
+                inMstrEditing = false;
+                break;
+              case 1:
+                break;
+              default:
+                Output.print("Vous n'avez pas entré une commande valide, retour en arrière");
+                break;
+            }
+            break;
+          default:
+            Output.print("Veuillez entrer une commande valide!");
+            break;
+        }
+      }
+    }
+  }
+
+  private static String[] editMonstreAttaque()
+  {
+    String attMstr = "";
+    String speAttMstr = "";
+
+    // créer une attaque
+    boolean inAttEditor = true;
+    while (inAttEditor)
+    {
+      System.out.println("Donnez un nom à l'attaque du monstre");
+      attMstr = Input.string();
+
+      System.out.println("Combien de dés devra-t'il jeter?");
+      speAttMstr += Input.entier();
+      speAttMstr += "d";
+      System.out.println("Quelle sera la valeur de son/ses dé(s)?");
+      speAttMstr += Input.entier();
+
+      System.out.println("----- Caractéristiques de l'attaque " + attMstr + " -----");
+      System.out.println(speAttMstr);
+      System.out.println("--------------\nVoulez vous garder cette attaque?\n[0] Oui, continuer\n[1] Non, refaire");
+      int userInt = jeu.utils.Input.entier();
+      switch (userInt)
+      {
+        case 0:
+          inAttEditor = false;
+          break;
+        case 1:
+          break;
+        default:
+          System.out.println("Veuillez entrer une commande valide!");
+          break;
+      }
+    }
+
+    return new String[]{attMstr, speAttMstr};
+  }
+
+  private static void editMonstreCaracteristiques(Monstre mstrEditer)
+  {
+    Map<Caracteristique, Integer> caraMstr = mstrEditer.getMapCaracteristiques();
+
+    // set les caractéristiques du monstre
+    boolean inCaraEditor = true;
+    while (inCaraEditor)
+    {
+      // pour avoir chaque valeur des caractéristiques dans une clé
+      List<Caracteristique> keys = new ArrayList<>(caraMstr.keySet());
+      System.out.println("Choisir les caractéristiques du monstre : ");
+
+      for (int i=0; i<caraMstr.size(); i++)
+      {
+        System.out.println("["+(i+1)+"] - " + caraMstr.get(keys.get(i)) + " " + keys.get(i));
+      }
+      System.out.println("["+(caraMstr.size()+1)+"] - Pour quitter l'éditeur de caractéristiques.");
+      int userInt1 = jeu.utils.Input.entier();
+      int userInt2;
+      if (userInt1 < 0 || userInt1>caraMstr.size())
+      {
+        inCaraEditor = false;
+      }
+      else
+      {
+        System.out.print("Entrez une nouvelle valeur pour cette caracteristique: ");
+        userInt2 = jeu.utils.Input.entier();
+        caraMstr.replace(keys.get(userInt1-1), userInt2);
+      }
+    }
+    return;
   }
 }

@@ -106,7 +106,8 @@ public class InterfaceJeu
       {
         if (listCartesDonjon.contains(listCartes.get(userInt)))
         {
-          Output.print("[!] La carte " + listCartes.get(userInt).getName() + " est déjà dans le donjon!\n");
+          listCartesDonjon.remove(listCartes.get(userInt));
+          Output.print("La carte " + listCartes.get(userInt).getName() + " a été retiré du donjon!\n");
         }
         else
         {
@@ -119,7 +120,51 @@ public class InterfaceJeu
 
   private static void preparerCartes(ArrayList<Carte> listCartesDonjon)
   {
+    boolean inPreparingMap = true;
 
+    while (inPreparingMap)
+    {
+      // choisir une carte
+      Output.print("-- Quelle carte voulez-vous modifier? --\n");
+      for (int i = 0; i < listCartesDonjon.size(); i++)
+      {
+        Output.print("[" + i + "] - " + listCartesDonjon.get(i).getName());
+      }
+      Output.print("[" + listCartesDonjon.size() + "] - Revenir au menu de jeu\n");
+      int userInt = jeu.utils.Input.entier();
+      if (userInt == listCartesDonjon.size()) // Retourner au menu de jeu
+      {
+        return;
+      }
+      else if (userInt < listCartesDonjon.size()) // préparer cette carte
+      {
+        boolean inMapEditor = true;
+        while (inMapEditor)
+        {
+          Output.print("==== Modification de la carte " + listCartesDonjon.get(userInt).getName() + " ====\n" +
+                  "[0] Ajouter un objet au sol" +
+                  "[1] Ajouter un monstre" +
+                  "[2] Placer les joueurs" +
+                  "[3] Retour au menu de jeu");
+          int userInt2 = Input.entier();
+          switch (userInt2)
+          {
+            case 0: // ajouter objet au sol
+              break;
+            case 1: // ajouter monstre sur la carte
+              break;
+            case 2: // placer joueurs
+              break;
+            case 3: // retour en arrière
+              inMapEditor = false;
+              break;
+            default:
+              Output.print("Veuillez entrer une commande valide!");
+              break;
+          }
+        }
+      }
+    }
   }
 
 }

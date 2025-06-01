@@ -1,5 +1,6 @@
 package jeu.maitre;
 
+import jeu.Entite;
 import jeu.utils.*;
 
 import java.security.PublicKey;
@@ -11,6 +12,7 @@ public class Carte {
     private String name = "Carte sans nom";
     private int taillex;
     private int tailley;
+    private ArrayList<ArrayList<Tile>> map = new ArrayList<>();
     private ArrayList<Position> obstacles = new ArrayList<Position>() {};
 
     public Carte(int tailleMapx, int tailleMapy)
@@ -18,6 +20,16 @@ public class Carte {
         ///  CONSTRUCTEUR DE LA CLASSE Carte ///
         this.taillex = tailleMapx;
         this.tailley = tailleMapy;
+
+        // construction map
+        for (int y=0; y<tailley; y++)
+        {
+            this.map.add(new ArrayList<>());
+            for (int x=0; x<taillex; x++)
+            {
+                this.map.get(y).add(x, new Tile(new Position(x, y)));
+            }
+        }
     }
 
     // pour copier la carte (utilisé dans CarteEditeur.editerCarte())
@@ -36,6 +48,7 @@ public class Carte {
 
     public void addObstacle(Position pos)
     {
+        this.map.get(pos.getY()-1).get(pos.getX()-1).setChose("[x]");
         this.obstacles.add(pos);
     }
 
@@ -45,6 +58,7 @@ public class Carte {
         {
             if (pos.equalsTo(this.obstacles.get(i)))
             {
+                this.map.get(pos.getY()-1).get(pos.getX()-1).setChose(" . ");
                 this.obstacles.remove(i);
             }
         }
@@ -79,71 +93,32 @@ public class Carte {
 
     public void afficherCarte()
     {
+        String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         String ligneAbscisse = "   *";
         System.out.print("   ");
         // Créer la ligne du haut
         for (int i=0; i<taillex; i++) {
-            System.out.print(" " + (i + 1) + " ");
-            if (i>9)
-            {
-                ligneAbscisse += "----";
-            }
-            else
-            {
-                ligneAbscisse += "---";
-            }
+            System.out.print(" " + (alph.charAt(i)) + " ");
+            ligneAbscisse += "---";
         }
         System.out.print("\n");
         System.out.println(ligneAbscisse+"*");
 
         // Faire le tableau
-        for (int i=0; i<tailley; i++) {
-            if (i<9)
+        for (int y=0; y<tailley; y++) {
+            if (y<9)
             {
-                System.out.print((i+1) + " |");
+                System.out.print((y+1) + " |");
             }
             else
             {
-                System.out.print((i+1) + "|");
+                System.out.print((y+1) + "|");
             }
             String points = "";
-            for (int y=0; y<taillex; y++)
+            for (int x=0; x<taillex; x++)
             {
-                // Si dans une case il y a un obstacle, changer le point . en [ ]
-                boolean isObstacle = false;
-                if (!this.obstacles.isEmpty())
-                {
-                    for (Position obsPos : this.obstacles) {
-                        if (new Position(y+1, i+1).equalsTo(obsPos)) {
-                            isObstacle = true;
-                            break;
-                        }
-                    }
-                }
-                // Si il y a un ennemi, changer le . en son icone
-                // CODE
-
-                if (isObstacle) {
-                    if (y>=9)
-                    {
-                        points += "[ ] ";
-                    }
-                    else
-                    {
-                        points += "[ ]";
-                    }
-                }
-                else
-                {
-                    if (y>=9)
-                    {
-                        points += " .  ";
-                    }
-                    else
-                    {
-                        points += " . ";
-                    }
-                }
+                points += this.map.get(y).get(x).getChose();
             }
             System.out.println(points);
         }
@@ -159,10 +134,10 @@ public class Carte {
             ArrayList<Position> posToDelete = new ArrayList<>() {};
             for (Position obsPos : this.obstacles)
             {
-                // Supprimer tous les obstacles out of bounds
+                // Supprimer tous les tiles out of bounds
                 if (obsPos.getX() > x || obsPos.getY() > y)
                 {
-                    posToDelete.add(obsPos);
+                    this.map.get(obsPos.getY()).remove(obsPos.getX());
                 }
             }
             for (Position pos : posToDelete)
