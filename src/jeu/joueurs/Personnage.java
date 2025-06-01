@@ -5,6 +5,8 @@ import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
 import jeu.joueurs.equipement.*;
+import jeu.joueurs.sorts.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -25,7 +27,8 @@ public class Personnage extends Entite {
     caracteristiques.put(Caracteristique.PV_MAX, 0);
   }
 
-  private List<Equipement> equipement;
+  private List<Sort> listeSorts;
+  private List<Equipement> listeEquipement;
   private Arme armeEquipee;
   private Armure armureEquipee;
 
@@ -46,15 +49,15 @@ public class Personnage extends Entite {
         entry.setValue(value);
       }
     }
-
-    this.equipement = classe.getListeEquipement();
+    this.listeEquipement = classe.getListeEquipement();
+    this.listeSorts = classe.getListeSorts();
   }
 
   public void changePV(int pv) {
     this.changeCaracteristique(Caracteristique.PV, pv);
 
     int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
-    if (this.caracteristiques.get(Caracteristique.PV) >  pvMax ){
+    if (this.caracteristiques.get(Caracteristique.PV) > pvMax) {
       this.caracteristiques.put(Caracteristique.PV, pvMax);
     }
   }
@@ -81,8 +84,16 @@ public class Personnage extends Entite {
     return c;
   }
 
+  public List<Sort> getListeSorts() {
+	return listeSorts;
+  }
+
   public void addEquipement(Equipement e) {
-    this.equipement.add(e);
+    this.listeEquipement.add(e);
+  }
+
+  public List<Equipement> getListeEquipement() {
+    return this.listeEquipement;
   }
 
   public void changeArmeeEquipee(Arme arme) {
@@ -112,21 +123,20 @@ public class Personnage extends Entite {
   public boolean attaque(Entite cible) {
     int d = distance(cible.getPosition());
     int portee = this.armeEquipee.getPortee();
-    if (d > portee ) {
+    if (d > portee) {
       Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
       return false;
     }
-    int jet = Des.lancer() + this.armeEquipee.getBonus();
-    jet += (this.armeEquipee instanceof ArmeDistance) 
-        ? this.getCaracteristique(Caracteristique.DEXTERITE)
-        : this.getCaracteristique(Caracteristique.FORCE);
+    int jet = Des.lancer() + this.armeEquipee.getBonus()
+        + this.getCaracteristique(this.armeEquipee.getCaracteristique());
 
     if (jet < cible.getCA()) {
-      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :" + cible.getCA() + ")");
+      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+          + cible.getCA() + ")");
       return false;
     }
 
-    int degats = Des.lancer(this.armeEquipee.getDegats()); 
+    int degats = Des.lancer(this.armeEquipee.getDegats()) + this.armeEquipee.getBonus();
     cible.changePV(degats * -1);
 
     Output.print("Vous avez infligé " + degats + " degats à " + cible.getNom());

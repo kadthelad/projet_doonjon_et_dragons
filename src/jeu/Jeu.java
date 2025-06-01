@@ -23,5 +23,6 @@ public class Jeu {
 
     // debut jeu
     
+    listePersonnages.get(1).getListeSorts().get(0).lancer();
   }
 }

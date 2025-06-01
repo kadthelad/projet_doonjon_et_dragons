@@ -1,8 +1,10 @@
 package jeu.joueurs.classes;
 
-import java.util.ArrayList;
-import java.util.List;
 import jeu.joueurs.equipement.Equipement;
+import jeu.joueurs.sorts.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Classe
@@ -11,6 +13,11 @@ public abstract class Classe {
   protected String nom;
   protected int pv;
   protected List<Equipement> listeEquipement;
+  protected List<Sort> listeSorts;
+
+  public List<Sort> getListeSorts() {
+    return listeSorts;
+  }
 
   public String getNom() {
     return nom;

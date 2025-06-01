@@ -1,5 +1,7 @@
 package jeu.joueurs.equipement;
 
+import jeu.utils.Output;
+
 public class Armure implements Equipement {
   protected int classeArmure;
   protected String nom;
@@ -22,4 +24,8 @@ public class Armure implements Equipement {
     return pres;
   }
 
+  @Override
+  public void ameliore() {
+    Output.print("Une armure ne peut pas être améliorée voyons."); 
+  }
 }

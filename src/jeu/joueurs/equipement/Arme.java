@@ -1,10 +1,20 @@
 package jeu.joueurs.equipement;
 
+import jeu.Caracteristique;
+import jeu.utils.Output;
+
 public class Arme implements Equipement {
   protected String nom;
   protected String degats = "0d0";
   protected int portee = 0;
   protected int bonus = 0;
+
+  protected Caracteristique caracteristique = Caracteristique.FORCE;
+
+  public Caracteristique getCaracteristique() {
+    return caracteristique;
+  }
+
 
   public void setNom(String nom) {
     this.nom = nom;
@@ -36,6 +46,7 @@ public class Arme implements Equipement {
 
   public void ameliore() {
     this.bonus += 1;
+    Output.print("Cette arme est améliorée et a désormais un bonus de " + this.bonus);
   }
 
   @Override
