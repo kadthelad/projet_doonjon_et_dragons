@@ -66,6 +66,7 @@ public class MonstreEditeur
     // variables
     String nomMstr = "";
     String attMstr[];
+    String icone = "";
     Map<Caracteristique, Integer> caraMstr = new HashMap<>();
     {
       caraMstr.put(Caracteristique.PV, 0);
@@ -94,6 +95,22 @@ public class MonstreEditeur
       }
     }
 
+    boolean inIconEditing = true;
+    while (inIconEditing)
+    {
+      Output.print("Entrez une nouvelle icone (3 caractères OBLIGATIOIRE) : ");
+      String userString = Input.string();
+      if (userString.length() == 2)
+      {
+        icone = userString;
+        inIconEditing = false;
+      }
+      else
+      {
+        Output.print("[!] Veuillez mettre 3 caractères au total!\n");
+      }
+    }
+
     // setup son attaque
     attMstr = editMonstreAttaque();
 
@@ -107,7 +124,7 @@ public class MonstreEditeur
       caraMstr.replace(cara.getKey(), userInt);
     }
 
-    Monstre monstreCree = new Monstre(nomMstr, attMstr[0], attMstr[1], caraMstr);
+    Monstre monstreCree = new Monstre(nomMstr, attMstr[0], attMstr[1], caraMstr, icone);
 
     Output.print("Voici le monstre crée : \n" + monstreCree);
 
@@ -174,34 +191,65 @@ public class MonstreEditeur
       {
         Output.print("Vous éditez " + mstrChoisi.getEspece() +
                 "\n[0] Changer son nom" +
-                "\n[1] Changer son attaque" +
-                "\n[2] Changer ses caractéristiques" +
-                "\n[3] Voir le monstre" +
-                "\n[4] Sauvegarder et revenir à l'éditeur de monstre" +
-                "\n[5] Revenir à l'éditeur de monstre sans sauvegarder");
+                "\n[1] Changer son icone" +
+                "\n[2] Changer son attaque" +
+                "\n[3] Changer ses caractéristiques" +
+                "\n[4] Voir le monstre" +
+                "\n[5] Sauvegarder et revenir à l'éditeur de monstre" +
+                "\n[6] Revenir à l'éditeur de monstre sans sauvegarder");
         int userInt2 = Input.entier();
         switch (userInt2)
         {
           case 0:
-            Output.print("Entrez un noveau nom : ");
-            mstrChoisi.setEspece(Input.string());
+            boolean chooseName = true;
+            while (chooseName)
+            {
+              System.out.println("Donnez un nom à l'espèce du monstre");
+              String nomMstr = Input.string();
+              if (nomMstr != "")
+              {
+                chooseName = false;
+                mstrChoisi.setEspece(nomMstr);
+              }
+              else
+              {
+                System.out.println("[!] Veuillez écrire un nom pour l'espèce du monstre!\n");
+              }
+            }
             break;
           case 1:
+            boolean inIconEditing = true;
+            while (inIconEditing)
+            {
+              Output.print("Entrez une nouvelle icone (3 caractères OBLIGATIOIRE) : ");
+              String userString = Input.string();
+              if (userString.length() == 2)
+              {
+                mstrChoisi.setIcon(userString);
+                inIconEditing = false;
+              }
+              else
+              {
+                Output.print("[!] Veuillez mettre 3 caractères au total!\n");
+              }
+            }
+            break;
+          case 2:
             String[] attInfo = editMonstreAttaque();
             mstrChoisi.setNomAtt(attInfo[0]);
             mstrChoisi.setSpeAtt(attInfo[1]);
             break;
-          case 2:
+          case 3:
             editMonstreCaracteristiques(mstrChoisi);
             break;
-          case 3:
+          case 4:
             Output.print(mstrChoisi.toString());
             break;
-          case 4:
+          case 5:
             Output.print("Le monstre " + mstrChoisi.getEspece() + " à été sauvegardé avec succès!");
             inMstrEditing = false;
             break;
-          case 5:
+          case 6:
             Output.print("Êtes-vous sûr.e de quitter sans sauvegarder? (toutes vos modifications seront perdues!)" +
                     "\n[0] Oui" +
                     "\n[1] Non");

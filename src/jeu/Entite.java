@@ -34,4 +34,6 @@ public abstract class Entite {
   public abstract String getNom();
 
   public abstract void changePV(int pv);
+
+  public abstract String getAlias();
 }

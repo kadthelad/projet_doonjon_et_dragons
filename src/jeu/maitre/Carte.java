@@ -12,8 +12,7 @@ public class Carte {
     private String name = "Carte sans nom";
     private int taillex;
     private int tailley;
-    private ArrayList<ArrayList<Tile>> map = new ArrayList<>();
-    private ArrayList<Position> obstacles = new ArrayList<Position>() {};
+    private ArrayList<ArrayList<Entite>> map = new ArrayList<>();
 
     public Carte(int tailleMapx, int tailleMapy)
     {
@@ -22,10 +21,10 @@ public class Carte {
         this.tailley = tailleMapy;
 
         // construction map
-        for (int y=0; y<tailley; y++)
+        for (int y=0; y<this.tailley; y++)
         {
             this.map.add(new ArrayList<>());
-            for (int x=0; x<taillex; x++)
+            for (int x=0; x<this.taillex; x++)
             {
                 this.map.get(y).add(x, new Tile(new Position(x, y)));
             }
@@ -38,39 +37,49 @@ public class Carte {
         this.taillex = autreCarte.getTaille().getX();
         this.tailley = autreCarte.getTaille().getY();
         this.name = autreCarte.getName();
-        this.obstacles.addAll(autreCarte.getObstacles());
+        this.map = autreCarte.getMap();
     }
 
-    public ArrayList<Position> getObstacles()
-    {
-        return this.obstacles;
-    }
 
-    public void addObstacle(Position pos)
+    public boolean addChose(Position pos, Entite entity)
     {
-        this.map.get(pos.getY()-1).get(pos.getX()-1).setChose("[x]");
-        this.obstacles.add(pos);
-    }
-
-    public void removeObstacle(Position pos)
-    {
-        for (int i=0; i<this.obstacles.size(); i++)
+        if (this.map.get(pos.getY()-1).get(pos.getX()-1).getAlias() == " . ")
         {
-            if (pos.equalsTo(this.obstacles.get(i)))
-            {
-                this.map.get(pos.getY()-1).get(pos.getX()-1).setChose(" . ");
-                this.obstacles.remove(i);
-            }
+            this.map.get(pos.getY()-1).set(pos.getX()-1, entity);
+            return true;
         }
+        return false;
     }
 
-    public boolean obstacleAt(Position pos)
+    public boolean removeChose(Position pos)
     {
-        for (Position obs : obstacles)
+        if (this.map.get(pos.getY()-1).get(pos.getX()-1).getAlias() != " . ")
         {
-            if (obs.equalsTo(pos))
+            this.map.get(pos.getY()-1).set(pos.getX()-1, new Tile(pos));
+            return true;
+        }
+        return false;
+    }
+
+    public Entite choseAt(Position pos)
+    {
+        if (this.taillex > pos.getX() && this.tailley > pos.getY())
+        {
+            return this.map.get(pos.getY()).get(pos.getX());
+        }
+        return new Tile(pos);
+    }
+
+    public boolean hasObstacles()
+    {
+        for (int y=0; y<this.tailley; y++)
+        {
+            for (int x=0; x<this.taillex; x++)
             {
-                return true;
+                if (choseAt(new Position(x, y)).getAlias().equals("[x]"))
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -89,6 +98,11 @@ public class Carte {
     public Position getTaille()
     {
         return new Position(this.taillex, this.tailley);
+    }
+
+    public ArrayList<ArrayList<Entite>> getMap()
+    {
+        return this.map;
     }
 
     public void afficherCarte()
@@ -118,32 +132,27 @@ public class Carte {
             String points = "";
             for (int x=0; x<taillex; x++)
             {
-                points += this.map.get(y).get(x).getChose();
+                points += this.map.get(y).get(x).getAlias();
             }
             System.out.println(points);
         }
     }
 
-    public void changeSize(int x, int y)
+    public void changeSize(int tailleMapx, int tailleMapy)
     {
-        this.taillex = x;
-        this.tailley = y;
+        ArrayList<ArrayList<Entite>> newMap = new ArrayList<>();
 
-        if (!this.obstacles.isEmpty())
+        for (int y=0; y<tailleMapy; y++)
         {
-            ArrayList<Position> posToDelete = new ArrayList<>() {};
-            for (Position obsPos : this.obstacles)
+            newMap.add(new ArrayList<>());
+            for (int x=0; x<tailleMapx; x++)
             {
-                // Supprimer tous les tiles out of bounds
-                if (obsPos.getX() > x || obsPos.getY() > y)
-                {
-                    this.map.get(obsPos.getY()).remove(obsPos.getX());
-                }
-            }
-            for (Position pos : posToDelete)
-            {
-                this.obstacles.remove(pos);
+                newMap.get(y).add(x, choseAt(new Position(x, y)));
             }
         }
+
+        this.taillex = tailleMapx;
+        this.tailley = tailleMapy;
+        this.map = newMap;
     }
 }

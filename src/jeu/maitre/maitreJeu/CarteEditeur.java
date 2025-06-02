@@ -1,6 +1,7 @@
 package jeu.maitre.maitreJeu;
 import jeu.maitre.Carte;
 import jeu.maitre.Monstre;
+import jeu.maitre.Obstacle;
 import jeu.utils.Input;
 import jeu.utils.Output;
 import jeu.utils.Position;
@@ -312,7 +313,7 @@ public class CarteEditeur
       System.out.print("\n");
       if ((taillex <= carteCreee.getTaille().getX() && taillex >= 1) && (tailley <= carteCreee.getTaille().getY() && tailley >= 1))
       {
-        carteCreee.addObstacle(new Position(taillex, tailley));
+        carteCreee.addChose(new Position(taillex, tailley), new Obstacle());
         inObstacleAdd = false;
       }
       else
@@ -324,9 +325,9 @@ public class CarteEditeur
 
   private static void supprObstacle(Carte carteCreee)
   {
-    if (!carteCreee.getObstacles().isEmpty())
+    if (carteCreee.hasObstacles())
     {
-      System.out.println("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez créer un obstacle : ");
+      System.out.println("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez supprimer un obstacle : ");
       // Avoir la position pour poser l'obstacle
       boolean inObstacleRemv = true;
 
@@ -342,9 +343,9 @@ public class CarteEditeur
         System.out.print("\n");
         if ((taillex <= carteCreee.getTaille().getX() && taillex >= 1) && (tailley <= carteCreee.getTaille().getY() && tailley >= 1))
         {
-          if (carteCreee.obstacleAt(new Position(taillex, tailley)))
+          if (carteCreee.choseAt(new Position(taillex, tailley)).getAlias() == "[x]")
           {
-            carteCreee.removeObstacle(new Position(taillex, tailley));
+            carteCreee.removeChose(new Position(taillex, tailley));
             inObstacleRemv = false;
           }
           else

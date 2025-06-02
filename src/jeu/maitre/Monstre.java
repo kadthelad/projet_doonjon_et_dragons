@@ -18,6 +18,8 @@ public class Monstre extends Entite
 
     private Position m_position = new Position(0, 0);
 
+    private String m_icon;
+
     private Map<Caracteristique, Integer> mapCaracteristiques = new HashMap<>();
     {
         mapCaracteristiques.put(Caracteristique.PV, 0);
@@ -28,13 +30,14 @@ public class Monstre extends Entite
         mapCaracteristiques.put(Caracteristique.CLASSE_ARMURE, 0);
     }
 
-    public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara)
+    public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String icon)
     {
         /// CONSTRUCTEUR DE LA CLASSE Monstre ///
         this.m_espece = esp;
         this.m_nomAttaque = nAtt;
         this.m_attaque = att;
         this.mapCaracteristiques = mapCara;
+        this.m_icon = icon;
     }
 
     public Monstre(Monstre mstr)
@@ -72,6 +75,11 @@ public class Monstre extends Entite
         this.m_espece = esp;
     }
 
+    public void setIcon(String icn)
+    {
+        this.m_icon = icn;
+    }
+
     public void setNomAtt(String nomAtt)
     {
         this.m_nomAttaque = nomAtt;
@@ -106,6 +114,7 @@ public class Monstre extends Entite
     /// String override ///
     public String toString() {
         return "Monstre : " + this.m_espece +
+                " (" + getAlias() + ")" +
                 "\nAttaque : " + m_attaque +
                 "\n___Caractéristiques___\n" +
                 this.mapCaracteristiques.get(Caracteristique.PV) + " PV\n" +
@@ -118,6 +127,12 @@ public class Monstre extends Entite
 
     public void changePV(int pv) {
         this.mapCaracteristiques.replace(Caracteristique.PV, this.mapCaracteristiques.get(Caracteristique.PV)+pv);
+    }
+
+    @Override
+    public String getAlias()
+    {
+        return this.m_icon+this.m_numero;
     }
 
     public void changeCaracteristique(Caracteristique c, int v) {

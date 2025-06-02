@@ -92,6 +92,12 @@ public class Personnage extends Entite {
     return nom;
   }
 
+  // ajout de kadir
+  public String getAlias()
+  {
+    return nom.substring(0, 2).toUpperCase();
+  }
+
   public Race getRace() {
     return race;
   }
