@@ -1,5 +1,6 @@
 package jeu.joueurs.equipement;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import jeu.Caracteristique;
@@ -7,27 +8,32 @@ import jeu.utils.Output;
 
 import jeu.Entite;
 
-public abstract class Arme extends Entite {
-  protected String nom;
+/**
+ * Arme
+ */
+public abstract class Arme extends Equipement {
   protected String degats = "0d0";
   protected int portee = 0;
   protected int bonus = 0;
 
   protected Caracteristique caracteristique = Caracteristique.FORCE;
-  protected Map<Caracteristique, Integer> caracteristiquesBonus = new HashMap<>() {
 
-  public Arme(String nom, String degats, int portee) {
+/**
+ * @param nom
+ * @param degats
+ * @param portee
+ */
+public Arme(String nom, String degats, int portee) {
     this.nom = nom;
     this.degats = degats;
     this.portee = portee;
   }
 
-  public Caracteristique getCaracteristique() {
-    return caracteristique;
-  }
-
-  public void setNom(String nom) {
-    this.nom = nom;
+  /**
+ * @return
+ */
+public Caracteristique getCaracteristique() {
+    return this.caracteristique;
   }
 
   public void setDegats(String degats) {
@@ -36,10 +42,6 @@ public abstract class Arme extends Entite {
 
   public void setPortee(int portee) {
     this.portee = portee;
-  }
-
-  public String getNom() {
-    return nom;
   }
 
   public String getDegats() {
@@ -52,10 +54,6 @@ public abstract class Arme extends Entite {
 
   public int getBonus() {
     return this.bonus;
-  }
-
-  public int getModif() {
-    return this.caracteristiquesBonus;
   }
 
   public void ameliore() {

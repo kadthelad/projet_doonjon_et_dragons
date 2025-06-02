@@ -86,9 +86,9 @@ public class Personnage extends Creature {
     return c;
   }
 
- //  public List<Sort> getListeSorts() {
-	// return listeSorts;
- //  }
+  // public List<Sort> getListeSorts() {
+  // return listeSorts;
+  // }
 
   public void addArme(Arme a) {
     this.listeArmes.add(a);
@@ -106,21 +106,36 @@ public class Personnage extends Creature {
     return this.listeArmures;
   }
 
-  public void changeArmeeEquipee(Arme arme) {
-    this.armeEquipee = arme;
-    for (Map<Caracteristique, Integer> entry : this.armeEquipee.get
+  private void bonusEquipement(Equipement e, int sign) {
+    if (e == null)
+      return;
+
+    for (Map.Entry<Caracteristique, Integer> entry : e.getCaracteristiqueBonus().entrySet()) {
+      Caracteristique key = entry.getKey();
+      int value = this.caracteristiques.getOrDefault(key, 0);
+      this.caracteristiques.put(key, value + sign * entry.getValue());
+    }
   }
 
-  public void changeArmureEquipee(Armure armure) {
-    this.armureEquipee = armure;
+  public void changeArmeeEquipee(Arme nouvelleArme) {
+    // un supprime l'éventuel précédant bonus
+    bonusEquipement(this.armeEquipee, -1);
+    this.armeEquipee = nouvelleArme;
+    // on ajoute le nouveau bonus
+    bonusEquipement(this.armeEquipee, 1);
+  }
+
+  public void changeArmureEquipee(Armure nouvelleArmure) {
+    bonusEquipement(this.armureEquipee, -1);
+    this.armureEquipee = nouvelleArmure;
+    bonusEquipement(this.armureEquipee, 1);
   }
 
   public String getNom() {
     return nom;
   }
 
-  public String getAlias()
-  {
+  public String getAlias() {
     return nom.substring(0, 2).toUpperCase();
   }
 

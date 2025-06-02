@@ -2,10 +2,9 @@ package jeu.joueurs.equipement;
 
 import jeu.Entite;
 
-public abstract class Armure extends Entite {
+public abstract class Armure extends Equipement {
 
   protected int classeArmure;
-  protected String nom;
 
   public int getClasseArmure() {
     return this.classeArmure;
@@ -13,10 +12,6 @@ public abstract class Armure extends Entite {
 
   public void setClasseArmure(int classeArmure) {
     this.classeArmure = classeArmure;
-  }
-
-  public String getNom() {
-    return this.nom;
   }
 
   @Override

@@ -1,11 +1,19 @@
 package jeu.joueurs.equipement;
 
-import jeu.Entite;
+import java.util.HashMap;
+import java.util.Map;
+import jeu.Caracteristique;
 
-public abstract class Equipement extends Entite {
-  protected boolean isArme = false;
 
-  public boolean isArme() {
-    return this.isArme();
+public abstract class Equipement {
+  protected String nom;
+  protected Map<Caracteristique, Integer> caracteristiquesBonus = new HashMap<>();
+
+  public String getNom() {
+    return nom;
+  }
+
+  public Map<Caracteristique, Integer> getCaracteristiqueBonus() {
+    return this.caracteristiquesBonus;
   }
 }
