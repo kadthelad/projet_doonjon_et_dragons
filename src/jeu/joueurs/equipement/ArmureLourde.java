@@ -4,7 +4,7 @@ import jeu.Caracteristique;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArmureLourde implements Armure {
+public class ArmureLourde extends Armure {
   int classeArmure;
 
   String nom;
@@ -24,10 +24,6 @@ public class ArmureLourde implements Armure {
     return classeArmure;
   }
 
-  public void setClasseArmure(int classeArmure) {
-    this.classeArmure = classeArmure;
-  }
-
   public String getNom() {
     return nom;
   }
@@ -44,7 +40,7 @@ public class ArmureLourde implements Armure {
   public String toString() {
     String pres = this.nom + ", Classe d'Armure: " + this.classeArmure;
     for (Map.Entry<Caracteristique, Integer> entry : bonusCaracteristiques.entrySet()) {
-      pres += ", ";
+      pres += ", " + entry.getKey() + " : " + entry.getValue();
     }
     return pres;
   }

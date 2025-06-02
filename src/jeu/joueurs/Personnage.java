@@ -25,7 +25,8 @@ public class Personnage extends Entite {
     caracteristiques.put(Caracteristique.PV, 0);
   }
 
-  private List<Equipement> equipement;
+  private List<Arme> listeArmes;
+  private List<Armure> listeArmures;
   private Arme armeEquipee;
   private Armure armureEquipee;
 

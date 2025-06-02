@@ -1,6 +1,6 @@
 package jeu.joueurs.equipement;
 
-public class ArmeDistance implements Arme {
+public class ArmeDistance extends Arme {
 
   String nom;
   String degats = "0d0";

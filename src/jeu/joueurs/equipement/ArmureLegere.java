@@ -1,6 +1,6 @@
 package jeu.joueurs.equipement;
 
-public class ArmureLegere implements Armure {
+public class ArmureLegere extends Armure {
   int classeArmure;
   String nom;
 
@@ -11,10 +11,6 @@ public class ArmureLegere implements Armure {
 
   public int getClasseArmure() {
     return classeArmure;
-  }
-
-  public void setClasseArmure(int classeArmure) {
-    this.classeArmure = classeArmure;
   }
 
   public String getNom() {

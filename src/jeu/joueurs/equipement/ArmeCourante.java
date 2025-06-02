@@ -1,6 +1,6 @@
 package jeu.joueurs.equipement;
 
-public class ArmeCourante implements Arme {
+public class ArmeCourante extends Arme {
   String nom;
   String degats = "0d0";
   int portee = 0;

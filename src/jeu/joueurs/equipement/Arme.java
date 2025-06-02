@@ -1,7 +1,9 @@
 package jeu.joueurs.equipement;
 
-public interface Arme extends Equipement {
-  public String getDegats();
+import jeu.Entite;
 
-  public int getPortee();
+public abstract class Arme extends Entite {
+  public abstract String getDegats();
+
+  public abstract int getPortee();
 }

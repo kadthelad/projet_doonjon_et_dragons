@@ -1,10 +1,10 @@
 package jeu.joueurs.equipement;
 
-public interface Armure extends Equipement {
+import jeu.Entite;
 
-  public int getClasseArmure();
+public abstract class Armure extends Entite {
 
-  public void setClasseArmure(int classeArmure);
+  public abstract int getClasseArmure();
 
-  public String getNom();
+  public abstract String getNom();
 }
