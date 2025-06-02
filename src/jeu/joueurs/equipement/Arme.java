@@ -1,9 +1,70 @@
 package jeu.joueurs.equipement;
 
+import java.util.Map;
+
+import jeu.Caracteristique;
+import jeu.utils.Output;
+
 import jeu.Entite;
 
 public abstract class Arme extends Entite {
-  public abstract String getDegats();
+  protected String nom;
+  protected String degats = "0d0";
+  protected int portee = 0;
+  protected int bonus = 0;
 
-  public abstract int getPortee();
+  protected Caracteristique caracteristique = Caracteristique.FORCE;
+  protected Map<Caracteristique, Integer> caracteristiquesBonus = new HashMap<>() {
+
+  public Arme(String nom, String degats, int portee) {
+    this.nom = nom;
+    this.degats = degats;
+    this.portee = portee;
+  }
+
+  public Caracteristique getCaracteristique() {
+    return caracteristique;
+  }
+
+  public void setNom(String nom) {
+    this.nom = nom;
+  }
+
+  public void setDegats(String degats) {
+    this.degats = degats;
+  }
+
+  public void setPortee(int portee) {
+    this.portee = portee;
+  }
+
+  public String getNom() {
+    return nom;
+  }
+
+  public String getDegats() {
+    return degats;
+  }
+
+  public int getPortee() {
+    return portee;
+  }
+
+  public int getBonus() {
+    return this.bonus;
+  }
+
+  public int getModif() {
+    return this.caracteristiquesBonus;
+  }
+
+  public void ameliore() {
+    this.bonus += 1;
+    Output.print("Cette arme est améliorée et a désormais un bonus de " + this.bonus);
+  }
+
+  @Override
+  public String toString() {
+    return this.nom + ", degats: " + this.degats + ", portee :" + this.portee;
+  }
 }

@@ -9,7 +9,7 @@ public abstract class Creature extends Entite {
   protected Position position;
 
 
-  public abstract boolean attaque(Entite cible);
+  public abstract boolean attaque(Creature cible);
 
   public abstract int getCA();
 

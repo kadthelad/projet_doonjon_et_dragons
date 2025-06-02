@@ -5,8 +5,9 @@ public enum Caracteristique {
   DEXTERITE,
   VITESSE,
   INITIATIVE,
-  PV,
-  CLASSE_ARMURE;
+  CLASSE_ARMURE,
+  PV_MAX,
+  PV;
 
   @Override
   public String toString() {

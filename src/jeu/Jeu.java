@@ -45,5 +45,14 @@ public class Jeu {
           break;
       }
     }
+    // creation des monstres cartes etc
+
+    // creation des personnages
+    int nombreJoueurs = InitialisationJoueurs.combienJoueurs();
+    listePersonnages = InitialisationJoueurs.creationPersonnages(nombreJoueurs);
+
+    // debut jeu
+    
+    // listePersonnages.get(1).getListeSorts().get(0).lancer();
   }
 }

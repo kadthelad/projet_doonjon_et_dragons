@@ -8,19 +8,4 @@ public class ArmureLegere extends Armure {
     this.nom = nom;
     this.classeArmure = CA;
   }
-
-  public int getClasseArmure() {
-    return classeArmure;
-  }
-
-  public String getNom() {
-    return nom;
-  }
-
-  @Override
-  public String toString() {
-    String pres = this.nom + ", Classe d'Armure: " + this.classeArmure;
-    return pres;
-  }
-
 }
