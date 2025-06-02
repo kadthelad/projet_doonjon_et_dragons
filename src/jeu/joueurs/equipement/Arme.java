@@ -3,7 +3,7 @@ package jeu.joueurs.equipement;
 import jeu.Caracteristique;
 import jeu.utils.Output;
 
-public class Arme implements Equipement {
+public class Arme extends Equipement {
   protected String nom;
   protected String degats = "0d0";
   protected int portee = 0;

@@ -1,7 +1,11 @@
 package jeu.joueurs.equipement;
 
-public interface Equipement {
-  public String getNom();
+import jeu.Entite;
 
-  public void ameliore();
+public abstract class Equipement extends Entite {
+  protected boolean isArme = false;
+
+  public boolean isArme() {
+    return this.isArme();
+  }
 }
