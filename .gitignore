@@ -22,3 +22,5 @@ doc/
 **.project
 **.settings/
 **build/
+*gradle/*
+gradlew*

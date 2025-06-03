@@ -1,39 +1,16 @@
 package jeu.joueurs.equipement;
 
-public class ArmeDistance implements Arme {
+import jeu.Caracteristique;
 
-  String nom;
-  String degats = "0d0";
-  int portee = 0;
+public class ArmeDistance extends Arme {
+  private Caracteristique caracteristique = Caracteristique.DEXTERITE;
 
-  public ArmeDistance(String nom, String d, int p) {
-    this.nom = nom;
-    this.degats = d;
-    this.portee = p;
-  }
-
-  public String getNom() {
-    return nom;
-  }
-
-  public String getDegats() {
-    return degats;
-  }
-
-  public void setDegats(String degats) {
-    this.degats = degats;
-  }
-
-  public int getPortee() {
-    return portee;
-  }
-
-  public void setPortee(int portee) {
-    this.portee = portee;
+  public ArmeDistance(String nom, String degats, int portee) {
+    super(nom, degats, portee);
   }
 
   @Override
-  public String toString() {
-    return this.nom + ", degats: " + this.degats + ", portee :" + this.portee + "\n";
+  public Caracteristique getCaracteristique() {
+    return caracteristique;
   }
 }

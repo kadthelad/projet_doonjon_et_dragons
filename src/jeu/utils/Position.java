@@ -18,6 +18,7 @@ public class Position {
     return this.y;
   }
 
+  // IMPLEMENTER LA VERIFICATION POUR CHAQUE MOUVEMENT, besoin de la carte avant
   public Position TP(int x, int y) {
     this.x = x;
     this.y = y;

@@ -1,8 +1,11 @@
-package maitre;
+package jeu.maitre;
 
 import jeu.joueurs.equipement.Equipement;
 import jeu.joueurs.Personnage;
-import mapLogic.Vector;
+import jeu.utils.Position;
+import jeu.maitre.Carte;
+
+import java.util.ArrayList;
 
 
 public class Donjon {
@@ -10,18 +13,16 @@ public class Donjon {
     // Elle passera les tours et calculera les opérations dans le tour (combat, déplacement, autres actions...)
 
 
-    private Carte carte;
-    private Vector[] obstacles;
+    private ArrayList<Carte> cartes;
     private Personnage[] personnages;
     private Equipement[] equipement;
 
     private int tour = 0;
 
-    public Donjon(Carte carteJeu, Vector[] lstObstacles, Personnage[] lstPersonnages, Equipement[] lstEquipements)
+    public Donjon(ArrayList<Carte> carteJeu, Personnage[] lstPersonnages, Equipement[] lstEquipements)
     {
         ///  CONSTRUCTEUR DE LA CLASSE Donjon ///
-        this.carte = carteJeu;
-        this.obstacles = lstObstacles;
+        this.cartes = carteJeu;
         this.personnages = lstPersonnages;
         this.equipement = lstEquipements;
     }
@@ -31,20 +32,17 @@ public class Donjon {
         ///  Méthode pour créer le jeu ///
         // Lors de l'appel de la méthode, le maitre du jeu devra créer la carte, l'emplacement des obstacles, des
         // personnages et des equipement
-        System.out.println("Au tour du Maitre du Jeu!");
+        boolean jeu = true;
 
-        // Création de la carte //
-        System.out.println("");
+        while (jeu)
+        {
+            System.out.println("Au tour du Maitre du Jeu!");
 
-
-        //Carte creationCarte = new Carte();
+            // Création de la carte //
+            System.out.println("");
+        }
 
         return null; // pour enlever l'erreur, je changerai plus tard
-    }
-
-    public void initialiserCarte(Carte carteJeu)
-    {
-        /// Methode pour initialiser le jeu ///
     }
 
     public void jouerTour()
@@ -56,8 +54,8 @@ public class Donjon {
         tour++;
     }
 
-    public void quitterJeu()
+    public String afficherCartes()
     {
-        /// Methode pour finir le jeu, ou à appeler lorsque le joueur souhaite quitter ///
+        return this.cartes.toString();
     }
 }

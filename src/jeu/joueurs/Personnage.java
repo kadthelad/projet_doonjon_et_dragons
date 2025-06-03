@@ -5,12 +5,13 @@ import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
 import jeu.joueurs.equipement.*;
-import java.util.ArrayList;
+import jeu.joueurs.sorts.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Personnage extends Entite {
+public class Personnage extends Creature {
 
   private String nom;
   private Race race;
@@ -23,9 +24,12 @@ public class Personnage extends Entite {
     caracteristiques.put(Caracteristique.VITESSE, 0);
     caracteristiques.put(Caracteristique.INITIATIVE, 0);
     caracteristiques.put(Caracteristique.PV, 0);
+    caracteristiques.put(Caracteristique.PV_MAX, 0);
   }
 
-  private List<Equipement> equipement;
+  private List<Arme> listeArmes;
+  private List<Armure> listeArmures;
+  // private List<Sort> listeSorts;
   private Arme armeEquipee;
   private Armure armureEquipee;
 
@@ -38,7 +42,7 @@ public class Personnage extends Entite {
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       Caracteristique key = entry.getKey();
       int value;
-      if (key == Caracteristique.PV) {
+      if (key == Caracteristique.PV || key == Caracteristique.PV_MAX) {
         value = race.bonus(key) + entry.getValue();
         entry.setValue(value);
       } else {
@@ -46,12 +50,18 @@ public class Personnage extends Entite {
         entry.setValue(value);
       }
     }
-
-    this.equipement = classe.getListeEquipement();
+    this.listeArmes = classe.getListeArmes();
+    this.listeArmures = classe.getListeArmures();
+    // this.listeSorts = classe.getListeSorts();
   }
 
   public void changePV(int pv) {
     this.changeCaracteristique(Caracteristique.PV, pv);
+
+    int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
+    if (this.caracteristiques.get(Caracteristique.PV) > pvMax) {
+      this.caracteristiques.put(Caracteristique.PV, pvMax);
+    }
   }
 
   public void getPV() {
@@ -76,20 +86,57 @@ public class Personnage extends Entite {
     return c;
   }
 
-  public void addEquipement(Equipement e) {
-    this.equipement.add(e);
+  // public List<Sort> getListeSorts() {
+  // return listeSorts;
+  // }
+
+  public void addArme(Arme a) {
+    this.listeArmes.add(a);
   }
 
-  public void changeArmeePortee(Arme arme) {
-    this.armeEquipee = arme;
+  public void addArmure(Armure a) {
+    this.listeArmures.add(a);
   }
 
-  public void changeArmurePortee(Armure armure) {
-    this.armureEquipee = armure;
+  public List<Arme> getListeArmes() {
+    return this.listeArmes;
+  }
+
+  public List<Armure> getListeAmures() {
+    return this.listeArmures;
+  }
+
+  private void bonusEquipement(Equipement e, int sign) {
+    if (e == null)
+      return;
+
+    for (Map.Entry<Caracteristique, Integer> entry : e.getCaracteristiqueBonus().entrySet()) {
+      Caracteristique key = entry.getKey();
+      int value = this.caracteristiques.getOrDefault(key, 0);
+      this.caracteristiques.put(key, value + sign * entry.getValue());
+    }
+  }
+
+  public void changeArmeeEquipee(Arme nouvelleArme) {
+    // un supprime l'éventuel précédant bonus
+    bonusEquipement(this.armeEquipee, -1);
+    this.armeEquipee = nouvelleArme;
+    // on ajoute le nouveau bonus
+    bonusEquipement(this.armeEquipee, 1);
+  }
+
+  public void changeArmureEquipee(Armure nouvelleArmure) {
+    bonusEquipement(this.armureEquipee, -1);
+    this.armureEquipee = nouvelleArmure;
+    bonusEquipement(this.armureEquipee, 1);
   }
 
   public String getNom() {
     return nom;
+  }
+
+  public String getAlias() {
+    return nom.substring(0, 2).toUpperCase();
   }
 
   public Race getRace() {
@@ -104,23 +151,23 @@ public class Personnage extends Entite {
     return this.armureEquipee.getClasseArmure();
   }
 
-  public boolean attaque(Entite cible) {
+  public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
     int portee = this.armeEquipee.getPortee();
-    if (d > portee ) {
+    if (d > portee) {
       Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
       return false;
     }
-    int jet = Des.lancer();
-    jet += (this.armeEquipee instanceof ArmeDistance) 
-        ? this.getCaracteristique(Caracteristique.DEXTERITE)
-        : this.getCaracteristique(Caracteristique.FORCE);
+    int jet = Des.lancer() + this.armeEquipee.getBonus()
+        + this.getCaracteristique(this.armeEquipee.getCaracteristique());
 
     if (jet < cible.getCA()) {
+      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+          + cible.getCA() + ")");
       return false;
     }
 
-    int degats = Des.lancer(this.armeEquipee.getDegats()); 
+    int degats = Des.lancer(this.armeEquipee.getDegats()) + this.armeEquipee.getBonus();
     cible.changePV(degats * -1);
 
     Output.print("Vous avez infligé " + degats + " degats à " + cible.getNom());

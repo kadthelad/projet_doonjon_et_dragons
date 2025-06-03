@@ -1,38 +1,20 @@
 package jeu.joueurs.equipement;
 
-public class ArmeDeGuerre implements Arme {
-  String nom;
-  String degats = "0d0";
-  int portee = 0;
+import java.util.HashMap;
+import java.util.Map;
 
-  public ArmeDeGuerre(String nom, String d, int p) {
-    this.nom = nom;
-    this.degats = d;
-    this.portee = p;
-  }
+import jeu.Caracteristique;
 
-  public String getNom() {
-    return nom;
-  }
+public class ArmeDeGuerre extends Arme {
 
-  public String getDegats() {
-    return degats;
-  }
+  private Map<Caracteristique, Integer> caracteristiquesBonus = new HashMap<>() {
+    {
+      put(Caracteristique.VITESSE, -2);
+      put(Caracteristique.FORCE, 4);
+    }
+  };
 
-  public void setDegats(String degats) {
-    this.degats = degats;
-  }
-
-  public int getPortee() {
-    return portee;
-  }
-
-  public void setPortee(int portee) {
-    this.portee = portee;
-  }
-
-  @Override
-  public String toString() {
-    return this.nom + ", degats: " + this.degats + ", portee :" + this.portee;
+  public ArmeDeGuerre(String nom, String degats, int portee) {
+    super(nom, degats, portee);
   }
 }

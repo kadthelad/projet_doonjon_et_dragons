@@ -2,7 +2,12 @@ package jeu.joueurs.classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import jeu.joueurs.equipement.Equipement;
+import jeu.joueurs.equipement.Arme;
+import jeu.joueurs.equipement.Armure;
+import jeu.joueurs.sorts.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Classe
@@ -10,7 +15,13 @@ import jeu.joueurs.equipement.Equipement;
 public abstract class Classe {
   protected String nom;
   protected int pv;
-  protected List<Equipement> listeEquipement;
+  protected List<Arme> listeArmes;
+  protected List<Armure> listeArmures;
+  protected List<Sort> listeSorts;
+
+  public List<Sort> getListeSorts() {
+    return listeSorts;
+  }
 
   public String getNom() {
     return nom;
@@ -20,15 +31,22 @@ public abstract class Classe {
     return pv;
   }
 
-  public List<Equipement> getListeEquipement() {
-    return listeEquipement;
+  public List<Arme> getListeArmes() {
+    return this.listeArmes;
+  }
+
+  public List<Armure> getListeArmures() {
+    return this.listeArmures;
   }
 
   @Override
   public String toString() {
     StringBuilder pres = new StringBuilder(nom + "\n\tPV : " + pv + "\n\tÉquipement :");
-    for (Equipement equipement : listeEquipement) {
-      pres.append("\n\t- ").append(equipement.toString());
+    for (Arme arme : listeArmes) {
+      pres.append("\n\t- ").append(arme.toString());
+    }
+    for (Armure armure : listeArmures) {
+      pres.append("\n\t- ").append(armure.toString());
     }
     return pres.toString();
   }

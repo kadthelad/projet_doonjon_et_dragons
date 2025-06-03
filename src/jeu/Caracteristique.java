@@ -5,6 +5,8 @@ public enum Caracteristique {
   DEXTERITE,
   VITESSE,
   INITIATIVE,
+  CLASSE_ARMURE,
+  PV_MAX,
   PV;
 
   @Override
