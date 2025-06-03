@@ -32,7 +32,7 @@ public class Catalogue {
         return copie;
     }
     // Pour récupérer une copie de la liste des armures par défaut
-    public static List<Armure> getArmuresDefaut() {
+    public static List<Armure> getListeArmures() {
         List<Armure> copie = new ArrayList<>();
         for (Armure a : LISTE_ARMURES) copie.add(a.copie());
         return copie;
