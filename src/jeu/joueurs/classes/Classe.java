@@ -1,13 +1,9 @@
 package jeu.joueurs.classes;
 
-import java.util.ArrayList;
 import java.util.List;
 import jeu.joueurs.equipement.Arme;
 import jeu.joueurs.equipement.Armure;
 import jeu.joueurs.sorts.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Classe

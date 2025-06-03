@@ -29,7 +29,7 @@ public class Personnage extends Creature {
 
   private List<Arme> listeArmes;
   private List<Armure> listeArmures;
-  // private List<Sort> listeSorts;
+  private List<Sort> listeSorts;
   private Arme armeEquipee;
   private Armure armureEquipee;
 
@@ -52,7 +52,7 @@ public class Personnage extends Creature {
     }
     this.listeArmes = classe.getListeArmes();
     this.listeArmures = classe.getListeArmures();
-    // this.listeSorts = classe.getListeSorts();
+    this.listeSorts = classe.getListeSorts();
   }
 
   public void changePV(int pv) {
@@ -86,9 +86,9 @@ public class Personnage extends Creature {
     return c;
   }
 
-  // public List<Sort> getListeSorts() {
-  // return listeSorts;
-  // }
+  public List<Sort> getListeSorts() {
+    return listeSorts;
+  }
 
   public void addArme(Arme a) {
     this.listeArmes.add(a);
