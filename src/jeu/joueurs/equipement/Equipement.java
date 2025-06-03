@@ -14,6 +14,8 @@ public abstract class Equipement extends Entite {
     return nom;
   }
 
+  public abstract Equipement copie();
+
   public Map<Caracteristique, Integer> getCaracteristiqueBonus() {
     return this.caracteristiquesBonus;
   }

@@ -17,4 +17,8 @@ public class ArmeDeGuerre extends Arme {
   public ArmeDeGuerre(String nom, String degats, int portee) {
     super(nom, degats, portee);
   }
+
+  public ArmeDeGuerre copie() {
+    return new ArmeDeGuerre(this.nom, this.degats, this.portee);
+  }
 }

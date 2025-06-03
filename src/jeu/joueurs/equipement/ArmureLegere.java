@@ -8,4 +8,8 @@ public class ArmureLegere extends Armure {
     this.nom = nom;
     this.classeArmure = CA;
   }
+
+  public ArmureLegere copie() {
+    return new ArmureLegere(this.nom, this.classeArmure);
+  }
 }
