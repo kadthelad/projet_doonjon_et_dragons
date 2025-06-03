@@ -29,7 +29,7 @@ public class Catalogue {
   public static List<Arme> getListeArmes() {
     List<Arme> copie = new ArrayList<>();
     for (Arme a : LISTE_ARMES)
-      copie.add(a.copie());
+      copie.add((Arme)a.copie());
     return copie;
   }
 
@@ -55,7 +55,7 @@ public class Catalogue {
   public static Arme getArmeParNom(String nom) {
     for (Arme a : LISTE_ARMES) {
       if (a.getNom().equalsIgnoreCase(nom))
-        return a.copie();
+        return (Arme) a.copie();
     }
     return null;
   }

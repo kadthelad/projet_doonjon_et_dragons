@@ -29,10 +29,6 @@ public Arme(String nom, String degats, int portee) {
     this.portee = portee;
   }
 
-  public Arme copie() {
-    return new this(this.nom, this.degats, this.portee);
-  }
-
   /**
  * @return
  */
