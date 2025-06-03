@@ -27,15 +27,15 @@ public class ArmeMagique implements Sort {
 
     Personnage p = Jeu.getListePersonnages().get(Input.entier());
     List<Arme> listeArme = new ArrayList<>();
-    for (Equipement e : p.getListeEquipement()) {
-      if (e instanceof Arme) {
-        listeArme.add((Arme) e);
+    for (Arme a : p.getListeArmes()) {
+      if (a instanceof Arme) {
+        listeArme.add((Arme) a);
       }
     }
 
     for (int i = 0; i < listeArme.size(); i++) {
       Output.print("[" + i + "] " + listeArme.get(i));
     }
-    p.getListeEquipement().get(Input.entier()).ameliore();
+    p.getListeArmes().get(Input.entier()).ameliore();
   }
 }
