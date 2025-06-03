@@ -24,6 +24,10 @@ public class ArmureLourde extends Armure {
     this.caracteristiquesBonus.put(key, value);
   }
 
+  public ArmureLourde copie() {
+    return new ArmureLourde(this.nom, this.classeArmure);
+  }
+
   @Override
   public String toString() {
     String pres = this.nom + ", Classe d'Armure: " + this.classeArmure;

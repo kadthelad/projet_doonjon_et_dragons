@@ -9,6 +9,10 @@ public class ArmeDistance extends Arme {
     super(nom, degats, portee);
   }
 
+  public ArmeDistance copie() {
+    return new ArmeDistance(this.nom, this.degats, this.portee);
+  }
+
   @Override
   public Caracteristique getCaracteristique() {
     return caracteristique;
