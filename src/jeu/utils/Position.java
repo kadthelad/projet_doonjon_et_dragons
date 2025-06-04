@@ -4,8 +4,8 @@ import jeu.maitre.Carte;
 import jeu.maitre.Donjon;
 
 public class Position {
-  private int x;
-  private int y;
+  public int x;
+  public int y;
   Carte carteActuelle = Jeu.getListeCartes().get(Donjon.getIndexCarteActuelle());
 
   public Position(int x, int y) {

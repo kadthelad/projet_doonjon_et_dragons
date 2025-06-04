@@ -3,8 +3,6 @@ package jeu;
 import jeu.utils.Position;
 
 public abstract class Creature extends Entite {
-  protected Position position;
-
 
   public abstract boolean attaque(Creature cible);
 
@@ -12,8 +10,8 @@ public abstract class Creature extends Entite {
 
   public abstract void changePV(int pv);
 
-  public Position getPosition() {
-    return this.position.get();
+  public void sortCarte(Position p) {
+    this.position = null;
   }
 
   public Position TP(Position p) {

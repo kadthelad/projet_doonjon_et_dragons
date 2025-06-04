@@ -6,153 +6,147 @@ import jeu.utils.*;
 import java.security.PublicKey;
 import java.util.ArrayList;
 
-
 public class Carte {
 
-    private String name = "Carte sans nom";
-    private int taillex;
-    private int tailley;
-    private ArrayList<ArrayList<Entite>> map = new ArrayList<>();
+  private ArrayList<ArrayList<Entite>> map = new ArrayList<>();
+  private String name = "Carte sans nom";
+  private int largeur;
+  private int hauteur;
 
-    public Carte(int tailleMapx, int tailleMapy)
-    {
-        ///  CONSTRUCTEUR DE LA CLASSE Carte ///
-        this.taillex = tailleMapx;
-        this.tailley = tailleMapy;
+  Entite carte[][];
 
-        // construction map
-        for (int y=0; y<this.tailley; y++)
-        {
-            this.map.add(new ArrayList<>());
-            for (int x=0; x<this.taillex; x++)
-            {
-                this.map.get(y).add(x, new Tile(new Position(x, y)));
-            }
-        }
+  public Carte(int x, int y) {
+    /// Constructeur de la Carte ///
+    this.largeur = x;
+    this.hauteur = y;
+    this.carte = new Entite[y][x];
+  }
+
+  public Entite[][] getCarte() {
+    return this.carte;
+  }
+
+  public int getLargeur() {
+    return largeur;
+  }
+
+  public int getHauteur() {
+    return hauteur;
+  }
+
+  // pour copier la carte (utilisé dans CarteEditeur.editerCarte())
+  public void copieCarte(Carte c) {
+    this.largeur = c.getLargeur();
+    this.hauteur = c.getHauteur();
+    this.name = c.getName() + " - copie";
+    this.carte = c.getCarte();
+  }
+
+  public void ajouteEntite(Entite e, Position p) {
+    if (checkCase(p)) {
+      this.carte[p.y][p.x] = e;
+      e.entreCarte(p);
+    }
+    return;
+  }
+
+  public boolean checkCase(Position p) {
+    boolean check = true;
+    if (!inCarte(p)) {
+      check = false;
+    } else if (this.carte[p.y][p.x] != null) {
+      check = false;
+      Output.print("Cette case n'est pas disponible, " + this.carte[p.y][p.x].getAlias());
+    } else {
+      check = true;
+    }
+    return check;
+  }
+
+  public boolean inCarte(Position pos) {
+    int x = pos.x;
+    int y = pos.y;
+    int a = this.largeur;
+    int h = this.hauteur;
+
+    // on vérifie si la position {x,y} existe dans la carte
+    if (x >= 0 && x < a && y >= 0 && y < h) {
+      return true;
+    } else {
+      Output.print("Cette case n'existe pas dans la carte.");
+      return false;
+    }
+  }
+
+  public void enleveEntite(Position pos) {
+    this.carte[pos.y][pos.x] = null;
+  }
+
+  public Entite getEntite(Position pos) {
+    return this.carte[pos.y][pos.x];
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public void setName(String setName) {
+    this.name = setName;
+  }
+
+  public Position getTaille() {
+    return new Position(this.largeur, this.hauteur);
+  }
+
+  // A TERMINER
+  public void changeTaille(Position taille) {
+    Output.print("ATTENTION, modifier la taille de la carte va la réinitialiser et ovus allez perdre ce que vous avez déjà configuré /!\\ \n Souhaitez-vous bien continuer ?y/*");
+    if (Input.string() != "y") {
+      return;
+    }
+    // Output
+  }
+
+  public void afficherCarte() {
+    String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    String ligneAbscisse = "   *";
+    System.out.print("   ");
+    // Créer la ligne du haut
+    for (int i = 0; i < largeur; i++) {
+      System.out.print(" " + (alph.charAt(i)) + " ");
+      ligneAbscisse += "---";
+    }
+    System.out.print("\n");
+    System.out.println(ligneAbscisse + "*");
+
+    // Faire le tableau
+    for (int y = 0; y < hauteur; y++) {
+      if (y < 9) {
+        System.out.print((y + 1) + " |");
+      } else {
+        System.out.print((y + 1) + "|");
+      }
+      String points = "";
+      for (int x = 0; x < largeur; x++) {
+        points += this.map.get(y).get(x).getAlias();
+      }
+      System.out.println(points);
+    }
+  }
+
+  public void changeSize(int tailleMapx, int tailleMapy) {
+    ArrayList<ArrayList<Entite>> newMap = new ArrayList<>();
+
+    for (int y = 0; y < tailleMapy; y++) {
+      newMap.add(new ArrayList<>());
+      for (int x = 0; x < tailleMapx; x++) {
+        newMap.get(y).add(x, choseAt(new Position(x, y)));
+      }
     }
 
-    // pour copier la carte (utilisé dans CarteEditeur.editerCarte())
-    public Carte(Carte autreCarte)
-    {
-        this.taillex = autreCarte.getTaille().getX();
-        this.tailley = autreCarte.getTaille().getY();
-        this.name = autreCarte.getName();
-        this.map = autreCarte.getMap();
-    }
-
-
-    public boolean addChose(Position pos, Entite entity)
-    {
-        if (this.map.get(pos.getY()-1).get(pos.getX()-1).getAlias() == " . ")
-        {
-            this.map.get(pos.getY()-1).set(pos.getX()-1, entity);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeChose(Position pos)
-    {
-        if (this.map.get(pos.getY()-1).get(pos.getX()-1).getAlias() != " . ")
-        {
-            this.map.get(pos.getY()-1).set(pos.getX()-1, new Tile(pos));
-            return true;
-        }
-        return false;
-    }
-
-    public Entite choseAt(Position pos)
-    {
-        if (this.taillex > pos.getX() && this.tailley > pos.getY())
-        {
-            return this.map.get(pos.getY()).get(pos.getX());
-        }
-        return new Tile(pos);
-    }
-
-    public boolean hasObstacles()
-    {
-        for (int y=0; y<this.tailley; y++)
-        {
-            for (int x=0; x<this.taillex; x++)
-            {
-                if (choseAt(new Position(x, y)).getAlias().equals("[x]"))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public String getName()
-    {
-        return this.name;
-    }
-
-    public void setName(String setName)
-    {
-        this.name = setName;
-    }
-
-    public Position getTaille()
-    {
-        return new Position(this.taillex, this.tailley);
-    }
-
-    public ArrayList<ArrayList<Entite>> getMap()
-    {
-        return this.map;
-    }
-
-    public void afficherCarte()
-    {
-        String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        String ligneAbscisse = "   *";
-        System.out.print("   ");
-        // Créer la ligne du haut
-        for (int i=0; i<taillex; i++) {
-            System.out.print(" " + (alph.charAt(i)) + " ");
-            ligneAbscisse += "---";
-        }
-        System.out.print("\n");
-        System.out.println(ligneAbscisse+"*");
-
-        // Faire le tableau
-        for (int y=0; y<tailley; y++) {
-            if (y<9)
-            {
-                System.out.print((y+1) + " |");
-            }
-            else
-            {
-                System.out.print((y+1) + "|");
-            }
-            String points = "";
-            for (int x=0; x<taillex; x++)
-            {
-                points += this.map.get(y).get(x).getAlias();
-            }
-            System.out.println(points);
-        }
-    }
-
-    public void changeSize(int tailleMapx, int tailleMapy)
-    {
-        ArrayList<ArrayList<Entite>> newMap = new ArrayList<>();
-
-        for (int y=0; y<tailleMapy; y++)
-        {
-            newMap.add(new ArrayList<>());
-            for (int x=0; x<tailleMapx; x++)
-            {
-                newMap.get(y).add(x, choseAt(new Position(x, y)));
-            }
-        }
-
-        this.taillex = tailleMapx;
-        this.tailley = tailleMapy;
-        this.map = newMap;
-    }
+    this.largeur = tailleMapx;
+    this.hauteur = tailleMapy;
+    this.map = newMap;
+  }
 }
