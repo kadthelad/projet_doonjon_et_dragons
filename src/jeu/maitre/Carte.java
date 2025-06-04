@@ -39,7 +39,11 @@ public class Carte {
     this.largeur = c.getLargeur();
     this.hauteur = c.getHauteur();
     this.name = c.getName() + " - copie";
-    this.carte = c.getCarte();
+    for (int y = 0; y < c.getHauteur(); y++) {
+      for (int x = 0; x < c.getLargeur(); x++) {
+        this.carte[y][x] = c.getCarte()[y][x];
+      }
+    }
   }
 
   public void ajouteEntite(Entite e, Position p) {
@@ -100,11 +104,8 @@ public class Carte {
 
   // A TERMINER
   public void changeTaille(Position taille) {
-    Output.print("ATTENTION, modifier la taille de la carte va la réinitialiser et ovus allez perdre ce que vous avez déjà configuré /!\\ \n Souhaitez-vous bien continuer ?y/*");
-    if (Input.string() != "y") {
-      return;
-    }
-    // Output
+    Entite[][] nouvelleCarte = new Entite[taille.y][taille.x];
+    nouvelle.copieCarte(c);
   }
 
   public void afficherCarte() {
