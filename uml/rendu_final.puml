@@ -1,0 +1,166 @@
+@startuml
+
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+' ==== PACKAGE jeu ====
+package jeu {
+
+  abstract class Entite
+  abstract class Creature
+  class Obstacle
+  abstract class Equipement
+
+  Entite <|-- Creature
+  Entite <|-- Equipement
+  Entite <|-- Obstacle
+}
+
+' ==== PACKAGE jeu.joueurs ====
+package "jeu.joueurs" {
+  class Personnage
+  class Monstre
+
+  Creature <|-- Personnage
+  Creature <|-- Monstre
+}
+
+' ==== PACKAGE jeu.joueurs.races ====
+package "jeu.joueurs.races" {
+  abstract class Race {
+    - nom: String
+    - bonusCaracteristiques: Map<Caracteristique, Integer>
+    + getNom(): String
+    + bonus(c: Caracteristique): Integer
+  }
+  class Elfe
+  class Halfelin
+  class Humain
+  class Nain
+
+  Elfe --|> Race
+  Halfelin --|> Race
+  Humain --|> Race
+  Nain --|> Race
+}
+
+' ==== PACKAGE jeu.joueurs.classes ====
+package "jeu.joueurs.classes" {
+  abstract class Classe {
+    - nom: String
+    - pv: Integer
+    - listeArmes: List<Arme>
+    - listeArmures: List<Armure>
+    + getNom(): String
+    + getPV(): Integer
+    + getListeArmes(): List<Arme>
+    + getListeArmures(): List<Armure>
+  }
+  class Clerc
+  class Guerrier
+  class Magicien
+  class Roublard
+
+  Clerc --|> Classe
+  Guerrier --|> Classe
+  Magicien --|> Classe
+  Roublard --|> Classe
+}
+
+' ==== PACKAGE jeu.joueurs.equipement ====
+package "jeu.joueurs.equipement" {
+  abstract class Arme
+  abstract class Armure
+
+  Equipement <|-- Arme
+  Equipement <|-- Armure
+
+  class ArmeCourante
+  class ArmeDeGuerre
+  class ArmeDistance
+
+  ArmeCourante --|> Arme
+  ArmeDeGuerre --|> Arme
+  ArmeDistance --|> Arme
+
+  class ArmureLegere
+  class ArmureLourde
+
+  ArmureLegere --|> Armure
+  ArmureLourde --|> Armure
+
+  class Catalogue {
+    - LISTE_ARMES: List<Arme>
+    - LISTE_ARMURES: List<Armure>
+    + getListeArmes(): List<Arme>
+    + getListeArmures(): List<Armure>
+    + getArmeParNom(nom: String): Arme
+    + getArmureParNom(nom: String): Armure
+  }
+}
+
+' ==== PACKAGE jeu.utils ====
+package "jeu.utils" {
+  enum Caracteristique {
+    FORCE
+    DEXTERITE
+    VITESSE
+    INITIATIVE
+    CLASSE_ARMURE
+    PV_MAX
+    PV
+  }
+  class Des {
+    + lancer(nombreDeDes: Integer, nombreDeFaces: Integer): Integer
+    + lancer(): Integer
+    + lancer(degats: String): Integer
+  }
+  class Position {
+    - x: Integer
+    - y: Integer
+    + Position(x: Integer, y: Integer)
+    + getX(): Integer
+    + getY(): Integer
+    + TP(x: Integer, y: Integer): Position
+    + move(x: Integer, y: Integer): Position
+    + get(): Position
+    + distance(x: Integer, y: Integer): Integer
+    + equalsTo(pos2: Position): Boolean
+  }
+  class Input {
+    + entier(): Integer
+    + string(): String
+  }
+}
+
+' ==== PACKAGE jeu ====
+package jeu {
+  class Jeu {
+    - listePersonnages: ArrayList<jeu.joueurs.Personnage>
+    + getListePersonnages(): ArrayList<jeu.joueurs.Personnage>
+    + main(args: String[]): void
+  }
+  class InitialisationJoueurs {
+    - listePersonnages: ArrayList<jeu.joueurs.Personnage>
+    - listeRaces: ArrayList<jeu.joueurs.races.Race>
+    - listeClasses: ArrayList<jeu.joueurs.classes.Classe>
+    + combienJoueurs(): Integer
+    + creationPersonnages(nombreJoueurs: Integer): ArrayList<jeu.joueurs.Personnage>
+  }
+}
+
+' ==== ASSOCIATIONS ====
+jeu.joueurs.Personnage "1" o-- "1" jeu.joueurs.races.Race
+jeu.joueurs.Personnage "1" o-- "1" jeu.joueurs.classes.Classe
+jeu.joueurs.Personnage "0..*" o-- "0..*" jeu.joueurs.equipement.Arme
+jeu.joueurs.Personnage "0..*" o-- "0..*" jeu.joueurs.equipement.Armure
+jeu.joueurs.Personnage "0..1" *-- "0..1" jeu.joueurs.equipement.Arme : "armeEquipee"
+jeu.joueurs.Personnage "0..1" *-- "0..1" jeu.joueurs.equipement.Armure : "armureEquipee"
+
+jeu.Jeu o-- "0..*" jeu.joueurs.Personnage
+jeu.InitialisationJoueurs o-- "0..*" jeu.joueurs.Personnage
+jeu.InitialisationJoueurs o-- "0..*" jeu.joueurs.races.Race
+jeu.InitialisationJoueurs o-- "0..*" jeu.joueurs.classes.Classe
+
+@enduml

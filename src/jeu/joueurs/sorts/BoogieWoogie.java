@@ -11,12 +11,13 @@ public class BoogieWoogie implements Sort {
 
   public void lancer() {}
   public void lancer(Personnage lanceur, Personnage cible1, Personnage cible2) {
-      var posA = cible1.getPosition();
-      var posB = cible2.getPosition();
-      var tmp = new Position(-1, -1);
-      cible1.TP(tmp.getX(), tmp.getY());
-      cible2.TP(posA.getX(), posA.getY());
-      cible1.TP(posB.getX(), posB.getY());
+      Position posA = cible1.getPosition();
+      Position posB = cible2.getPosition();
+      Position tmp = new Position(-1, -1);
+
+      cible1.TP(tmp);
+      cible2.TP(posA);
+      cible1.TP(posB);
       Output.print("Les positions de " + cible1.getNom() + " et " + cible2.getNom() + " ont étées échangées par " + lanceur.getNom());
     }
 }
