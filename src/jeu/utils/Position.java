@@ -1,8 +1,12 @@
 package jeu.utils;
+import jeu.Jeu;
+import jeu.maitre.Carte;
+import jeu.maitre.Donjon;
 
 public class Position {
   private int x;
   private int y;
+  Carte carteActuelle = Jeu.getListeCartes().get(Donjon.getIndexCarteActuelle());
 
   public Position(int x, int y) {
     /// Constructeur de classe ///
@@ -18,16 +22,23 @@ public class Position {
     return this.y;
   }
 
-  // IMPLEMENTER LA VERIFICATION POUR CHAQUE MOUVEMENT, besoin de la carte avant
-  public Position TP(int x, int y) {
-    this.x = x;
-    this.y = y;
+  public Position TP(Position p) {
+    if (this.checkCase(p)) {
+      this.x = p.getX();
+      this.y = p.getY();
+    } else {
+      Output.print("Malheuresement cette case n'est pas accessible");
+    }
     return this;
   }
 
-  public Position move(int x, int y) {
-    this.x += x;
-    this.y += y;
+  public Position move(Position p) {
+    if (this.checkCase(p)) {
+    this.x += p.getX();
+    this.y += p.getY();
+    } else {
+      Output.print("Malheuresement cette case n'est pas accessible");
+    }
     return this;
   } 
 
@@ -35,17 +46,16 @@ public class Position {
     return this;
   }
 
-  public int distance(int x, int y) {
-    return Math.abs((x - this.x) + (y - this.y));
-  }
-
   public int distance(Position p) {
-    return this.distance(p.getX(), p.getY());
+    return Math.abs((p.getX() - this.x) + (p.getY() - this.y));
   }
-
 
   public boolean equalsTo(Position pos2) {
     return this.getX() == pos2.getX() && this.getY() == pos2.getY();
+  }
+
+  public boolean checkCase(Position p) {
+    return carteActuelle.choseAt(p) == null;
   }
 
   @Override

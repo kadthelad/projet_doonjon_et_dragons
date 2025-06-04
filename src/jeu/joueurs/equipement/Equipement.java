@@ -11,7 +11,7 @@ public abstract class Equipement extends Entite {
   protected Map<Caracteristique, Integer> caracteristiquesBonus = new HashMap<>();
 
   public String getNom() {
-    return nom;
+    return this.nom;
   }
 
   public abstract Equipement copie();

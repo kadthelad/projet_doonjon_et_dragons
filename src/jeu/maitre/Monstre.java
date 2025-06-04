@@ -1,6 +1,6 @@
 package jeu.maitre;
 
-import jeu.Entite;
+import jeu.Creature;
 import jeu.utils.Position;
 import jeu.Caracteristique;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Monstre extends Entite
+public class Monstre extends Creature
 {
     private String m_espece = "";
     private int m_numero = 0; // si il existe plusieurs monstres de la meme espece
@@ -95,7 +95,8 @@ public class Monstre extends Entite
         return this.m_position;
     }
 
-    public boolean attaque(Entite cible)
+    @Override
+    public boolean attaque(Creature cible)
     {
         return false;
     }

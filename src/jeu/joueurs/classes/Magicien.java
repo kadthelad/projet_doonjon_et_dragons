@@ -3,6 +3,7 @@ package jeu.joueurs.classes;
 import java.util.Arrays;
 
 import jeu.joueurs.equipement.*;
+import jeu.joueurs.sorts.*;
 
 public class Magicien extends Classe {
 
@@ -12,5 +13,10 @@ public class Magicien extends Classe {
     listeArmes = Arrays.asList(
         Catalogue.getArmeParNom("Bâton"),
         Catalogue.getArmeParNom("Fronde"));
+
+    listeSorts = Arrays.asList(
+      new Guerison(),
+      new BoogieWoogie(),
+      new ArmeMagique());
   }
 }

@@ -3,13 +3,9 @@ package jeu.joueurs.sorts;
 import jeu.Jeu;
 import jeu.joueurs.Personnage;
 import jeu.joueurs.equipement.Arme;
-import jeu.joueurs.equipement.Equipement;
 import jeu.utils.Output;
 import jeu.utils.Input;
-
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ArmeMagique implements Sort {
