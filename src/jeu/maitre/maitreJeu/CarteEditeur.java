@@ -120,7 +120,7 @@ public class CarteEditeur
               break;
             case 4: // SAUVEGARDER LA CARTE ET QUITTER
               System.out.println("Carte souvegardée sous le nom de " + carteSelectionnee.getName() + "!");
-              inEditing = false;
+              inMapEditor = false;
               break;
             case 5: // QUITTER SANS SAUVEGARDER LA CARTE
               boolean inNotSaveAndQuit = true;
@@ -244,19 +244,19 @@ public class CarteEditeur
         System.out.println("[!] Il n'y a pas de carte crée!\n");
         return;
       }
-      // supprimer un monstre
+      // supprimer une carte
       System.out.println("-- Quel carte voulez-vous supprimer? --");
       for (int i = 0; i < listCartes.size(); i++)
       {
-        System.out.println("[" + (i) + "] - " + listCartes.get(i).getName());
+        System.out.println("[" + i + "] - " + listCartes.get(i).getName());
       }
       System.out.println("[" + listCartes.size() + "] - Revenir à l'éditeur de carte");
       int userInt = jeu.utils.Input.entier();
-      if (userInt == listCartes.size() + 1)
+      if (userInt == listCartes.size())
       {
         return;
       }
-      else if (userInt <= listCartes.size())
+      else if (userInt < listCartes.size())
       {
         System.out.println("[!] Carte " + listCartes.get(userInt).getName() + " supprimé!\n");
         listCartes.remove(userInt);
@@ -343,16 +343,8 @@ public class CarteEditeur
         System.out.print("\n");
         if ((taillex <= carteCreee.getTaille().getX() && taillex >= 1) && (tailley <= carteCreee.getTaille().getY() && tailley >= 1))
         {
-          if (carteCreee.choseAt(new Position(taillex, tailley)).getAlias() == "[x]")
-          {
-            carteCreee.removeChose(new Position(taillex, tailley));
-            inObstacleRemv = false;
-          }
-          else
-          {
-            System.out.println("Il n'y a pas d'obstacle à " + new Position(taillex, tailley).toString());
-            inObstacleRemv = false;
-          }
+          carteCreee.removeChose(new Position(taillex, tailley));
+          inObstacleRemv = false;
         }
         else
         {

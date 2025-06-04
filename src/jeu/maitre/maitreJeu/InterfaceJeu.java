@@ -1,5 +1,6 @@
 package jeu.maitre.maitreJeu;
 
+import jeu.Entite;
 import jeu.joueurs.Personnage;
 import jeu.joueurs.equipement.ArmureLegere;
 import jeu.joueurs.equipement.Equipement;
@@ -59,10 +60,10 @@ public class InterfaceJeu
           choisirCartes(listeCartes, listeCartesDonjon);
           break;
         case 1: // PREPARER LES CARTES
-          preparerCartes(listeCartesDonjon);
+          preparerCartes(listeCartesDonjon, listeMonstres, listePersonnages, listeEquipements);
           break;
         case 2: // COMMENCER LE JEU
-          //Donjon donjonActuel = new Donjon(listeCartesDonjon, listePersonnages, liste);
+          //Donjon donjonActuel = new Donjon(listeCartesDonjon);
           break;
         case 1000: // RETOURNER AU MENU PRINCIPAL
           inCommencerJeu = false;
@@ -118,7 +119,7 @@ public class InterfaceJeu
     }
   }
 
-  private static void preparerCartes(ArrayList<Carte> listCartesDonjon)
+  private static void preparerCartes(ArrayList<Carte> listCartesDonjon, ArrayList<Monstre> listeMonstres, ArrayList<Personnage> listePersonnages, ArrayList<Equipement> listeEquipements)
   {
     boolean inPreparingMap = true;
 
@@ -139,9 +140,10 @@ public class InterfaceJeu
       else if (userInt < listCartesDonjon.size()) // préparer cette carte
       {
         boolean inMapEditor = true;
+        Carte carteChoisi = listCartesDonjon.get(userInt);
         while (inMapEditor)
         {
-          Output.print("==== Modification de la carte " + listCartesDonjon.get(userInt).getName() + " ====\n" +
+          Output.print("==== Modification de la carte " + carteChoisi.getName() + " ====\n" +
                   "[0] Ajouter un objet au sol" +
                   "[1] Ajouter un monstre" +
                   "[2] Placer les joueurs" +
@@ -150,10 +152,19 @@ public class InterfaceJeu
           switch (userInt2)
           {
             case 0: // ajouter objet au sol
+              ArrayList<Entite> listEqptEntity = new ArrayList<Entite>() {};
+              listEqptEntity.addAll(listeEquipements);
+              addEntityOnMap(listEqptEntity, carteChoisi);
               break;
             case 1: // ajouter monstre sur la carte
+              ArrayList<Entite> listMstrEntity = new ArrayList<Entite>() {};
+              listMstrEntity.addAll(listeEquipements);
+              addEntityOnMap(listMstrEntity, carteChoisi);
               break;
             case 2: // placer joueurs
+              ArrayList<Entite> listPlyrEntity = new ArrayList<Entite>() {};
+              listPlyrEntity.addAll(listeEquipements);
+              addEntityOnMap(listPlyrEntity, carteChoisi);
               break;
             case 3: // retour en arrière
               inMapEditor = false;
@@ -167,4 +178,38 @@ public class InterfaceJeu
     }
   }
 
+  private static void addEntityOnMap(ArrayList<Entite> listEntite, Carte map)
+  {
+    boolean isPlacingEntity = true;
+
+    while (isPlacingEntity)
+    {
+      Output.print(" ===== Placement d'une entité ===== \n");
+      Output.print("Choisissez l'entité à placer : \n");
+      for (int i=0; i<listEntite.size(); i++)
+      {
+        Output.print("["+i+"]" + listEntite.get(i).getNom());
+      }
+      Output.print("Où voulez-vous le placer?\n");
+      int userIndex = Input.entier();
+      boolean verifPlacing = true;
+      while (verifPlacing)
+      {
+        Output.print("X = ");
+        int userX = Input.entier();
+        Output.print("Y = ");
+        int userY = Input.entier();
+        if (map.addChose(new Position(userX, userY), listEntite.get(userIndex)))
+        {
+          verifPlacing = false;
+          Output.print(listEntite.get(userIndex).getNom() + " à été placé sur la carte!\nVisualisation de la carte:");
+          map.afficherCarte();
+        }
+        else
+        {
+          Output.print("[!] Il y a eu une erreur lors du placement ! Êtes-vous sûr d'avoir placé l'élément dans les limites de la carte?");
+        }
+      }
+    }
+  }
 }

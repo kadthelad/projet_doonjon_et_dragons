@@ -98,7 +98,7 @@ public class MonstreEditeur
     boolean inIconEditing = true;
     while (inIconEditing)
     {
-      Output.print("Entrez une nouvelle icone (3 caractères OBLIGATIOIRE) : ");
+      Output.print("Entrez une nouvelle icone (2 caractères total OBLIGATIOIRE) : ");
       String userString = Input.string();
       if (userString.length() == 2)
       {
@@ -107,7 +107,7 @@ public class MonstreEditeur
       }
       else
       {
-        Output.print("[!] Veuillez mettre 3 caractères au total!\n");
+        Output.print("[!] Veuillez mettre 2 caractères au total!\n");
       }
     }
 
@@ -147,15 +147,15 @@ public class MonstreEditeur
       System.out.println("-- Quel monstre voulez-vous supprimer? --");
       for (int i = 0; i < listMonstres.size(); i++)
       {
-        System.out.println("[" + (i) + "] - " + listMonstres.get(i).getEspece());
+        System.out.println("[" + i + "] - " + listMonstres.get(i).getEspece());
       }
       System.out.println("[" + listMonstres.size() + "] - Revenir à l'éditeur de monstre");
       int userInt = jeu.utils.Input.entier();
-      if (userInt == listMonstres.size() + 1)
+      if (userInt == listMonstres.size())
       {
         return;
       }
-      else if (userInt <= listMonstres.size())
+      else if (userInt < listMonstres.size())
       {
         System.out.println("[!] Monstre " + listMonstres.get(userInt).getEspece() + " supprimé!\n");
         listMonstres.remove(userInt);
@@ -221,7 +221,7 @@ public class MonstreEditeur
             boolean inIconEditing = true;
             while (inIconEditing)
             {
-              Output.print("Entrez une nouvelle icone (3 caractères OBLIGATIOIRE) : ");
+              Output.print("Entrez une nouvelle icone (2 caractères total OBLIGATIOIRE) : ");
               String userString = Input.string();
               if (userString.length() == 2)
               {
@@ -230,7 +230,7 @@ public class MonstreEditeur
               }
               else
               {
-                Output.print("[!] Veuillez mettre 3 caractères au total!\n");
+                Output.print("[!] Veuillez mettre 2 caractères au total!\n");
               }
             }
             break;

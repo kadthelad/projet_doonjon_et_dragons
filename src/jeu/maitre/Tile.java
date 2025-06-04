@@ -5,11 +5,12 @@ import jeu.utils.Position;
 
 public class Tile extends Entite
 {
+  private Position m_position;
   private String m_chose = " . ";
 
   public Tile(Position pos)
   {
-    this.position = pos;
+    this.m_position = pos;
   }
 
   public void setChose(String chose)
@@ -19,25 +20,7 @@ public class Tile extends Entite
 
   public Position getPosition()
   {
-    return this.position;
-  }
-
-  @Override
-  public boolean attaque(Entite cible)
-  {
-    return false;
-  }
-
-  @Override
-  public int getCA()
-  {
-    return 0;
-  }
-
-  @Override
-  public String getNom()
-  {
-    return "";
+    return this.m_position;
   }
 
   public String getAlias()
@@ -45,9 +28,9 @@ public class Tile extends Entite
     return this.m_chose;
   }
 
-  @Override
-  public void changePV(int pv)
-  {
 
+  public String getNom()
+  {
+    return "";
   }
 }
