@@ -1,5 +1,6 @@
 package jeu;
 
+import jeu.maitre.Carte;
 import jeu.utils.Position;
 
 public abstract class Entite {
@@ -23,8 +24,20 @@ public abstract class Entite {
     this.position = null;
   }
 
+  public void TP(Position p) {
+    Carte carte = Jeu.getCarteEnCours();
+    if (carte.checkCase(p)) {
+      carte.enleveEntite(p);
+      this.position = p;    
+      carte.ajouteEntite(this, p);
+    }
+  }
+
   public int distance(Entite e) {
-    Position p = e.getPosition();
+    return distance(e.getPosition());
+  }
+
+  public int distance(Position p) {
     return Math.abs(p.x - this.position.x + p.y - this.position.y);
   }
 

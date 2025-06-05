@@ -25,7 +25,7 @@ public class Des {
       nombreDeFaces = Integer.parseInt(arr[1]);
 
     } catch (Exception e) {
-      System.out.println("Merci d'entrer un format de lancer valide : 2d4 pour 2 des de 4 faces.");
+      System.out.println("Merci d'entrer un format de lancer valide : '2d4' pour 2 des de 4 faces.");
       return -1;
     }
     return lancer(nombreDeDes, nombreDeFaces);
