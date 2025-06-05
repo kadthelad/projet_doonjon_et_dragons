@@ -1,14 +1,11 @@
 package jeu.maitre;
 
 import jeu.Entite;
+import jeu.carte.CaseVide;
 import jeu.utils.*;
-
-import java.security.PublicKey;
-import java.util.ArrayList;
 
 public class Carte {
 
-  private ArrayList<ArrayList<Entite>> map = new ArrayList<>();
   private String name = "Carte sans nom";
   private int largeur;
   private int hauteur;
@@ -16,12 +13,28 @@ public class Carte {
   Entite carte[][];
 
   public Carte(int x, int y) {
-    /// Constructeur de la Carte ///
     this.largeur = x;
     this.hauteur = y;
-    this.carte = new Entite[y][x];
+    this.carte = new Entite[this.hauteur][this.largeur];
+    for (int i = 0; i < y; i++) {
+      for (int j = 0; j < x; j++) {
+        this.carte[i][j] = new CaseVide();
+      }
+    }
   }
 
+  public Carte(Position taille) {
+    this.largeur = taille.x();
+    this.hauteur = taille.y();
+    this.carte = new Entite[this.hauteur][this.largeur];
+  }
+
+  public Carte(Carte c) {
+    this.copieCarte(c);
+  }
+
+  // on retourne le tableau d'entité à 2 dimensions symbolisant les cases de la
+  // carte
   public Entite[][] getCarte() {
     return this.carte;
   }
@@ -34,21 +47,20 @@ public class Carte {
     return hauteur;
   }
 
-  // pour copier la carte (utilisé dans CarteEditeur.editerCarte())
   public void copieCarte(Carte c) {
-    this.largeur = c.getLargeur();
-    this.hauteur = c.getHauteur();
     this.name = c.getName() + " - copie";
-    for (int y = 0; y < this.hauteur; y++) {
-      for (int x = 0; x < this.largeur; x++) {
+    for (int y = 0; y < this.hauteur && y < c.getHauteur(); y++) {
+      for (int x = 0; x < this.largeur && y < c.getLargeur(); x++) {
         this.carte[y][x] = c.getCarte()[y][x];
       }
     }
+    this.largeur = c.getLargeur();
+    this.hauteur = c.getHauteur();
   }
 
   public void ajouteEntite(Entite e, Position p) {
     if (checkCase(p)) {
-      this.carte[p.y][p.x] = e;
+      this.carte[p.y()][p.x()] = e;
       e.entreCarte(p);
     }
     return;
@@ -58,9 +70,9 @@ public class Carte {
     boolean check = true;
     if (!inCarte(p)) {
       check = false;
-    } else if (this.carte[p.y][p.x] != null) {
+    } else if (this.getEntite(p).isEmpty()) {
       check = false;
-      Output.print("Cette case n'est pas disponible, " + this.carte[p.y][p.x].getAlias());
+      Output.print("Cette case n'est pas disponible, " + this.getEntite(p).getAlias());
     } else {
       check = true;
     }
@@ -68,8 +80,8 @@ public class Carte {
   }
 
   public boolean inCarte(Position pos) {
-    int x = pos.x;
-    int y = pos.y;
+    int x = pos.x();
+    int y = pos.y();
     int a = this.largeur;
     int h = this.hauteur;
 
@@ -83,11 +95,11 @@ public class Carte {
   }
 
   public void enleveEntite(Position pos) {
-    this.carte[pos.y][pos.x] = null;
+    this.ajouteEntite(new CaseVide(), pos);
   }
 
   public Entite getEntite(Position pos) {
-    return this.carte[pos.y][pos.x];
+    return this.carte[pos.y()][pos.x()];
   }
 
   public String getName() {
@@ -104,35 +116,32 @@ public class Carte {
 
   // A TERMINER
   public void changeTaille(Position taille) {
-    Carte nouvelleCarte = new Carte(taille.y, taille.x);
+    Carte nouvelleCarte = new Carte(taille);
     nouvelleCarte.copieCarte(this);
     this.carte = nouvelleCarte.getCarte();
   }
 
   public void afficherCarte() {
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    String ligneAbscisse = "  *";
 
-    String ligneAbscisse = "   *";
     Output.print("   ");
     // Créer la ligne du haut
-    for (int i = 0; i < largeur; i++) {
+    for (int i = 0; i < largeur && i < 26; i++) {
       Output.print(" " + (alph.charAt(i)) + " ");
       ligneAbscisse += "---";
     }
     Output.print("\n");
     Output.println(ligneAbscisse + "*");
-
-    // Faire le tableau
     for (int y = 0; y < this.hauteur; y++) {
       if (y < 9) {
-        Output.print((y + 1) + " |");
+        Output.print((y + 1) + "| ");
       } else {
         Output.print((y + 1) + "|");
       }
       String points = "";
       for (int x = 0; x < this.largeur; x++) {
-        String alias = this.carte[y][x].getAlias();
-        points += (alias == null) ? " . " : alias;
+        points += this.carte[y][x].getAlias();
       }
       Output.println(points);
     }

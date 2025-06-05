@@ -38,7 +38,11 @@ public abstract class Entite {
   }
 
   public int distance(Position p) {
-    return Math.abs(p.x - this.position.x + p.y - this.position.y);
+    return Math.abs(p.x() - this.position.x() + p.y() - this.position.y());
+  }
+
+  public boolean isEmpty() {
+    return false;
   }
 
 }

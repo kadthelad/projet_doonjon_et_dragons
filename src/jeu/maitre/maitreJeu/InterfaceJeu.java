@@ -199,17 +199,10 @@ public class InterfaceJeu
         int userX = Input.entier();
         Output.print("Y = ");
         int userY = Input.entier();
-        if (map.addChose(new Position(userX, userY), listEntite.get(userIndex)))
-        {
-          verifPlacing = false;
+        map.ajouteEntite(listEntite.get(userIndex), new Position(userX, userY));
           Output.print(listEntite.get(userIndex).getNom() + " à été placé sur la carte!\nVisualisation de la carte:");
           map.afficherCarte();
-        }
-        else
-        {
-          Output.print("[!] Il y a eu une erreur lors du placement ! Êtes-vous sûr d'avoir placé l'élément dans les limites de la carte?");
         }
       }
     }
   }
-}

@@ -18,7 +18,7 @@ public class CarteEditeur
     while (inEditor)
     {
       // Création de la carte //
-      System.out.println("| =-=-=-=-= | EDITEUR DE CARTE | =-=-=-=-= |\n[0] Éditer une carte\n[1] Créer une nouvelle carte\n[2] Supprimer une carte\n[3] Quitter l'éditeur");
+      Output.println("| =-=-=-=-= | EDITEUR DE CARTE | =-=-=-=-= |\n[0] Éditer une carte\n[1] Créer une nouvelle carte\n[2] Supprimer une carte\n[3] Quitter l'éditeur");
       userInput = Input.entier();
 
       switch (userInput)
@@ -36,7 +36,7 @@ public class CarteEditeur
           inEditor = false;
           break;
         default:
-          System.out.println("Veuillez écrire une commande valide!");
+          Output.println("Veuillez choisir une commande valide.");
           break;
       }
     }
@@ -52,16 +52,16 @@ public class CarteEditeur
     {
       if (listCartes.isEmpty())
       {
-        System.out.println("[!] Il n'y a pas de carte crée!\n");
+        Output.println("[!] Il n'y a pas de carte crée!\n");
         return;
       }
 
-      System.out.println("-- Quel carte voulez-vous éditer? --");
+      Output.println("-- Quel carte voulez-vous éditer? --");
       for (int i = 0; i < listCartes.size(); i++)
       {
-        System.out.println("[" + i + "] - " + listCartes.get(i).getName());
+        Output.println("[" + i + "] - " + listCartes.get(i).getName());
       }
-      System.out.println("[" + listCartes.size() + "] - Revenir au menu d'éditeur de carte");
+      Output.println("[" + listCartes.size() + "] - Revenir au menu d'éditeur de carte");
       int userInt = jeu.utils.Input.entier();
       if (userInt == listCartes.size())
       {
@@ -75,9 +75,9 @@ public class CarteEditeur
         {
           Carte carteDefault = new Carte(listCartes.get(userInt));
           Carte carteSelectionnee = listCartes.get(userInt);
-          System.out.println("Vous éditez la carte " + listCartes.get(userInt).getName());
+          Output.println("Vous éditez la carte " + listCartes.get(userInt).getName());
           carteSelectionnee.afficherCarte();
-          System.out.println("\n[0] Changer la taille de la carte" +
+          Output.println("\n[0] Changer la taille de la carte" +
                   "\n[1] Ajouter un obstacle" +
                   "\n[2] Retirer un obstacle" +
                   "\n[3] Changer le nom de la carte" +
@@ -104,7 +104,7 @@ public class CarteEditeur
               boolean inNameEditor = true;
               while (inNameEditor)
               {
-                System.out.print("Donnez un nom à votre carte: ");
+                Output.print("Donnez un nom à votre carte: ");
                 userStrInput = Input.string();
                 if (userStrInput == "")
                 {
@@ -114,12 +114,12 @@ public class CarteEditeur
                 {
                   carteSelectionnee.setName(userStrInput);
                 }
-                System.out.println("Cette carte sera nommée " + carteSelectionnee.getName());
+                Output.println("Cette carte sera nommée " + carteSelectionnee.getName());
                 inNameEditor = false;
               }
               break;
             case 4: // SAUVEGARDER LA CARTE ET QUITTER
-              System.out.println("Carte souvegardée sous le nom de " + carteSelectionnee.getName() + "!");
+              Output.println("Carte souvegardée sous le nom de " + carteSelectionnee.getName() + "!");
               inMapEditor = false;
               break;
             case 5: // QUITTER SANS SAUVEGARDER LA CARTE
@@ -127,7 +127,7 @@ public class CarteEditeur
 
               while (inNotSaveAndQuit)
               {
-                System.out.println("Êtes-vous sûr.e de quitter sans sauvegarder? (toutes vos modifications seront annulées!)" +
+                Output.println("Êtes-vous sûr.e de quitter sans sauvegarder? (toutes vos modifications seront annulées!)" +
                         "\n[0] Oui" +
                         "\n[1] Non");
                 int userInput3 = Input.entier();
@@ -138,7 +138,7 @@ public class CarteEditeur
                   inMapEditor = false;
                 } else if (userInt != 1)
                 {
-                  System.out.println("Entrez une commande valide!");
+                  Output.println("Entrez une commande valide!");
                 }
                 else
                 {
@@ -147,14 +147,14 @@ public class CarteEditeur
                 break;
               }
               default:
-                System.out.println("Entrez une commande valide!");
+                Output.println("Entrez une commande valide!");
                 break;
           }
         }
       }
       else
       {
-        System.out.println("Entrez une commande existante!");
+        Output.println("Entrez une commande existante!");
       }
     }
   }
@@ -172,7 +172,7 @@ public class CarteEditeur
     while (inMapEditor)
     {
       carteCreee.afficherCarte();
-      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un obstacle\n[1] Supprimer un obstacle\n[2] Continuer");
+      Output.println("----------------------\nChoisissez une action:\n[0] Ajouter un obstacle\n[1] Supprimer un obstacle\n[2] Continuer");
       userInput = Input.entier();
       switch (userInput)
       {
@@ -189,13 +189,13 @@ public class CarteEditeur
           int userInput2;
           while (confirmExit)
           {
-            System.out.println("Êtes-vous sûr de sauvegarder votre carte?\n[0] Oui, sauvegarder et quitter\n[1] Non, retour à la création de la carte\n[2] Revoir la carte");
+            Output.println("Êtes-vous sûr de sauvegarder votre carte?\n[0] Oui, sauvegarder et quitter\n[1] Non, retour à la création de la carte\n[2] Revoir la carte");
             userInput2 = Input.entier();
 
             switch (userInput2)
             {
               case 0:
-                System.out.print("Donnez un nom à votre carte: ");
+                Output.print("Donnez un nom à votre carte: ");
                 userStrInput = Input.string();
                 if (userStrInput == "")
                 {
@@ -221,13 +221,13 @@ public class CarteEditeur
                 break;
 
               default:
-                System.out.println("Veuillez écrire une commande valide!");
+                Output.println("Veuillez écrire une commande valide!");
                 break;
             }
           }
           break;
         default:
-          System.out.println("Veuillez écrire une commande valide!");
+          Output.println("Veuillez écrire une commande valide!");
           break;
       }
     }
@@ -241,16 +241,16 @@ public class CarteEditeur
     {
       if (listCartes.isEmpty())
       {
-        System.out.println("[!] Il n'y a pas de carte crée!\n");
+        Output.println("[!] Il n'y a pas de carte crée!\n");
         return;
       }
       // supprimer une carte
-      System.out.println("-- Quel carte voulez-vous supprimer? --");
+      Output.println("-- Quel carte voulez-vous supprimer? --");
       for (int i = 0; i < listCartes.size(); i++)
       {
-        System.out.println("[" + i + "] - " + listCartes.get(i).getName());
+        Output.println("[" + i + "] - " + listCartes.get(i).getName());
       }
-      System.out.println("[" + listCartes.size() + "] - Revenir à l'éditeur de carte");
+      Output.println("[" + listCartes.size() + "] - Revenir à l'éditeur de carte");
       int userInt = jeu.utils.Input.entier();
       if (userInt == listCartes.size())
       {
@@ -258,103 +258,94 @@ public class CarteEditeur
       }
       else if (userInt < listCartes.size())
       {
-        System.out.println("[!] Carte " + listCartes.get(userInt).getName() + " supprimé!\n");
+        Output.println("[!] Carte " + listCartes.get(userInt).getName() + " supprimé!\n");
         listCartes.remove(userInt);
       }
       else
       {
-        System.out.println("Entrez une commande existante!");
+        Output.println("Entrez une commande existante!");
       }
     }
   }
 
   private static void changerTailleMap(Carte carteCreee)
   {
-    System.out.println("Quelle sera la taille de la carte?: ");
-    boolean inMapSizeEditor = true;
+    Output.println("Quelle sera la taille de la carte ? (min:15  max:25)");
 
-    int taillex = 15;
-    int tailley = 15;
+    Position taille = new Position(15, 15);
 
-    while (inMapSizeEditor)
-    {
-      System.out.print("X =  ");
-      taillex = Input.entier();
-      System.out.print("Y =  ");
-      tailley = Input.entier();
-      System.out.print("\n");
-      if ((taillex >= 15 && taillex <= 25) && (tailley >= 15 && tailley <= 25))
-      {
-        inMapSizeEditor = false;
-      }
-      else
-      {
-        System.out.println("Vous devez choisir une taille entre 15 et 25!");
-      }
-    }
-    carteCreee.changeSize(taillex, tailley);
+
+    int n = 0;
+    do {
+      Output.print("X =  ");
+      n = Input.entier();
+    } while (checkSize(n));
+    taille.x(n);
+
+    n = 0;
+    do {
+      Output.print("Y =  ");
+      n = Input.entier();
+    } while (checkSize(n));
+    taille.y(n);
+    carteCreee.changeTaille(taille);
+  }
+
+  public static boolean checkSize(int t) {
+    return (t < 15 || t > 25);
   }
 
   private static void ajoutObstacle(Carte carteCreee)
   {
-    System.out.println("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez créer un obstacle : ");
+    Output.println("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez créer un obstacle : ");
     // Avoir la position pour poser l'obstacle
     boolean inObstacleAdd = true;
 
-    int taillex = 15;
-    int tailley = 15;
+    Position taille = new Position(15, 15);
 
     while (inObstacleAdd)
     {
-      System.out.print("X =  ");
-      taillex = Input.entier();
-      System.out.print("Y =  ");
-      tailley = Input.entier();
-      System.out.print("\n");
-      if ((taillex <= carteCreee.getTaille().getX() && taillex >= 1) && (tailley <= carteCreee.getTaille().getY() && tailley >= 1))
+      Output.print("X =  ");
+      taille.x(Input.entier());
+      Output.print("Y =  ");
+      taille.y(Input.entier());
+      Output.print("\n");
+      if ((taille.x() <= carteCreee.getTaille().x() && taille.x() >= 1) && (taille.y() <= carteCreee.getTaille().y() && taille.y() >= 1))
       {
-        carteCreee.addChose(new Position(taillex, tailley), new Obstacle());
+        carteCreee.ajouteEntite(new Obstacle(), taille);
         inObstacleAdd = false;
       }
       else
       {
-        System.out.println("Vous devez choisir une position qui se trouve dans la carte!");
+        Output.println("Vous devez choisir une position qui se trouve dans la carte!");
       }
     }
   }
 
   private static void supprObstacle(Carte carteCreee)
   {
-    if (carteCreee.hasObstacles())
-    {
-      System.out.println("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez supprimer un obstacle : ");
+      Output.println("--- AJOUT D'UN OBSTACLE ---\nEntrez la position à laquelle vous voulez supprimer un obstacle : ");
       // Avoir la position pour poser l'obstacle
       boolean inObstacleRemv = true;
 
-      int taillex = 15;
-      int tailley = 15;
-
+      Position taille = new Position(15, 15);
+    
       while (inObstacleRemv)
       {
-        System.out.print("X =  ");
-        taillex = Input.entier();
-        System.out.print("Y =  ");
-        tailley = Input.entier();
-        System.out.print("\n");
-        if ((taillex <= carteCreee.getTaille().getX() && taillex >= 1) && (tailley <= carteCreee.getTaille().getY() && tailley >= 1))
+        Output.print("X =  ");
+        taille.x(Input.entier());
+        Output.print("Y =  ");
+        taille.y(Input.entier());
+        Output.print("\n");
+        if ((taille.x() <= carteCreee.getTaille().x() && taille.x() >= 1) && (taille.y() <= carteCreee.getTaille().y() && taille.y() >= 1))
         {
-          carteCreee.removeChose(new Position(taillex, tailley));
+          carteCreee.enleveEntite(new Position(taille.x(), taille.y()));
           inObstacleRemv = false;
         }
         else
         {
-          System.out.println("Vous devez choisir une position qui se trouve dans la carte!");
+          Output.println("Vous devez choisir une position qui se trouve dans la carte!");
         }
       }
-    }
-    else
-    {
-      System.out.println("Il n'y a pas d'obstacles dans la carte!");
-    }
   }
 }

@@ -37,6 +37,7 @@ public class MonstreEditeur
         }
       }
 
+
       System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Modifier un monstre\n[3] Continuer");
       userInput = jeu.utils.Input.entier();
       switch (userInput)
