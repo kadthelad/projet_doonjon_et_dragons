@@ -4,9 +4,14 @@ public class Position {
   private int x;
   private int y;
 
-  public Position(int x, int y) {
-    this.x = x;
+  public Position(int y, int x) {
     this.y = y;
+    this.x = x;
+  }
+
+  public Position() {
+    this.y = 15;
+    this.x = 15;
   }
 
   public int x() {

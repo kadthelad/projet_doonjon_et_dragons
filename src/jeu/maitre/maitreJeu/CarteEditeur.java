@@ -272,19 +272,18 @@ public class CarteEditeur
   {
     Output.println("Quelle sera la taille de la carte ? (min:15  max:25)");
 
-    Position taille = new Position(15, 15);
-
+    Position taille = new Position();
 
     int n = 0;
     do {
-      Output.print("X =  ");
+      Output.print("X (largeur) =  ");
       n = Input.entier();
     } while (checkSize(n));
     taille.x(n);
 
     n = 0;
     do {
-      Output.print("Y =  ");
+      Output.print("Y (hauteur) =  ");
       n = Input.entier();
     } while (checkSize(n));
     taille.y(n);

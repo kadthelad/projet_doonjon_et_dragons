@@ -25,10 +25,10 @@ public class InitialisationJoueurs {
 
   // Demander le nombre de joueurs
   public static int combienJoueurs() {
-    System.out.println("Sans compter la ou le MJ, combien de joueurs y aura-t-il ?");
+    Output.println("Sans compter la ou le MJ, combien de joueurs y aura-t-il ?");
     int n = Input.entier();
     while (n <= 0) {
-      System.out.print("Merci d'entrer un nombre entier strictement positif : ");
+      Output.print("Merci d'entrer un nombre entier strictement positif : ");
       n = Input.entier();
     }
     return n;
@@ -38,7 +38,7 @@ public class InitialisationJoueurs {
   public static ArrayList<Personnage> creationPersonnages(int nombreJoueurs) {
     // pour chaque joueur...
     for (int i = 0; i < nombreJoueurs; i++) {
-      System.out.println("Joueur " + (i + 1) + ", nommez votre personnage :");
+      Output.println("Joueur " + (i + 1) + ", nommez votre personnage :");
       String nom = demanderNom();
       int indexRace;
       int indexClasse;
@@ -46,28 +46,22 @@ public class InitialisationJoueurs {
       // Choix de la race
       String valide;
       do {
-        try {
-          System.out.print("\033\143");
-        } catch (Exception e) {
-        }
-        System.out.println(nom + ", entrez le numéro associé à la race de votre choix :");
+        Output.clear();
+        Output.println(nom + ", entrez le numéro associé à la race de votre choix :");
         afficherChoix(listeRaces);
         indexRace = demanderIndiceValide(listeRaces.size());
-        System.out.println("Vous avez choisis la race " + listeRaces.get(indexRace).getNom()
+        Output.println("Vous avez choisis la race " + listeRaces.get(indexRace).getNom()
             + ".\nAppuyer sur entrée pour valider ou sur une autre lettre pour changer de race.");
         valide = Input.string();
       } while (valide != "");
 
       // Choix de la classe
       do {
-        try {
-          System.out.print("\033\143");
-        } catch (Exception e) {
-        }
-        System.out.println(nom + ", entrez le numéro associé à la classe de votre choix :");
+        Output.clear();
+        Output.println(nom + ", entrez le numéro associé à la classe de votre choix :");
         afficherChoix(listeClasses);
         indexClasse = demanderIndiceValide(listeClasses.size());
-        System.out.println("Vous avez choisis la classe " + listeClasses.get(indexClasse).getNom()
+        Output.println("Vous avez choisis la classe " + listeClasses.get(indexClasse).getNom()
             + ".\nAppuyer sur entrée pour valider ou sur une autre lettre pour changer de classe.");
         valide = Input.string();
       } while (valide != "");
@@ -79,7 +73,7 @@ public class InitialisationJoueurs {
       listePersonnages.add(personnage);
 
       // Affichage récapitulatif
-      System.out.println("\n" + personnage.toString());
+      Output.println("\n" + personnage.toString());
     }
     return listePersonnages;
   }
@@ -90,8 +84,7 @@ public class InitialisationJoueurs {
     String nom = Input.string();
     Matcher matcher = pattern.matcher(nom);
     while (!matcher.matches()) {
-      System.out
-          .println("Votre nom ne doit contenir que des lettres et éventuellement un \" \" ou un \"-\" au milieu.");
+      Output.println("Votre nom ne doit contenir que des lettres et éventuellement un \" \" ou un \"-\" au milieu.");
       nom = Input.string();
       matcher = pattern.matcher(nom);
     }
@@ -101,7 +94,7 @@ public class InitialisationJoueurs {
   // Afficher les choix possibles (races ou classes)
   private static <T> void afficherChoix(ArrayList<T> liste) {
     for (int i = 0; i < liste.size(); i++) {
-      System.out.println(i + " : " + liste.get(i).toString());
+      Output.println(i + " : " + liste.get(i).toString());
     }
   }
 
@@ -109,7 +102,7 @@ public class InitialisationJoueurs {
   private static int demanderIndiceValide(int tailleListe) {
     int choix = Input.entier();
     while (choix < 0 || choix >= tailleListe) {
-      System.out.println("Merci de choisir un numéro entre 0 et " + (tailleListe - 1) + " :");
+      Output.println("Merci de choisir un numéro entre 0 et " + (tailleListe - 1) + " :");
       choix = Input.entier();
     }
     return choix;

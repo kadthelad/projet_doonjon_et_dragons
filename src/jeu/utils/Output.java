@@ -12,4 +12,11 @@ public class Output {
   public static void printValid() {
     System.out.println("Veuillez entrer une entrez une commande valide!");
   }
+
+  public static void clear() {
+    try {
+      System.out.print("\033\143");
+    } catch (Exception e) {
+    }
+  }
 }
