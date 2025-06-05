@@ -12,10 +12,20 @@ public abstract class Entite {
   }
 
   public Position getPosition() {
-    return this.position.get();
+    return this.position;
   }
 
   public void entreCarte(Position p) {
     this.position = p;
   }
+
+  public void sortCarte(Position p) {
+    this.position = null;
+  }
+
+  public int distance(Entite e) {
+    Position p = e.getPosition();
+    return Math.abs(p.x - this.position.x + p.y - this.position.y);
+  }
+
 }

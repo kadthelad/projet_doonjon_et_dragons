@@ -1,5 +1,6 @@
 package jeu;
 
+import jeu.maitre.Carte;
 import jeu.utils.Position;
 
 public abstract class Creature extends Entite {
@@ -10,12 +11,8 @@ public abstract class Creature extends Entite {
 
   public abstract void changePV(int pv);
 
-  public void sortCarte(Position p) {
-    this.position = null;
-  }
-
   public Position TP(Position p) {
-    this.position = this.position.TP(p);
+    if ()
     return this.position;
   }
 

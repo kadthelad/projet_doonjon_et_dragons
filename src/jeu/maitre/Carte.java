@@ -39,8 +39,8 @@ public class Carte {
     this.largeur = c.getLargeur();
     this.hauteur = c.getHauteur();
     this.name = c.getName() + " - copie";
-    for (int y = 0; y < c.getHauteur(); y++) {
-      for (int x = 0; x < c.getLargeur(); x++) {
+    for (int y = 0; y < this.hauteur; y++) {
+      for (int x = 0; x < this.largeur; x++) {
         this.carte[y][x] = c.getCarte()[y][x];
       }
     }
@@ -104,50 +104,37 @@ public class Carte {
 
   // A TERMINER
   public void changeTaille(Position taille) {
-    Entite[][] nouvelleCarte = new Entite[taille.y][taille.x];
-    nouvelle.copieCarte(c);
+    Carte nouvelleCarte = new Carte(taille.y, taille.x);
+    nouvelleCarte.copieCarte(this);
+    this.carte = nouvelleCarte.getCarte();
   }
 
   public void afficherCarte() {
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     String ligneAbscisse = "   *";
-    System.out.print("   ");
+    Output.print("   ");
     // Créer la ligne du haut
     for (int i = 0; i < largeur; i++) {
-      System.out.print(" " + (alph.charAt(i)) + " ");
+      Output.print(" " + (alph.charAt(i)) + " ");
       ligneAbscisse += "---";
     }
-    System.out.print("\n");
-    System.out.println(ligneAbscisse + "*");
+    Output.print("\n");
+    Output.println(ligneAbscisse + "*");
 
     // Faire le tableau
-    for (int y = 0; y < hauteur; y++) {
+    for (int y = 0; y < this.hauteur; y++) {
       if (y < 9) {
-        System.out.print((y + 1) + " |");
+        Output.print((y + 1) + " |");
       } else {
-        System.out.print((y + 1) + "|");
+        Output.print((y + 1) + "|");
       }
       String points = "";
-      for (int x = 0; x < largeur; x++) {
-        points += this.map.get(y).get(x).getAlias();
+      for (int x = 0; x < this.largeur; x++) {
+        String alias = this.carte[y][x].getAlias();
+        points += (alias == null) ? " . " : alias;
       }
-      System.out.println(points);
+      Output.println(points);
     }
-  }
-
-  public void changeSize(int tailleMapx, int tailleMapy) {
-    ArrayList<ArrayList<Entite>> newMap = new ArrayList<>();
-
-    for (int y = 0; y < tailleMapy; y++) {
-      newMap.add(new ArrayList<>());
-      for (int x = 0; x < tailleMapx; x++) {
-        newMap.get(y).add(x, choseAt(new Position(x, y)));
-      }
-    }
-
-    this.largeur = tailleMapx;
-    this.hauteur = tailleMapy;
-    this.map = newMap;
   }
 }
