@@ -12,6 +12,7 @@ public abstract class Creature extends Entite {
   public abstract void changePV(int pv);
 
   public Position TP(Position p) {
+    Carte carte = Jeu.
     if ()
     return this.position;
   }

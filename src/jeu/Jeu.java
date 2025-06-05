@@ -11,9 +11,16 @@ public class Jeu {
   // Liste des Cartes
   private static ArrayList<Carte> listeCartes = new ArrayList<>();
 
+  private static int indexCarte = 0;
+
   public static ArrayList<Carte> getListeCartes() {
     return listeCartes;
   }
+
+  public static Carte getCarteEnCours() {
+    return (listeCartes.size() > indexCarte) ? listeCartes.get(indexCarte) : null;
+  }
+  
 
   // Liste des Monstres
   private static ArrayList<Monstre> listeMonstres = new ArrayList<>();
