@@ -1,22 +1,39 @@
 package jeu.maitre.maitreJeu;
 
 import jeu.maitre.Monstre;
+import jeu.utils.Input;
+import jeu.utils.Output;
 
 import java.util.ArrayList;
 
 public class Maitre
 {
+    /*
     private ArrayList<Monstre> m_monstres = new ArrayList<Monstre>() {}; // Cet attribut comportera une liste de tous les
                                   // monstres que le maitre peut controller
-
-
-
+    */
 
     public Maitre()
     {
 
     }
 
+    public void commenter()
+    {
+        Output.println("[Maitre du Jeu] Ajouter un commentaire?\n" +
+                "[0] oui" +
+                "[1] non");
+        int userInt = Input.entier();
+        if (userInt == 0)
+        {
+            Output.println("Votre commentaire : ");
+            String userStr = Input.string();
+            Output.print("-Commentaire- : " + userStr);
+        }
+        return;
+    }
+
+    /*
     public ArrayList<Monstre> getM_monstres()
     {
         return this.m_monstres;
@@ -31,5 +48,5 @@ public class Maitre
             txt += mstr.getEspece() + " ";
         }
         return txt;
-    }
+    }*/
 }

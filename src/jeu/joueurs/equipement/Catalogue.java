@@ -1,7 +1,9 @@
 package jeu.joueurs.equipement;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Catalogue {
   private static final List<Arme> LISTE_ARMES = new ArrayList<>();

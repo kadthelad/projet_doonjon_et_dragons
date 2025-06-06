@@ -3,13 +3,13 @@ package jeu;
 import java.util.HashMap;
 import java.util.Map;
 
+import jeu.joueurs.Personnage;
 import jeu.maitre.Carte;
 import jeu.maitre.Donjon;
 import jeu.utils.Output;
 import jeu.utils.Position;
 
 public abstract class Creature extends Entite {
-
 
   protected Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
   {
@@ -21,20 +21,27 @@ public abstract class Creature extends Entite {
   }
 
 
-  public void move(Position p) {
+  public boolean move(Position p) {
     Carte carte = Donjon.getCarte();
-    if (!carte.inCarte(p)) { return; }
-    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)) {
-      Output.println("Cette case est trop éloignée.");
-      return;
-    }
+    if (!carte.inCarte(p)) { return false; }
+    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)) { return false; }
     carte.enleveEntite(p);
-    this.position = p;    
+    this.position = p;
     carte.ajouteEntite(this, p);
+    return true;
   }
 
+  public abstract int getCaracteristique(Caracteristique c);
+
+  public abstract void setCaracteristique(Caracteristique c, int v);
 
   public abstract boolean attaque(Creature cible);
+
+  public abstract boolean equipperArme();
+
+  public abstract boolean equipperArmure();
+
+  public abstract boolean ramasser(Carte carte);
 
   public abstract int getCA();
 

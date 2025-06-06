@@ -58,10 +58,6 @@ public class Carte {
     return this.name;
   }
 
-  public void setName(String newName) {
-    this.name = newName;
-  }
-
   public Entite[][] getCarte() {
     return this.carte;
   }
@@ -165,7 +161,7 @@ public class Carte {
       carte.afficherCarte();
       Output.println("""
           [0] Choisir cette carte et quitter l'éditeur
-          [1] Créer une carte interactivement
+          [1] Créer une carte manuellement
           [2] Générer une autre carte aléatoirement
           """);
       int choix = Input.entier(1, 3, "Choix : ");
@@ -192,7 +188,6 @@ public class Carte {
       int y = rand.nextInt(hauteur);
       carte.ajouteEntite(new Obstacle(), new Position(y, x));
     }
-    carte.setName("Carte aléatoire");
     return carte;
   }
 
@@ -217,10 +212,11 @@ public class Carte {
         case 1 -> {
           int x = Input.entier(1, carte.getLargeur(), "X (colonne) = ") - 1;
           int y = Input.entier(1, carte.getHauteur(), "Y (ligne) = ") - 1;
-          carte.ajouteEntite(new Obstacle(), new Position(y, x));
-          Output.println("Obstacle ajouté.");
+          carte.ajouteEntite(choixEntite(), new Position(y, x));
+          Output.println("Entite ajouté.");
         }
         case 2 -> {
+          Output.println("Quelle case souhaitez-vous vider ?");
           int x = Input.entier(1, carte.getLargeur(), "X (colonne) = ") - 1;
           int y = Input.entier(1, carte.getHauteur(), "Y (ligne) = ") - 1;
           carte.enleveEntite(new Position(y, x));
@@ -266,7 +262,6 @@ public class Carte {
 
       }
     }
-
     return e;
   }
 
