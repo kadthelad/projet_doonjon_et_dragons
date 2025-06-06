@@ -49,7 +49,7 @@ public class Personnage extends Creature {
   }
 
   public void changePV(int pv) {
-    this.changeCaracteristique(Caracteristique.PV, pv);
+    this.setCaracteristique(Caracteristique.PV, pv);
 
     int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
     if (this.caracteristiques.get(Caracteristique.PV) > pvMax) {
@@ -61,7 +61,8 @@ public class Personnage extends Creature {
     this.getCaracteristique(Caracteristique.PV);
   }
 
-  public void changeCaracteristique(Caracteristique c, int v) {
+
+  public void setCaracteristique(Caracteristique c, int v) {
     int previous = this.caracteristiques.get(c);
     this.caracteristiques.put(c, previous + v);
   }

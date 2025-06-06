@@ -63,7 +63,7 @@ public class InterfaceJeu
           preparerCartes(listeCartesDonjon, listeMonstres, listePersonnages, listeEquipements);
           break;
         case 2: // COMMENCER LE JEU
-          //Donjon donjonActuel = new Donjon(listeCartesDonjon);
+          Donjon donjonActuel = new Donjon(listeCartesDonjon, listePersonnages, listeMonstres);
           break;
         case 1000: // RETOURNER AU MENU PRINCIPAL
           inCommencerJeu = false;
@@ -129,7 +129,7 @@ public class InterfaceJeu
       Output.print("-- Quelle carte voulez-vous modifier? --\n");
       for (int i = 0; i < listCartesDonjon.size(); i++)
       {
-        Output.println("[" + i + "] - " + listCartesDonjon.get(i).getName());
+        Output.print("[" + i + "] - " + listCartesDonjon.get(i).getName());
       }
       Output.print("[" + listCartesDonjon.size() + "] - Revenir au menu de jeu\n");
       int userInt = jeu.utils.Input.entier();
@@ -199,10 +199,17 @@ public class InterfaceJeu
         int userX = Input.entier();
         Output.print("Y = ");
         int userY = Input.entier();
-        map.ajouteEntite(listEntite.get(userIndex), new Position(userX, userY));
+        if (map.ajouteEntite(listEntite.get(userIndex), new Position(userX, userY)))
+        {
+          verifPlacing = false;
           Output.print(listEntite.get(userIndex).getNom() + " à été placé sur la carte!\nVisualisation de la carte:");
           map.afficherCarte();
+        }
+        else
+        {
+          Output.print("[!] Il y a eu une erreur lors du placement ! Êtes-vous sûr d'avoir placé l'élément dans les limites de la carte?");
         }
       }
     }
   }
+}

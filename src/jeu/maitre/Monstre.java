@@ -115,7 +115,7 @@ public class Monstre extends Creature {
     return this.m_icon + this.m_numero;
   }
 
-  public void changeCaracteristique(Caracteristique c, int v) {
+  public void setCaracteristique(Caracteristique c, int v) {
     this.caracteristiques.put(c, v);
   }
 

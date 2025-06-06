@@ -55,12 +55,13 @@ public class Carte {
     }
   }
 
-  public void ajouteEntite(Entite e, Position p) {
+  public boolean ajouteEntite(Entite e, Position p) {
     if (checkCase(p)) {
       this.carte[p.y()][p.x()] = e;
       e.entreCarte(p);
+      return true;
     }
-    return;
+    return false;
   }
 
   public boolean checkCase(Position p) {

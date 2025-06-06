@@ -32,6 +32,9 @@ public abstract class Creature extends Entite {
     carte.ajouteEntite(this, p);
   }
 
+  public abstract int getCaracteristique(Caracteristique c);
+
+  public abstract void setCaracteristique(Caracteristique c, int v);
 
   public abstract boolean attaque(Creature cible);
 
