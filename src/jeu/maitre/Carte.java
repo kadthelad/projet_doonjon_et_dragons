@@ -245,7 +245,7 @@ public class Carte {
         e.sortCarte();
       }
       case 2 -> {
-        int nombreMonstres = 0;
+        int nombreMonstres = Jeu.getNombreMonstres();
         Output.println("Voici la liste des monstres : ");
         for (int i = 1; i <= nombreMonstres; i++) {
           Output.println("[" + i + "] " + Jeu.getMonstre(i-1).getNom());

@@ -12,35 +12,31 @@ import java.util.Map;
 import java.util.Random;
 
 public class Monstre extends Creature {
-  private String m_espece = "";
-  private int m_numero = 0; // si il existe plusieurs monstres de la meme espece
+  private String espece = "";
+  private int numero = 0; // si il existe plusieurs monstres de la meme espece
 
-  private String m_nomAttaque = "";
-  private String m_attaque = "";
+  private String nomAttaque = "";
+  private String des = "";
 
-  private Position m_position = new Position(0, 0);
+  private Position position = new Position(0, 0);
 
-  private String m_icon;
+  private String alias;
 
   {
     caracteristiques.put(Caracteristique.CLASSE_ARMURE, 0);
   }
 
-  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String icon) {
+  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String alias) {
     /// CONSTRUCTEUR DE LA CLASSE Monstre ///
-    this.m_espece = esp;
-    this.m_nomAttaque = nAtt;
-    this.m_attaque = att;
+    this.espece = esp;
+    this.nomAttaque = nAtt;
+    this.des = att;
     this.caracteristiques = mapCara;
-    this.m_icon = icon;
+    this.alias = alias;
   }
 
-  public Monstre(Monstre mstr) {
-    /// CONSTRUCTEUR DE DUPLICATION ///
-    this.m_espece = mstr.getEspece();
-    this.m_nomAttaque = mstr.getNomAttaque();
-    this.m_attaque = mstr.getAttaque();
-    this.caracteristiques = mstr.getMapCaracteristiques();
+  public Monstre copie(Monstre mstr) {
+    return new Monstre(this.espece, this.nomAttaque, this.des, this.caracteristiques, this.alias);
   }
 
   public static Monstre random() {
@@ -92,15 +88,15 @@ public class Monstre extends Creature {
 
   public String getEspece() {
     /// Avoir l'espèce d'un Monstre ///
-    return this.m_espece;
+    return this.espece;
   }
 
   public String getNomAttaque() {
-    return this.m_nomAttaque;
+    return this.nomAttaque;
   }
 
   public String getAttaque() {
-    return this.m_attaque;
+    return this.attaque;
   }
 
   public Map<Caracteristique, Integer> getMapCaracteristiques() {
@@ -108,23 +104,23 @@ public class Monstre extends Creature {
   }
 
   public void setEspece(String esp) {
-    this.m_espece = esp;
+    this.espece = esp;
   }
 
-  public void setIcon(String icn) {
-    this.m_icon = icn;
+  public void setAlias(String icn) {
+    this.alias = icn;
   }
 
   public void setNomAtt(String nomAtt) {
-    this.m_nomAttaque = nomAtt;
+    this.nomAttaque = nomAtt;
   }
 
   public void setSpeAtt(String speAtt) {
-    this.m_attaque = speAtt;
+    this.des = speAtt;
   }
 
   public Position getPosition() {
-    return this.m_position;
+    return this.position;
   }
 
   @Override
@@ -134,7 +130,7 @@ public class Monstre extends Creature {
       Output.print("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
       return false;
     }
-    int jet = Des.lancer(this.m_attaque);
+    int jet = Des.lancer(this.des);
 
     if (jet < cible.getCA()) {
       Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
@@ -154,15 +150,15 @@ public class Monstre extends Creature {
   }
 
   public String getNom() {
-    return this.m_espece + this.m_numero;
+    return this.espece + this.numero;
   }
 
   @Override
   /// String override ///
   public String toString() {
-    return "Monstre : " + this.m_espece +
+    return "Monstre : " + this.espece +
         " (" + getAlias() + ")" +
-        "\nAttaque : " + m_attaque +
+        "\nAttaque : " + des +
         "\n___Caractéristiques___\n" +
         this.caracteristiques.get(Caracteristique.PV) + " PV\n" +
         this.caracteristiques.get(Caracteristique.FORCE) + " Force\n" +
@@ -178,7 +174,7 @@ public class Monstre extends Creature {
 
   @Override
   public String getAlias() {
-    return this.m_icon + this.m_numero;
+    return this.alias + this.numero;
   }
 
   public void setCaracteristique(Caracteristique c, int v) {
