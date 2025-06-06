@@ -1,6 +1,7 @@
 package jeu.joueurs;
 
 import jeu.*;
+import jeu.maitre.Carte;
 import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
@@ -218,6 +219,25 @@ public class Personnage extends Creature {
       return false;
     }
   }
+
+public boolean ramasser(Carte carte)
+{
+  Arme getArme = Catalogue.getArmeParNom(carte.getEntite(this.position).getNom());
+  Armure getArmure = Catalogue.getArmureParNom(carte.getEntite(this.position).getNom());
+  if (getArmure != null)
+  {
+    this.addArmure(getArmure);
+    Output.println(this.getNom() + " à ramassé " + carte.getEntite(this.position).getNom() + ".");
+    return true;
+  }
+  if (getArme != null)
+  {
+    this.addArme(getArme);
+    Output.println(this.getNom() + " à ramassé " + carte.getEntite(this.position).getNom() + ".");
+    return true;
+  }
+  return false;
+}
 
   @Override
   public String toString() {

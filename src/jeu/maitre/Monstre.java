@@ -156,4 +156,10 @@ public class Monstre extends Creature {
     Output.println("Cette créature ne peut pas équipper d'armure !");
     return false;
   }
+
+  public boolean ramasser(Carte carte)
+  {
+    Output.println("Cette créature ne peut pas équipper d'armure !");
+    return false;
+  }
 }

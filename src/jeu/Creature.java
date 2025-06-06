@@ -40,6 +40,8 @@ public abstract class Creature extends Entite {
 
   public abstract boolean equipperArmure();
 
+  public abstract boolean ramasser(Carte carte);
+
   public abstract int getCA();
 
   public abstract void changePV(int pv);

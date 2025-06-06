@@ -104,7 +104,6 @@ public class Donjon {
     }
   }
 
-
   private boolean deplacer(Creature crea)
   {
     Output.println("Où voulez-vous déplacer " + crea.getNom() + "? ==== Vitesse = " + crea.getCaracteristique(Caracteristique.VITESSE));
@@ -152,41 +151,62 @@ public class Donjon {
   {
     int pointsAction = 3;
 
-    carte.afficherCarte();
-    Output.print(
-            "========================\n" +
-            "|Au tour de " + crea.getNom() + " :\n" +
-            "|->[0] Equipper un objet\n" +
-            "|->[1] Se déplacer\n" +
-            "|->[2] Attaquer\n" +
-            "|->[3] Ramasser un objet\n" +
-            "|->[4] Passer son tour\n" +
-            "========================\n"
-    );
-    int userVal = Input.entier();
-
-    switch (userVal)
+    while (pointsAction > 0)
     {
-      case 0: // equipper objet
-        crea.equipperArme();
-        crea.equipperArmure();
-        mj.commenter();
-        break;
-      case 1: // se deplacer
-        deplacer(crea);
-        mj.commenter();
-        break;
-      case 2: // attaquer
-        attaquer(crea);
-        mj.commenter();
-        break;
-      case 3: // ramasser objet
-        mj.commenter();
-        break;
-      case 4: // passer tour
-        break;
-      default:
-        Output.printValid();
+      carte.afficherCarte();
+      Output.print(
+              "========================\n" +
+                      "|Au tour de " + crea.getNom() + " :\n" +
+                      "|->[0] Equipper un objet\n" +
+                      "|->[1] Se déplacer\n" +
+                      "|->[2] Attaquer\n" +
+                      "|->[3] Ramasser un objet\n" +
+                      "|->[4] Passer son tour\n" +
+                      "========================\n"
+      );
+      int userVal = Input.entier();
+
+      switch (userVal)
+      {
+        case 0: // equipper objet
+          if (crea.equipperArme())
+          {
+            pointsAction--;
+            mj.commenter();
+          }
+          if (crea.equipperArmure())
+          {
+            pointsAction--;
+            mj.commenter();
+          }
+          break;
+        case 1: // se deplacer
+          if (deplacer(crea))
+          {
+            pointsAction--;
+            mj.commenter();
+          }
+          break;
+        case 2: // attaquer
+          if (attaquer(crea))
+          {
+            pointsAction--;
+            mj.commenter();
+          }
+          break;
+        case 3: // ramasser objet
+          if (crea.ramasser(this.carte))
+          {
+            pointsAction--;
+            mj.commenter();
+          }
+          break;
+        case 4: // passer tour
+          pointsAction = 0;
+          break;
+        default:
+          Output.printValid();
+      }
     }
   }
 }
