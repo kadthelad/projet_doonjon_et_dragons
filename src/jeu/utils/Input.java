@@ -23,7 +23,7 @@ public class Input {
     do {
       n = entier();
       if (n < min || n > max)
-      Output.println("Veuillez entrer un nombre entre " + min + " et " + max + ".");
+        Output.println("Veuillez entrer un nombre entre " + min + " et " + max + ".");
     } while (n < min || n > max);
     return n;
   }
@@ -34,12 +34,12 @@ public class Input {
       Output.print(prompt);
       n = entier();
       if (n < min || n > max)
-      Output.println("Veuillez entrer un nombre entre " + min + " et " + max + ".");
+        Output.println("Veuillez entrer un nombre entre " + min + " et " + max + ".");
     } while (n < min || n > max);
     return n;
   }
 
-  private static boolean confirmer(String prompt) {
+  public static boolean confirmer(String prompt) {
     Output.println(prompt + " [0] Oui [1] Non");
     int choix = entier(0, 1, "Votre choix : ");
     return choix == 0;

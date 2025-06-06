@@ -1,6 +1,7 @@
 package jeu;
 
 import jeu.maitre.Carte;
+import jeu.maitre.Donjon;
 import jeu.utils.Position;
 
 public abstract class Entite {
@@ -25,8 +26,8 @@ public abstract class Entite {
   }
 
   public void TP(Position p) {
-    Carte carte = Jeu.getCarteEnCours();
-    if (carte.checkCase(p)) {
+    Carte carte = Donjon.getCarte();
+    if (carte.inCarte(p)) {
       carte.enleveEntite(p);
       this.position = p;    
       carte.ajouteEntite(this, p);

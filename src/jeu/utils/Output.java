@@ -9,6 +9,10 @@ public class Output {
     System.out.println(ligne);
   }
 
+  public static void println() {
+    System.out.println();
+  }
+
   public static void printValid() {
     System.out.println("Veuillez entrer une entrez une commande valide!");
   }

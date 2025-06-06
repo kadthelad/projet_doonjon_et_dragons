@@ -13,21 +13,15 @@ public class Guerison implements Sort {
 
     Output.print("Quel.le personnage souhaitez-vous soigner");
     int n = 0;
-    
-    for (Personnage p : Jeu.getListePersonnages()) {
-      Output.print("[" + n + "] " + p.getNom());
-      n++;
+
+    for (int i = 1; i <= Jeu.getNombrePersonnages(); i++) {
+      Output.print("[" + i + "] " + Jeu.getPersonnage(i - 1).getNom());
     }
 
-    int input = -1;
-    do {
-      input = Input.entier();
-    } while (input < n && input >= 0);
-
-    Personnage p = Jeu.getListePersonnages().get(n);
+    Personnage p = Jeu.getPersonnage(Input.entier(0, Jeu.getNombreMonstres()));
     int soin = Des.lancer(1, 10);
     p.changePV(soin);
 
-    System.out.println(p.getNom() + " récupère " + soin + " PV !");
+    Output.println(p.getNom() + " récupère " + soin + " PV !");
   }
 }

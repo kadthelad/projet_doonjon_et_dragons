@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jeu.maitre.Carte;
+import jeu.maitre.Donjon;
 import jeu.utils.Output;
 import jeu.utils.Position;
 
@@ -21,8 +22,8 @@ public abstract class Creature extends Entite {
 
 
   public void move(Position p) {
-    Carte carte = Jeu.getCarteEnCours();
-    if (!carte.checkCase(p)) { return; }
+    Carte carte = Donjon.getCarte();
+    if (!carte.inCarte(p)) { return; }
     if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)) {
       Output.println("Cette case est trop éloignée.");
       return;

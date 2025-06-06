@@ -95,6 +95,14 @@ public class Personnage extends Creature {
     return this.listeArmes;
   }
 
+  public Arme getArme(int index) {
+    return this.listeArmes.get(index);
+  }
+
+  public int getNombreArme() {
+    return this.listeArmes.size();
+  }
+
   public List<Armure> getListeAmures() {
     return this.listeArmures;
   }

@@ -14,22 +14,25 @@ public class ArmeMagique implements Sort {
   }
 
   public void lancer() {
-    Output.print("De quel Personnage souhaitez-vous améliorer une arme.");
-    int n = 0;
-    for (Personnage p : Jeu.getListePersonnages()) {
-      Output.print("[" + n + "] " + p.getNom());
-      n++;
-    }
+    while (true) {
+      Output.print("De quel Personnage souhaitez-vous améliorer une arme.");
+      for (int i = 1; i <= Jeu.getNombrePersonnages(); i++) {
+        Output.print("[" + i + "] " + Jeu.getPersonnage(i - 1).getNom());
+      }
 
-    Personnage p = Jeu.getListePersonnages().get(Input.entier());
-    List<Arme> listeArme = new ArrayList<>();
-    for (Arme a : p.getListeArmes()) {
-      listeArme.add((Arme) a);
-    }
+      Personnage p = Jeu.getPersonnage(Input.entier(1, Jeu.getNombrePersonnages()));
 
-    for (int i = 0; i < listeArme.size(); i++) {
-      Output.print("[" + i + "] " + listeArme.get(i));
+      Output.println("[0] Choisir un autre personnage.");
+      for (int i = 1; i < p.getNombreArme(); i++) {
+        Output.println("[" + i + "] " + p.getArme(i).toString());
+      }
+
+      int n = Input.entier(0, p.getNombreArme(), "Quelle arme souhaitez-vous améliorer ?");
+      if (n == 0) {
+        return;
+      } else {
+        p.getArme(n);
+      }
     }
-    p.getListeArmes().get(Input.entier()).ameliore();
   }
 }
