@@ -42,6 +42,73 @@ public class Monstre extends Creature {
     this.caracteristiques = mstr.getMapCaracteristiques();
   }
 
+  public Monstre(String nom)
+  {
+    switch (nom)
+    {
+      case "Orc":
+        createOrc();
+        break;
+      case "Dragon":
+        createDragon();
+        break;
+      case "Araignée":
+        createAraignee();
+        break;
+      default:
+        Output.println("[!!!] Il n'y a pas de monstre préfait à ce nom! Ce monstre n'aura aucune valeur définie!");
+        break;
+    }
+  }
+
+  private void createOrc()
+  {
+    this.m_espece = "Orc";
+    this.m_nomAttaque = "Coup de pied";
+    this.m_attaque = "2d3";
+    this.m_icon = "DC";
+
+    this.setCaracteristique(Caracteristique.PV_MAX, 20);
+    this.setCaracteristique(Caracteristique.PV, 20);
+    this.setCaracteristique(Caracteristique.FORCE, 3);
+    this.setCaracteristique(Caracteristique.INITIATIVE, 2);
+    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 10);
+    this.setCaracteristique(Caracteristique.VITESSE, 3);
+    this.setCaracteristique(Caracteristique.DEXTERITE, 4);
+  }
+
+  private void createDragon()
+  {
+    this.m_espece = "Dragon";
+    this.m_nomAttaque = "Boule de feu";
+    this.m_attaque = "3d4";
+    this.m_icon = "dg";
+
+    this.setCaracteristique(Caracteristique.PV_MAX, 15);
+    this.setCaracteristique(Caracteristique.PV, 15);
+    this.setCaracteristique(Caracteristique.FORCE, 2);
+    this.setCaracteristique(Caracteristique.INITIATIVE, 4);
+    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 7);
+    this.setCaracteristique(Caracteristique.VITESSE, 5);
+    this.setCaracteristique(Caracteristique.DEXTERITE, 6);
+  }
+
+  private void createAraignee()
+  {
+    this.m_espece = "Araignée";
+    this.m_nomAttaque = "Morsure";
+    this.m_attaque = "1d6";
+    this.m_icon = "DC";
+
+    this.setCaracteristique(Caracteristique.PV_MAX, 10);
+    this.setCaracteristique(Caracteristique.PV, 10);
+    this.setCaracteristique(Caracteristique.FORCE, 5);
+    this.setCaracteristique(Caracteristique.INITIATIVE, 8);
+    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 2);
+    this.setCaracteristique(Caracteristique.VITESSE, 5);
+    this.setCaracteristique(Caracteristique.DEXTERITE, 7);
+  }
+
   public String getEspece() {
     /// Avoir l'espèce d'un Monstre ///
     return this.m_espece;
@@ -79,6 +146,7 @@ public class Monstre extends Creature {
     return this.m_position;
   }
 
+
   @Override
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
@@ -94,10 +162,9 @@ public class Monstre extends Creature {
       return false;
     }
 
-    cible.changePV(jet * -1);
+    cible.changePV((jet+this.getCaracteristique(Caracteristique.FORCE)) * -1);
 
-    Output.print("Vous avez infligé " + jet + " degats à " + cible.getNom());
-
+    Output.print("Le monstre à attaqué avec  " + this.m_nomAttaque + " et à infligé " + jet + " degats à " + cible.getNom() + "!");
     return true;
   }
 
