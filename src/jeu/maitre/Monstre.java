@@ -1,6 +1,8 @@
 package jeu.maitre;
 
 import jeu.Creature;
+import jeu.utils.Des;
+import jeu.utils.Output;
 import jeu.utils.Position;
 import jeu.Caracteristique;
 
@@ -30,7 +32,6 @@ public class Monstre extends Creature {
     this.m_attaque = att;
     this.caracteristiques = mapCara;
     this.m_icon = icon;
-
   }
 
   public Monstre(Monstre mstr) {
@@ -80,7 +81,24 @@ public class Monstre extends Creature {
 
   @Override
   public boolean attaque(Creature cible) {
-    return false;
+    int d = distance(cible.getPosition());
+    if (d > 1) {
+      Output.print("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
+      return false;
+    }
+    int jet = Des.lancer(this.m_attaque);
+
+    if (jet < cible.getCA()) {
+      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+              + cible.getCA() + ")");
+      return false;
+    }
+
+    cible.changePV(jet * -1);
+
+    Output.print("Vous avez infligé " + jet + " degats à " + cible.getNom());
+
+    return true;
   }
 
   public int getCA() {
@@ -125,5 +143,17 @@ public class Monstre extends Creature {
 
   public void changeCaracteristiqueMap(Map<Caracteristique, Integer> map) {
     this.caracteristiques = map;
+  }
+
+  public boolean equipperArme()
+  {
+    Output.println("Cette créature ne peut pas équipper d'arme !");
+    return false;
+  }
+
+  public boolean equipperArmure()
+  {
+    Output.println("Cette créature ne peut pas équipper d'armure !");
+    return false;
   }
 }
