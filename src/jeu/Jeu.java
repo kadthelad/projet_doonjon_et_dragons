@@ -8,21 +8,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Jeu {
-  // Liste des Cartes
   private static ArrayList<Carte> listeCartes = new ArrayList<>();
+
+  private static int indexCarte = 0;
 
   public static ArrayList<Carte> getListeCartes() {
     return listeCartes;
   }
 
-  // Liste des Monstres
+  public static Carte getCarteEnCours() {
+    return (listeCartes.size() > indexCarte) ? listeCartes.get(indexCarte) : null;
+  }
+
   private static ArrayList<Monstre> listeMonstres = new ArrayList<>();
 
   public static ArrayList<Monstre> getListeMonstres () {
     return listeMonstres;
   }
 
-  // Liste des personnages
   private static ArrayList<Personnage> listePersonnages = new ArrayList<>();
 
   public static ArrayList<Personnage> getListePersonnages() {

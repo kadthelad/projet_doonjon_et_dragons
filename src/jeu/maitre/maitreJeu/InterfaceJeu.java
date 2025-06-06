@@ -129,7 +129,7 @@ public class InterfaceJeu
       Output.print("-- Quelle carte voulez-vous modifier? --\n");
       for (int i = 0; i < listCartesDonjon.size(); i++)
       {
-        Output.print("[" + i + "] - " + listCartesDonjon.get(i).getName());
+        Output.println("[" + i + "] - " + listCartesDonjon.get(i).getName());
       }
       Output.print("[" + listCartesDonjon.size() + "] - Revenir au menu de jeu\n");
       int userInt = jeu.utils.Input.entier();
@@ -199,17 +199,10 @@ public class InterfaceJeu
         int userX = Input.entier();
         Output.print("Y = ");
         int userY = Input.entier();
-        if (map.addChose(new Position(userX, userY), listEntite.get(userIndex)))
-        {
-          verifPlacing = false;
+        map.ajouteEntite(listEntite.get(userIndex), new Position(userX, userY));
           Output.print(listEntite.get(userIndex).getNom() + " à été placé sur la carte!\nVisualisation de la carte:");
           map.afficherCarte();
-        }
-        else
-        {
-          Output.print("[!] Il y a eu une erreur lors du placement ! Êtes-vous sûr d'avoir placé l'élément dans les limites de la carte?");
         }
       }
     }
   }
-}

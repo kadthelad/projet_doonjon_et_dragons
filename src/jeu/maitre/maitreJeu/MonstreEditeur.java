@@ -37,6 +37,7 @@ public class MonstreEditeur
         }
       }
 
+
       System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Modifier un monstre\n[3] Continuer");
       userInput = jeu.utils.Input.entier();
       switch (userInput)
@@ -246,7 +247,7 @@ public class MonstreEditeur
             Output.print(mstrChoisi.toString());
             break;
           case 5:
-            Output.print("Le monstre " + mstrChoisi.getEspece() + " à été sauvegardé avec succès!");
+            Output.println("Le monstre " + mstrChoisi.getEspece() + " à été sauvegardé avec succès!");
             inMstrEditing = false;
             break;
           case 6:

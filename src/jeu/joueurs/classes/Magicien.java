@@ -13,6 +13,7 @@ public class Magicien extends Classe {
     listeArmes = Arrays.asList(
         Catalogue.getArmeParNom("Bâton"),
         Catalogue.getArmeParNom("Fronde"));
+    // listeArmures = Arrays.asList();
 
     listeSorts = Arrays.asList(
       new Guerison(),

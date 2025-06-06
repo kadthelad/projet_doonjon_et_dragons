@@ -8,144 +8,122 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Monstre extends Creature
-{
-    private String m_espece = "";
-    private int m_numero = 0; // si il existe plusieurs monstres de la meme espece
+public class Monstre extends Creature {
+  private String m_espece = "";
+  private int m_numero = 0; // si il existe plusieurs monstres de la meme espece
 
-    private String m_nomAttaque = "";
-    private String m_attaque = "";
+  private String m_nomAttaque = "";
+  private String m_attaque = "";
 
-    private Position m_position = new Position(0, 0);
+  private Position m_position = new Position(0, 0);
 
-    private String m_icon;
+  private String m_icon;
 
-    private Map<Caracteristique, Integer> mapCaracteristiques = new HashMap<>();
-    {
-        mapCaracteristiques.put(Caracteristique.PV, 0);
-        mapCaracteristiques.put(Caracteristique.FORCE, 0);
-        mapCaracteristiques.put(Caracteristique.DEXTERITE, 0);
-        mapCaracteristiques.put(Caracteristique.VITESSE, 0);
-        mapCaracteristiques.put(Caracteristique.INITIATIVE, 0);
-        mapCaracteristiques.put(Caracteristique.CLASSE_ARMURE, 0);
-    }
+  {
+    caracteristiques.put(Caracteristique.CLASSE_ARMURE, 0);
+  }
 
-    public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String icon)
-    {
-        /// CONSTRUCTEUR DE LA CLASSE Monstre ///
-        this.m_espece = esp;
-        this.m_nomAttaque = nAtt;
-        this.m_attaque = att;
-        this.mapCaracteristiques = mapCara;
-        this.m_icon = icon;
-    }
+  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String icon) {
+    /// CONSTRUCTEUR DE LA CLASSE Monstre ///
+    this.m_espece = esp;
+    this.m_nomAttaque = nAtt;
+    this.m_attaque = att;
+    this.caracteristiques = mapCara;
+    this.m_icon = icon;
 
-    public Monstre(Monstre mstr)
-    {
-        /// CONSTRUCTEUR DE DUPLICATION ///
-        this.m_espece = mstr.getEspece();
-        this.m_nomAttaque = mstr.getNomAttaque();
-        this.m_attaque = mstr.getAttaque();
-        this.mapCaracteristiques = mstr.getMapCaracteristiques();
-    }
+  }
 
-    public String getEspece()
-    {
-        /// Avoir l'espece d'un Monstre ///
-        return this.m_espece;
-    }
+  public Monstre(Monstre mstr) {
+    /// CONSTRUCTEUR DE DUPLICATION ///
+    this.m_espece = mstr.getEspece();
+    this.m_nomAttaque = mstr.getNomAttaque();
+    this.m_attaque = mstr.getAttaque();
+    this.caracteristiques = mstr.getMapCaracteristiques();
+  }
 
-    public String getNomAttaque()
-    {
-        return this.m_nomAttaque;
-    }
+  public String getEspece() {
+    /// Avoir l'espèce d'un Monstre ///
+    return this.m_espece;
+  }
 
-    public String getAttaque()
-    {
-        return this.m_attaque;
-    }
+  public String getNomAttaque() {
+    return this.m_nomAttaque;
+  }
 
-    public Map<Caracteristique, Integer> getMapCaracteristiques()
-    {
-        return this.mapCaracteristiques;
-    }
+  public String getAttaque() {
+    return this.m_attaque;
+  }
 
-    public void setEspece(String esp)
-    {
-        this.m_espece = esp;
-    }
+  public Map<Caracteristique, Integer> getMapCaracteristiques() {
+    return this.caracteristiques;
+  }
 
-    public void setIcon(String icn)
-    {
-        this.m_icon = icn;
-    }
+  public void setEspece(String esp) {
+    this.m_espece = esp;
+  }
 
-    public void setNomAtt(String nomAtt)
-    {
-        this.m_nomAttaque = nomAtt;
-    }
+  public void setIcon(String icn) {
+    this.m_icon = icn;
+  }
 
-    public void setSpeAtt(String speAtt)
-    {
-        this.m_attaque = speAtt;
-    }
+  public void setNomAtt(String nomAtt) {
+    this.m_nomAttaque = nomAtt;
+  }
 
-    public Position getPosition()
-    {
-        return this.m_position;
-    }
+  public void setSpeAtt(String speAtt) {
+    this.m_attaque = speAtt;
+  }
 
-    @Override
-    public boolean attaque(Creature cible)
-    {
-        return false;
-    }
+  public Position getPosition() {
+    return this.m_position;
+  }
 
-    public int getCA()
-    {
-        return this.mapCaracteristiques.get(Caracteristique.CLASSE_ARMURE);
-    }
+  @Override
+  public boolean attaque(Creature cible) {
+    return false;
+  }
 
-    public String getNom()
-    {
-        return this.m_espece+this.m_numero;
-    }
+  public int getCA() {
+    return this.caracteristiques.get(Caracteristique.CLASSE_ARMURE);
+  }
 
-    @Override
-    /// String override ///
-    public String toString() {
-        return "Monstre : " + this.m_espece +
-                " (" + getAlias() + ")" +
-                "\nAttaque : " + m_attaque +
-                "\n___Caractéristiques___\n" +
-                this.mapCaracteristiques.get(Caracteristique.PV) + " PV\n" +
-                this.mapCaracteristiques.get(Caracteristique.FORCE) + " Force\n" +
-                this.mapCaracteristiques.get(Caracteristique.DEXTERITE) + " Déxterité\n" +
-                this.mapCaracteristiques.get(Caracteristique.VITESSE) + " Vitesse\n" +
-                this.mapCaracteristiques.get(Caracteristique.INITIATIVE) + " Initiative\n" +
-                this.mapCaracteristiques.get(Caracteristique.CLASSE_ARMURE) + " Classe d'Armure\n";
-    }
+  public String getNom() {
+    return this.m_espece + this.m_numero;
+  }
 
-    public void changePV(int pv) {
-        this.mapCaracteristiques.replace(Caracteristique.PV, this.mapCaracteristiques.get(Caracteristique.PV)+pv);
-    }
+  @Override
+  /// String override ///
+  public String toString() {
+    return "Monstre : " + this.m_espece +
+        " (" + getAlias() + ")" +
+        "\nAttaque : " + m_attaque +
+        "\n___Caractéristiques___\n" +
+        this.caracteristiques.get(Caracteristique.PV) + " PV\n" +
+        this.caracteristiques.get(Caracteristique.FORCE) + " Force\n" +
+        this.caracteristiques.get(Caracteristique.DEXTERITE) + " Déxterité\n" +
+        this.caracteristiques.get(Caracteristique.VITESSE) + " Vitesse\n" +
+        this.caracteristiques.get(Caracteristique.INITIATIVE) + " Initiative\n" +
+        this.caracteristiques.get(Caracteristique.CLASSE_ARMURE) + " Classe d'Armure\n";
+  }
 
-    @Override
-    public String getAlias()
-    {
-        return this.m_icon+this.m_numero;
-    }
+  public void changePV(int pv) {
+    this.caracteristiques.replace(Caracteristique.PV, this.caracteristiques.get(Caracteristique.PV) + pv);
+  }
 
-    public void changeCaracteristique(Caracteristique c, int v) {
-        this.mapCaracteristiques.put(c, v);
-    }
+  @Override
+  public String getAlias() {
+    return this.m_icon + this.m_numero;
+  }
 
-    public int getCaracteristique(Caracteristique c) {
-        return this.mapCaracteristiques.get(c);
-    }
+  public void changeCaracteristique(Caracteristique c, int v) {
+    this.caracteristiques.put(c, v);
+  }
 
-    public void changeCaracteristiqueMap(Map<Caracteristique, Integer> map)
-    {
-        this.mapCaracteristiques = map;
-    }
+  public int getCaracteristique(Caracteristique c) {
+    return this.caracteristiques.get(c);
+  }
+
+  public void changeCaracteristiqueMap(Map<Caracteristique, Integer> map) {
+    this.caracteristiques = map;
+  }
 }

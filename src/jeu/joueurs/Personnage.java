@@ -17,27 +17,20 @@ public class Personnage extends Creature {
   private Race race;
   private Classe classe;
 
-  private Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
-  {
-    caracteristiques.put(Caracteristique.FORCE, 0);
-    caracteristiques.put(Caracteristique.DEXTERITE, 0);
-    caracteristiques.put(Caracteristique.VITESSE, 0);
-    caracteristiques.put(Caracteristique.INITIATIVE, 0);
-    caracteristiques.put(Caracteristique.PV, 0);
-    caracteristiques.put(Caracteristique.PV_MAX, 0);
-  }
-
   private List<Arme> listeArmes;
   private List<Armure> listeArmures;
   private List<Sort> listeSorts;
   private Arme armeEquipee;
   private Armure armureEquipee;
 
+  {
+    this.caracteristiques.put(Caracteristique.PV_MAX, 0);
+  }
+
   public Personnage(String nom, Race race, Classe classe) {
     this.nom = nom;
     this.race = race;
     this.classe = classe;
-    this.caracteristiques.put(Caracteristique.PV, classe.getPV());
 
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       Caracteristique key = entry.getKey();
