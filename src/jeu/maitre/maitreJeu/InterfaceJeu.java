@@ -129,7 +129,7 @@ public class InterfaceJeu
       Output.print("-- Quelle carte voulez-vous modifier? --\n");
       for (int i = 0; i < listCartesDonjon.size(); i++)
       {
-        Output.print("[" + i + "] - " + listCartesDonjon.get(i).getName());
+        Output.println("[" + i + "] - " + listCartesDonjon.get(i).getName());
       }
       Output.print("[" + listCartesDonjon.size() + "] - Revenir au menu de jeu\n");
       int userInt = jeu.utils.Input.entier();

@@ -247,7 +247,7 @@ public class MonstreEditeur
             Output.print(mstrChoisi.toString());
             break;
           case 5:
-            Output.print("Le monstre " + mstrChoisi.getEspece() + " à été sauvegardé avec succès!");
+            Output.println("Le monstre " + mstrChoisi.getEspece() + " à été sauvegardé avec succès!");
             inMstrEditing = false;
             break;
           case 6:

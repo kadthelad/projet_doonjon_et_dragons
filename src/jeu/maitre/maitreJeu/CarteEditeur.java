@@ -18,6 +18,7 @@ public class CarteEditeur
     while (inEditor)
     {
       // Création de la carte //
+      Output.clear();
       Output.println("| =-=-=-=-= | EDITEUR DE CARTE | =-=-=-=-= |\n[0] Éditer une carte\n[1] Créer une nouvelle carte\n[2] Supprimer une carte\n[3] Quitter l'éditeur");
       userInput = Input.entier();
 
@@ -207,7 +208,7 @@ public class CarteEditeur
                 }
 
                 listCartes.add(carteCreee);
-                Output.print("La carte " + carteCreee.getName() + " à été sauvegardé avec succès!");
+                Output.println("La carte " + carteCreee.getName() + " à été sauvegardé avec succès!");
                 confirmExit = false;
                 inMapEditor = false;
                 break;
