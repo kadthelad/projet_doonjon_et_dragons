@@ -1,22 +1,28 @@
 package jeu.maitre;
 
 import jeu.Entite;
+import jeu.Jeu;
 import jeu.carte.CaseVide;
+import jeu.joueurs.equipement.Catalogue;
+import jeu.maitre.Monstre;
+import jeu.maitre.Obstacle;
 import jeu.utils.*;
+
+import java.util.Random;
 
 public class Carte {
 
   private String name = "Carte sans nom";
   private Position taille;
+  private Entite[][] carte;
 
-  Entite carte[][];
+  // ====== Constructeurs ======
 
-  public Carte(Position nouvelleTaille) {
-    this.taille = nouvelleTaille;
+  public Carte(Position taille) {
+    this.taille = taille;
     int y = this.getHauteur();
     int x = this.getLargeur();
     this.carte = new Entite[y][x];
-
     for (int i = 0; i < y; i++) {
       for (int j = 0; j < x; j++) {
         this.carte[i][j] = new CaseVide();
@@ -24,15 +30,17 @@ public class Carte {
     }
   }
 
-  public Carte(int y, int x) {
-    this(new Position(y, x));
+  public Carte(int largeur, int hauteur) {
+    this(new Position(largeur, hauteur));
   }
 
   public Carte(Carte c) {
-    this(c.getTaille());
-    this.copieCarte(c);
+    this(new Position(c.getLargeur(), c.getHauteur()));
     this.name = c.getName() + " - copie";
+    this.copieCarte(c);
   }
+
+  // ====== Méthodes d'accès ======
 
   public int getLargeur() {
     return this.taille.x();
@@ -46,107 +54,215 @@ public class Carte {
     return this.taille;
   }
 
-  public void copieCarte(Carte c) {
-    for (int y = 0; y < this.getHauteur() && y < c.getHauteur(); y++) {
-      for (int x = 0; x < this.getLargeur() && x < c.getLargeur(); x++) {
-        Position p = new Position(y, x);
-        this.ajouteEntite(c.getEntite(p), p);
-      }
-    }
-  }
-
-  public void ajouteEntite(Entite e, Position p) {
-    if (checkCase(p)) {
-      this.carte[p.y()][p.x()] = e;
-      e.entreCarte(p);
-    }
-    return;
-  }
-
-  public boolean checkCase(Position p) {
-    boolean check = true;
-    if (!inCarte(p)) {
-      check = false;
-    } else if (this.getEntite(p).isEmpty()) {
-      check = false;
-      Output.println("Cette case n'est pas disponible, " + this.getEntite(p).getAlias());
-    } else {
-      check = true;
-    }
-    return check;
-  }
-
-  public boolean inCarte(Position pos) {
-    int y = pos.y();
-    int x = pos.x();
-    int h = this.getHauteur();
-    int a = this.getLargeur();
-
-    // on vérifie si la position {x,y} existe dans la carte
-    if (x >= 0 && x < a && y >= 0 && y < h) {
-      return true;
-    } else {
-      Output.print("Cette case n'existe pas dans la carte.");
-      return false;
-    }
-  }
-
-  public void enleveEntite(Position pos) {
-    this.ajouteEntite(new CaseVide(), pos);
-  }
-
-  public Entite getEntite(Position pos) {
-    return this.carte[pos.y()][pos.x()];
+  public String getName() {
+    return this.name;
   }
 
   public Entite[][] getCarte() {
     return this.carte;
   }
 
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String setName) {
-    this.name = setName;
-  }
-
-  // A TERMINER
-  public void changeTaille(Position taille) {
-    Carte copie = new Carte(taille);
-    copie.copieCarte(this);
-    this.carte = copie.getCarte();
-    this.name = copie.getName();
-    this.taille = copie.getTaille();
-  }
+  // ====== affichage ======
 
   public void afficherCarte() {
+    Output.clear();
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String ligneAbscisse = "  *";
     int l = this.getLargeur();
     int h = this.getHauteur();
 
     Output.print("   ");
-    // Créer la ligne du haut
     for (int i = 0; i < l && i < 26; i++) {
       Output.print(" " + (alph.charAt(i)) + " ");
       ligneAbscisse += "---";
     }
-    Output.print("\n");
+    Output.println();
     Output.println(ligneAbscisse + "*");
 
     for (int y = 0; y < h; y++) {
-      if (y < 9) {
+      if (y < 9)
         Output.print(" " + (y + 1) + "|");
-      } else {
+      else
         Output.print((y + 1) + "|");
-      }
       String points = "";
       for (int x = 0; x < l; x++) {
-        Position p = new Position(y, x);
-        points += this.getEntite(p).getAlias();
+        points += carte[y][x].getAlias();
       }
       Output.println(points);
     }
   }
+
+  // ====== Entités ======
+
+  public void ajouteEntite(Entite e, Position p) {
+    if (inCarte(p)) {
+      carte[p.y()][p.x()] = e;
+      e.entreCarte(p);
+    }
+  }
+
+  public void enleveEntite(Position p) {
+    if (inCarte(p)) {
+      carte[p.y()][p.x()] = new CaseVide();
+    }
+  }
+
+  public Entite getEntite(Position p) {
+    if (inCarte(p)) {
+      return carte[p.y()][p.x()];
+    }
+    return null;
+  }
+
+  public boolean inCarte(Position pos) {
+    int y = pos.y();
+    int x = pos.x();
+    return x >= 0 && x < getLargeur() && y >= 0 && y < getHauteur();
+  }
+
+  // ====== Copie ======
+  public void copieCarte(Carte c) {
+    for (int y = 0; y < getHauteur() && y < c.getHauteur(); y++) {
+      for (int x = 0; x < getLargeur() && x < c.getLargeur(); x++) {
+        Position p = new Position(y, x);
+        Entite e = c.getEntite(p);
+        if (e != null) {
+          // On fait une nouvelle instance de l'entité si besoin
+          if (e instanceof Obstacle)
+            this.ajouteEntite(new Obstacle(), p);
+          else if (e instanceof CaseVide)
+            this.ajouteEntite(new CaseVide(), p);
+          else if (e instanceof Monstre)
+            this.ajouteEntite(new Monstre((Monstre) e), p);
+          else
+            this.ajouteEntite(e, p); // fallback (à adapter)
+        }
+      }
+    }
+  }
+
+  // ====== Changement de taille ======
+  public void changeTaille(Position taille) {
+    Carte copie = new Carte(taille);
+    copie.copieCarte(this);
+    this.carte = copie.carte;
+    this.taille = copie.taille;
+  }
+
+  // ====== Menu principal de gestion de cartes ======
+  public static Carte menuCarte() {
+    Carte carte = carteAleatoire();
+    boolean menu = true;
+    while (menu) {
+      Output.println("""
+          | =-=-=-=-= | EDITEUR DE CARTE | =-=-=-=-= |
+          Voici votre carte :
+          """);
+      carte.afficherCarte();
+      Output.println("""
+          [0] Choisir cette carte et quitter l'éditeur
+          [1] Créer une carte manuellement
+          [2] Générer une autre carte aléatoirement
+          """);
+      int choix = Input.entier(1, 3, "Choix : ");
+      switch (choix) {
+        case 1 -> carte = Carte.carteManuelle();
+        case 2 -> carte = Carte.carteAleatoire();
+        case 3 -> menu = false;
+      }
+    }
+    return carte;
+  }
+
+  // ====== Génération aléatoire ======
+  public static Carte carteAleatoire() {
+    Random rand = new Random();
+    int largeur = rand.nextInt(11) + 15; // [15, 25]
+    int hauteur = rand.nextInt(11) + 15;
+    Carte carte = new Carte(largeur, hauteur);
+
+    // Remplir la carte d'obstacles aléatoires (10% des cases)
+    int nbObstacles = (int) (largeur * hauteur * 0.09);
+    for (int i = 0; i < nbObstacles; i++) {
+      int x = rand.nextInt(largeur);
+      int y = rand.nextInt(hauteur);
+      carte.ajouteEntite(new Obstacle(), new Position(y, x));
+    }
+    return carte;
+  }
+
+  // ====== Création interactive ======
+  public static Carte carteManuelle() {
+    Output.println("Création d'une nouvelle carte.");
+    int largeur = Input.entier(15, 25, "Largeur (X) = ");
+    int hauteur = Input.entier(15, 25, "Hauteur (Y) = ");
+    Carte carte = new Carte(largeur, hauteur);
+
+    carte.afficherCarte();
+
+    boolean editing = true;
+    while (editing) {
+      Output.println("""
+          [1] Ajouter une entite
+          [2] Vider une case
+          [0] Terminer et sauvegarder
+          """);
+      int choix = Input.entier(0, 4, "Action : ");
+      switch (choix) {
+        case 1 -> {
+          int x = Input.entier(1, carte.getLargeur(), "X (colonne) = ") - 1;
+          int y = Input.entier(1, carte.getHauteur(), "Y (ligne) = ") - 1;
+          carte.ajouteEntite(choixEntite(), new Position(y, x));
+          Output.println("Entite ajouté.");
+        }
+        case 2 -> {
+          Output.println("Quelle case souhaitez-vous vider ?");
+          int x = Input.entier(1, carte.getLargeur(), "X (colonne) = ") - 1;
+          int y = Input.entier(1, carte.getHauteur(), "Y (ligne) = ") - 1;
+          carte.enleveEntite(new Position(y, x));
+          Output.println("Entité retirée.");
+        }
+        case 0 -> editing = false;
+      }
+    }
+    return carte;
+  }
+
+  private static Entite choixEntite() {
+    Output.println("""
+        Quelle entite souhaitez-vous ajouter sur la carte ?
+        [1] Monstre
+        [2] Obstacle
+        [3] Arme
+        [4] Armure
+        """);
+    int choix = Input.entier(1, 3, "Choix : ");
+    Entite e = new CaseVide();
+
+    switch (choix) {
+      case 1 -> {
+        Output.println("Voici la liste des monstres : ");
+        for (int i = 0; i < Jeu.getNombreMonstres(); i++) {
+          Output.println("[" + i + 1 + "] " + Jeu.getMonstre(i).getNom());
+        }
+        e = Jeu.getMonstre(Input.entier(1, Jeu.getNombreMonstres(), "Quel monstre souhaitez-vous placer ?"));
+      }
+      case 2 -> e = new Obstacle();
+      case 3 -> {
+        Output.println("Voici la liste des armes : ");
+        for (int i = 0; i < Catalogue.getNombreArmes(); i++) {
+          Output.println("[" + i + 1 + "] " + Catalogue.getArmeParIndice(i));
+        }
+      }
+      case 4 -> {
+        Output.println("Voici la liste des armures : ");
+        for (int i = 0; i < Catalogue.getNombreArmure(); i++) {
+          Output.println("[" + i + 1 + "] " + Catalogue.getArmureParIndice(i));
+        }
+
+      }
+    }
+    return e;
+  }
+
 }

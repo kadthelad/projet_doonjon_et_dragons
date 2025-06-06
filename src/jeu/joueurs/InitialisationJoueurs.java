@@ -24,7 +24,7 @@ public class InitialisationJoueurs {
 
 
   // Demander le nombre de joueurs
-  public static int combienJoueurs() {
+  private static int combienJoueurs() {
     Output.println("Sans compter la ou le MJ, combien de joueurs y aura-t-il ?");
     int n = Input.entier();
     while (n <= 0) {
@@ -35,8 +35,9 @@ public class InitialisationJoueurs {
   }
 
   // Création des personnages
-  public static ArrayList<Personnage> creationPersonnages(int nombreJoueurs) {
+  public static ArrayList<Personnage> creationPersonnages() {
     // pour chaque joueur...
+    int nombreJoueurs = combienJoueurs();
     for (int i = 0; i < nombreJoueurs; i++) {
       Output.println("Joueur " + (i + 1) + ", nommez votre personnage :");
       String nom = demanderNom();

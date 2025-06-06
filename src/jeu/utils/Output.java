@@ -1,5 +1,7 @@
 package jeu.utils;
 
+import jeu.utils.Position;
+
 public class Output {
   public static void print(String ligne) {
     System.out.print(ligne);
@@ -7,6 +9,10 @@ public class Output {
 
   public static void println(String ligne) {
     System.out.println(ligne);
+  }
+
+  public static void println() {
+    System.out.println();
   }
 
   public static void printValid() {
@@ -18,5 +24,15 @@ public class Output {
       System.out.print("\033\143");
     } catch (Exception e) {
     }
+  }
+
+  public static Position askPosition()
+  {
+    Output.print("X = ");
+    int userX = Input.entier();
+    Output.print("Y = ");
+    int userY = Input.entier();
+
+    return new Position(userX, userY);
   }
 }

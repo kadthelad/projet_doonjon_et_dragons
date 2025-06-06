@@ -1,6 +1,7 @@
 package jeu.joueurs;
 
 import jeu.*;
+import jeu.maitre.Carte;
 import jeu.utils.*;
 import jeu.joueurs.races.*;
 import jeu.joueurs.classes.*;
@@ -49,7 +50,7 @@ public class Personnage extends Creature {
   }
 
   public void changePV(int pv) {
-    this.changeCaracteristique(Caracteristique.PV, pv);
+    this.setCaracteristique(Caracteristique.PV, pv);
 
     int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
     if (this.caracteristiques.get(Caracteristique.PV) > pvMax) {
@@ -61,7 +62,8 @@ public class Personnage extends Creature {
     this.getCaracteristique(Caracteristique.PV);
   }
 
-  public void changeCaracteristique(Caracteristique c, int v) {
+
+  public void setCaracteristique(Caracteristique c, int v) {
     int previous = this.caracteristiques.get(c);
     this.caracteristiques.put(c, previous + v);
   }
@@ -93,6 +95,14 @@ public class Personnage extends Creature {
 
   public List<Arme> getListeArmes() {
     return this.listeArmes;
+  }
+
+  public Arme getArme(int index) {
+    return this.listeArmes.get(index);
+  }
+
+  public int getNombreArme() {
+    return this.listeArmes.size();
   }
 
   public List<Armure> getListeAmures() {
@@ -167,6 +177,75 @@ public class Personnage extends Creature {
 
     return true;
   }
+
+  public boolean equipperArme()
+  {
+    int nbArmes = this.getListeArmes().size();
+
+    Output.println("|" + this.getNom() + ", choisissez une arme à équipper :");
+    for (int i=0; i<nbArmes; i++)
+    {
+      Output.println("|->[" + i + "] " + this.getListeArmes().get(i).getNom());
+    }
+    Output.println("|->[" + nbArmes + "] Ne pas équipper");
+    int userInt = Input.entier();
+
+    if (userInt < nbArmes)
+    {
+      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt).getNom());
+      this.changeArmeeEquipee(this.getListeArmes().get(userInt));
+      return true;
+    }
+    else
+    {
+      Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
+      return false;
+    }
+  }
+
+  public boolean equipperArmure()
+  {
+    int nbArmures = this.getListeAmures().size();
+
+    Output.println("|" + this.getNom() + ", choisissez une arme à équipper :");
+    for (int i=0; i<nbArmures; i++)
+    {
+      Output.println("|->[" + i + "] " + this.getListeAmures().get(i).getNom());
+    }
+    Output.println("|->[" + nbArmures + "] Ne pas équipper");
+    int userInt = Input.entier();
+
+    if (userInt < nbArmures)
+    {
+      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt).getNom());
+      this.changeArmureEquipee(this.getListeAmures().get(userInt));
+      return true;
+    }
+    else
+    {
+      Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle armure");
+      return false;
+    }
+  }
+
+public boolean ramasser(Carte carte)
+{
+  Arme getArme = Catalogue.getArmeParNom(carte.getEntite(this.position).getNom());
+  Armure getArmure = Catalogue.getArmureParNom(carte.getEntite(this.position).getNom());
+  if (getArmure != null)
+  {
+    this.addArmure(getArmure);
+    Output.println(this.getNom() + " à ramassé " + carte.getEntite(this.position).getNom() + ".");
+    return true;
+  }
+  if (getArme != null)
+  {
+    this.addArme(getArme);
+    Output.println(this.getNom() + " à ramassé " + carte.getEntite(this.position).getNom() + ".");
+    return true;
+  }
+  return false;
+}
 
   @Override
   public String toString() {
