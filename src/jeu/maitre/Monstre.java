@@ -9,6 +9,7 @@ import jeu.Caracteristique;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Monstre extends Creature {
   private String m_espece = "";
@@ -40,6 +41,53 @@ public class Monstre extends Creature {
     this.m_nomAttaque = mstr.getNomAttaque();
     this.m_attaque = mstr.getAttaque();
     this.caracteristiques = mstr.getMapCaracteristiques();
+  }
+
+  public static Monstre random() {
+    Random rnd = new Random();
+    Monstre m = orc();
+    switch (rnd.nextInt(3)) {
+      case 0 -> m = orc();
+      case 1 -> m = dragon();
+      case 2 -> m = arrachnide();
+    }
+    return m;
+  }
+
+  public static Monstre orc() {
+    Map<Caracteristique, Integer> mapCara = new HashMap<>();
+    mapCara.put(Caracteristique.PV, 10);
+    mapCara.put(Caracteristique.FORCE, 5);
+    mapCara.put(Caracteristique.INITIATIVE, 2);
+    mapCara.put(Caracteristique.CLASSE_ARMURE, 13);
+    mapCara.put(Caracteristique.VITESSE, 3);
+    mapCara.put(Caracteristique.DEXTERITE, 0);
+
+    return new Monstre("Orc", "Yolo", "1d8", mapCara, "rc");
+  }
+
+  public static Monstre dragon() {
+    Map<Caracteristique, Integer> mapCara = new HashMap<>();
+    mapCara.put(Caracteristique.PV, 10);
+    mapCara.put(Caracteristique.FORCE, 0);
+    mapCara.put(Caracteristique.INITIATIVE, 0);
+    mapCara.put(Caracteristique.CLASSE_ARMURE, 10);
+    mapCara.put(Caracteristique.VITESSE, 0);
+    mapCara.put(Caracteristique.DEXTERITE, 20);
+
+    return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, "dr");
+  }
+
+  public static Monstre arrachnide() {
+    Map<Caracteristique, Integer> mapCara = new HashMap<>();
+    mapCara.put(Caracteristique.PV, 5);
+    mapCara.put(Caracteristique.FORCE, 15);
+    mapCara.put(Caracteristique.INITIATIVE, 20);
+    mapCara.put(Caracteristique.CLASSE_ARMURE, 0);
+    mapCara.put(Caracteristique.VITESSE, 15);
+    mapCara.put(Caracteristique.DEXTERITE, 0);
+
+    return new Monstre("Arrachnide", "ksss", "2d6", mapCara, "ar");
   }
 
   public String getEspece() {

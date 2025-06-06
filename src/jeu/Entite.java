@@ -21,8 +21,9 @@ public abstract class Entite {
     this.position = p;
   }
 
-  public void sortCarte(Position p) {
-    this.position = null;
+  public void sortCarte() {
+    Donjon.getCarte().enleveEntite(this.position);
+    this.position = new Position(-1, -1);
   }
 
   public void TP(Position p) {

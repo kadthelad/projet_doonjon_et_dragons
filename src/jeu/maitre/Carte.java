@@ -3,6 +3,8 @@ package jeu.maitre;
 import jeu.Entite;
 import jeu.Jeu;
 import jeu.carte.CaseVide;
+import jeu.joueurs.Personnage;
+import jeu.joueurs.equipement.Arme;
 import jeu.joueurs.equipement.Catalogue;
 import jeu.maitre.Monstre;
 import jeu.maitre.Obstacle;
@@ -12,7 +14,6 @@ import java.util.Random;
 
 public class Carte {
 
-  private String name = "Carte sans nom";
   private Position taille;
   private Entite[][] carte;
 
@@ -36,11 +37,10 @@ public class Carte {
 
   public Carte(Carte c) {
     this(new Position(c.getLargeur(), c.getHauteur()));
-    this.name = c.getName() + " - copie";
     this.copieCarte(c);
   }
 
-  // ====== Méthodes d'accès ======
+  // ====== getters ======
 
   public int getLargeur() {
     return this.taille.x();
@@ -52,10 +52,6 @@ public class Carte {
 
   public Position getTaille() {
     return this.taille;
-  }
-
-  public String getName() {
-    return this.name;
   }
 
   public Entite[][] getCarte() {
@@ -194,75 +190,88 @@ public class Carte {
   // ====== Création interactive ======
   public static Carte carteManuelle() {
     Output.println("Création d'une nouvelle carte.");
-    int largeur = Input.entier(15, 25, "Largeur (X) = ");
     int hauteur = Input.entier(15, 25, "Hauteur (Y) = ");
-    Carte carte = new Carte(largeur, hauteur);
-
-    carte.afficherCarte();
+    int largeur = Input.entier(15, 25, "Largeur (X) = ");
+    Carte carte = new Carte(hauteur, largeur);
 
     boolean editing = true;
     while (editing) {
+      carte.afficherCarte();
+
       Output.println("""
-          [1] Ajouter une entite
-          [2] Vider une case
+          [1] Placer un personnage
+          [2] Placer un monstre
+          [3] Placer un obstable
+          [4] Placer une arme
+          [5] Placer une armure
+          [6] Vider une case
           [0] Terminer et sauvegarder
           """);
-      int choix = Input.entier(0, 4, "Action : ");
-      switch (choix) {
-        case 1 -> {
-          int x = Input.entier(1, carte.getLargeur(), "X (colonne) = ") - 1;
-          int y = Input.entier(1, carte.getHauteur(), "Y (ligne) = ") - 1;
-          carte.ajouteEntite(choixEntite(), new Position(y, x));
-          Output.println("Entite ajouté.");
-        }
-        case 2 -> {
-          Output.println("Quelle case souhaitez-vous vider ?");
-          int x = Input.entier(1, carte.getLargeur(), "X (colonne) = ") - 1;
-          int y = Input.entier(1, carte.getHauteur(), "Y (ligne) = ") - 1;
-          carte.enleveEntite(new Position(y, x));
-          Output.println("Entité retirée.");
-        }
-        case 0 -> editing = false;
+      int choix = Input.entier(0, 6, "Action : ");
+      if (choix > 0 && choix < 6) {
+        Entite e = choixEntite(choix);
+        Output.println("Où que ça va ?");
+        Position p = choixCase(carte);
+        carte.ajouteEntite(e, p);
+        Output.println("Entité ajoutée.");
+      } else if (choix == 6) {
+        Output.println("Quelle case souhaitez-vous vider ?");
+        carte.enleveEntite(choixCase(carte));
+        Output.println("Entité retirée.");
+      } else {
+        editing = false;
       }
     }
     return carte;
   }
 
-  private static Entite choixEntite() {
-    Output.println("""
-        Quelle entite souhaitez-vous ajouter sur la carte ?
-        [1] Monstre
-        [2] Obstacle
-        [3] Arme
-        [4] Armure
-        """);
-    int choix = Input.entier(1, 3, "Choix : ");
+  public static Position choixCase(Carte c) {
+    int y = Input.entier(1, c.getHauteur(), "Y (ligne) = ") - 1;
+    int x = Input.entier(1, c.getLargeur(), "X (colonne) = ") - 1;
+    return new Position(y, x);
+  }
+
+  private static Entite choixEntite(int choix) {
     Entite e = new CaseVide();
 
     switch (choix) {
       case 1 -> {
+        int n = Jeu.getNombrePersonnages();
+        for (int i = 1; i <= n; i++) {
+          Output.println("[" + i + "]" + Jeu.getPersonnage(i-1));
+        }
+        int index = Input.entier(1, n, "Votre choix : ");
+        e = Jeu.getPersonnage(index-1);
+        e.sortCarte();
+      }
+      case 2 -> {
+        int nombreMonstres = 0;
         Output.println("Voici la liste des monstres : ");
-        for (int i = 0; i < Jeu.getNombreMonstres(); i++) {
-          Output.println("[" + i + 1 + "] " + Jeu.getMonstre(i).getNom());
+        for (int i = 1; i <= nombreMonstres; i++) {
+          Output.println("[" + i + "] " + Jeu.getMonstre(i-1).getNom());
         }
-        e = Jeu.getMonstre(Input.entier(1, Jeu.getNombreMonstres(), "Quel monstre souhaitez-vous placer ?"));
+        Output.println("[0] Nouveau monstre");
+        int n = Input.entier(1, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
+        e = (n != nombreMonstres) ? Jeu.getMonstre(n) : Monstre.random();
       }
-      case 2 -> e = new Obstacle();
-      case 3 -> {
-        Output.println("Voici la liste des armes : ");
-        for (int i = 0; i < Catalogue.getNombreArmes(); i++) {
-          Output.println("[" + i + 1 + "] " + Catalogue.getArmeParIndice(i));
-        }
-      }
+      case 3 -> e = new Obstacle();
       case 4 -> {
-        Output.println("Voici la liste des armures : ");
-        for (int i = 0; i < Catalogue.getNombreArmure(); i++) {
-          Output.println("[" + i + 1 + "] " + Catalogue.getArmureParIndice(i));
+        int n = Catalogue.getNombreArmes();
+        Output.println("Voici la liste des armes : ");
+        for (int i = 1; i <= n; i++) {
+          Output.println("[" + i + "] " + Catalogue.getArmeParIndice(i-1));
         }
-
+        e = Catalogue.getArmeParIndice(Input.entier(1, n, "Votre choix : "));
+      }
+      case 5 -> {
+        int n = Catalogue.getNombreArmure();
+        Output.println("Voici la liste des armures : ");
+        for (int i = 1; i <= n; i++) {
+          Output.println("[" + i + "] " + Catalogue.getArmureParIndice(i-1));
+        }
+        e = Catalogue.getArmureParIndice(Input.entier(1, n, "Votre choix : "));
       }
     }
     return e;
   }
-
 }

@@ -11,6 +11,7 @@ public class Jeu {
 
   public static Personnage getPersonnage(int index) { return listePersonnages.get(index); }
   public static int getNombrePersonnages() { return listePersonnages.size(); }
+  public static void addPersonnage(Personnage p) {listePersonnages.add(p); }
 
   public static Monstre getMonstre(int index) { return listeMonstres.get(index); }
   public static int getNombreMonstres() { return listeMonstres.size(); }
@@ -18,7 +19,7 @@ public class Jeu {
 
   public static void main(String args[]) {
 
-    InitialisationJoueurs.creationPersonnages();
+    InitialisationJoueurs.main();
     Carte carte = Carte.menuCarte();
   }
 }
