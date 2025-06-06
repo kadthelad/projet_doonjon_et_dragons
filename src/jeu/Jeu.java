@@ -16,6 +16,14 @@ public class Jeu {
     return listeCartes;
   }
 
+  public static int getNombreCartes() {
+    return listeCartes.size();
+  }
+
+  public static Carte getCarte(int index) {
+    return listeCartes.get(index);
+  }
+
   public static Carte getCarteEnCours() {
     return (listeCartes.size() > indexCarte) ? listeCartes.get(indexCarte) : null;
   }
@@ -24,6 +32,14 @@ public class Jeu {
 
   public static ArrayList<Monstre> getListeMonstres () {
     return listeMonstres;
+  }
+
+  public static Monstre getMonstre(int index) {
+    return listeMonstres.get(index);
+  }
+
+  public static int getNombreMonstres() {
+    return listeMonstres.size();
   }
 
   private static ArrayList<Personnage> listePersonnages = new ArrayList<>();

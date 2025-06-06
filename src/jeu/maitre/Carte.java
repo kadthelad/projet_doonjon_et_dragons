@@ -121,6 +121,7 @@ public class Carte {
   }
 
   public void afficherCarte() {
+    Output.clear();
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String ligneAbscisse = "  *";
     int l = this.getLargeur();
