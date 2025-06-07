@@ -14,11 +14,14 @@ import java.util.Random;
 public class Monstre extends Creature {
   private String espece = "";
   private int numero = 0; // si il existe plusieurs monstres de la meme espèce
+  private static int nbOrc = 0;
+  private static int nbDragon = 0;
+  private static int nbArrachnide = 0;
 
   private String nomAttaque = "";
   private String des = "";
 
-  private Position position = new Position(0, 0);
+  private Position position = new Position(-1, -1);
 
   private String alias;
 
@@ -60,8 +63,10 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.CLASSE_ARMURE, 13);
     mapCara.put(Caracteristique.VITESSE, 3);
     mapCara.put(Caracteristique.DEXTERITE, 0);
-
-    return new Monstre("Orc", "Yolo", "1d8", mapCara, "rc", 0);
+    int num = nbOrc;
+    nbOrc++;
+    String alias = (num < 10) ? "or" : "o";
+    return new Monstre("Orc", "Yolo", "1d8", mapCara, alias, num);
   }
 
   public static Monstre dragon() {
@@ -72,8 +77,10 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.CLASSE_ARMURE, 10);
     mapCara.put(Caracteristique.VITESSE, 0);
     mapCara.put(Caracteristique.DEXTERITE, 20);
-
-    return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, "dr", 0);
+    int num = nbDragon;
+    nbDragon++;
+    String alias = (num < 10) ? "dr" : "d";
+    return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, alias, num);
   }
 
   public static Monstre arrachnide() {
@@ -84,8 +91,10 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.CLASSE_ARMURE, 0);
     mapCara.put(Caracteristique.VITESSE, 15);
     mapCara.put(Caracteristique.DEXTERITE, 0);
-
-    return new Monstre("Arrachnide", "ksss", "2d6", mapCara, "ar", 0);
+    int num = nbArrachnide;
+    nbArrachnide++;
+    String alias = (num < 10) ? "ar" : "a";
+    return new Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num);
   }
 
   public String getEspece() {

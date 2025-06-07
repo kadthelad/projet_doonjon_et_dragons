@@ -12,6 +12,7 @@ public class Carte {
 
   private Position taille;
   private Entite[][] carte;
+  private static Random rand = new Random();
 
   // ====== Constructeurs ======
 
@@ -59,23 +60,24 @@ public class Carte {
   public void afficherCarte() {
     Output.clear();
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    String ligneAbscisse = "  *";
+    String ligneAbscisse = "   *";
     int l = this.getLargeur();
     int h = this.getHauteur();
 
-    Output.print("   ");
-    for (int i = 0; i < l && i < 26; i++) {
+    Output.print("    ");
+    for (int i = 0; i < l; i++) {
       Output.print(" " + (alph.charAt(i)) + " ");
       ligneAbscisse += "---";
     }
+
     Output.println();
     Output.println(ligneAbscisse + "*");
 
     for (int y = 0; y < h; y++) {
       if (y < 9)
-        Output.print(" " + (y + 1) + "|");
+        Output.print(" " + (y + 1) + " |");
       else
-        Output.print((y + 1) + "|");
+        Output.print((y + 1) + " |");
       String points = "";
       for (int x = 0; x < l; x++) {
         points += carte[y][x].getAlias();
@@ -160,25 +162,76 @@ public class Carte {
 
   // ====== Génération aléatoire ======
   public static Carte carteAleatoire() {
-    Random rand = new Random();
-    int largeur = rand.nextInt(11) + 15; // [15, 25]
-    int hauteur = rand.nextInt(11) + 15;
-    Carte carte = new Carte(largeur, hauteur);
+    Carte carte = new Carte(positionAleatoire(15, 25));
+    int n = 0;
 
-    // Remplir la carte d'obstacles aléatoires (10% des cases)
-    int nbObstacles = (int) (largeur * hauteur * 0.09);
-    for (int i = 0; i < nbObstacles; i++) {
-      int x = rand.nextInt(largeur);
-      int y = rand.nextInt(hauteur);
-      carte.ajouteEntite(new Obstacle(), new Position(y, x));
+    // on ajoute les persos
+    while (n < Jeu.getNombrePersonnages()) {
+      Position p = positionAleatoire(carte.getTaille());
+      if (carte.getEntite(p).isEmpty()) {
+        carte.ajouteEntite(Jeu.getPersonnage(n), p);
+        n++;
+      }
     }
+
+    // on rajoute des obstacles aléatoirement (~0-8% des cases)
+    int nbObstacles = (int) (carte.getTaille().getSuperficie() * 0.03);
+    n = 0;
+    while (n < nbObstacles) {
+      Position p = positionAleatoire(carte.getTaille());
+      if (carte.getEntite(p).isEmpty()) {
+        carte.ajouteEntite(new Obstacle(), p);
+        n++;
+      }
+    }
+
+    // on rajoute des monstres aléatoirement (~3-10% des cases)
+    int nombreMonstres = (int) (carte.getTaille().getSuperficie() * 0.027);
+    n = 0;
+    while (n < nombreMonstres) {
+      Position p = positionAleatoire(carte.getTaille());
+      if (carte.getEntite(p).isEmpty()) {
+        carte.ajouteEntite(Monstre.random(), p);
+        n++;
+      }
+    }
+
+    // on rajoute des équipements aléatoirement (~1% des cases)
+    int nombreEquipement = (int) (carte.getTaille().getSuperficie() * 0.02);
+    n = 0;
+    while (n < nombreEquipement) {
+      Position p = positionAleatoire(carte.getTaille());
+      if (carte.getEntite(p).isEmpty()) {
+        carte.ajouteEntite(
+        (rand.nextInt(1) == 0 ? 
+        Catalogue.getArmureParIndice(rand.nextInt(Catalogue.getNombreArmure())) :
+        Catalogue.getArmeParIndice(rand.nextInt(Catalogue.getNombreArmes()))
+        ), p);
+        n++;
+      }
+    }
+
+
     return carte;
+  }
+
+  private static Position positionAleatoire(int min, int max) {
+    return new Position(
+        rand.nextInt(max - min + 1) + min,
+        rand.nextInt(max - min + 1) + min);
+  }
+
+  private static Position positionAleatoire(Position p) {
+    return new Position(
+        rand.nextInt(p.y()),
+        rand.nextInt(p.x()));
   }
 
   // ====== Création interactive ======
   public static Carte carteManuelle() {
     Output.println("Création d'une nouvelle carte.");
     int hauteur = Input.entier(15, 25, "Hauteur (Y) = ");
+    // int largeur = Input.entier(15, 25, "Largeur (X) = ");
     int largeur = Input.entier(15, 25, "Largeur (X) = ");
     Carte carte = new Carte(hauteur, largeur);
 
@@ -187,22 +240,25 @@ public class Carte {
       carte.afficherCarte();
 
       Output.println("""
-          [1] Placer un personnage
-          [2] Placer un monstre
-          [3] Placer un obstable
-          [4] Placer une arme
-          [5] Placer une armure
-          [6] Vider une case
-          [0] Terminer et sauvegarder
-          """);
+        [1] Placer un personnage
+        [2] Placer un monstre
+        [3] Placer un obstable
+        [4] Placer une arme
+        [5] Placer une armure
+        [6] Vider une case
+        [0] Terminer et sauvegarder
+        """);
       int choix = Input.entier(0, 6, "Action : ");
-      if (choix > 0 && choix < 6) {
+      if (choix > 0 && choix < 6) 
+    {
         Entite e = choixEntite(carte, choix);
         Output.println("Où que ça va ?");
         Position p = choixCase(carte);
         carte.ajouteEntite(e, p);
         Output.println("Entité ajoutée.");
-      } else if (choix == 6) {
+      } 
+      else if (choix == 6) 
+      {
         Output.println("Quelle case souhaitez-vous vider ?");
         carte.enleveEntite(choixCase(carte));
         Output.println("Entité retirée.");
@@ -215,7 +271,7 @@ public class Carte {
 
   public static Position choixCase(Carte c) {
     int y = Input.entier(1, c.getHauteur(), "Y (ligne) = ") - 1;
-    int x = Input.entier(1, c.getLargeur(), "X (colonne) = ") - 1;
+    int x = Input.entierChar(c.getLargeur(), "X (colonne) = ");
     return new Position(y, x);
   }
 
@@ -226,7 +282,7 @@ public class Carte {
       case 1 -> {
         int n = Jeu.getNombrePersonnages();
         for (int i = 1; i <= n; i++) {
-          Output.println("[" + i + "]" + Jeu.getPersonnage(i - 1));
+          Output.println("[" + i + "]" + Jeu.getPersonnage(i - 1).getAlias());
         }
         int index = Input.entier(1, n, "Votre choix : ");
         e = Jeu.getPersonnage(index - 1);
@@ -240,7 +296,7 @@ public class Carte {
         }
         Output.println("[0] Nouveau monstre");
         int n = Input.entier(0, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
-        e = (n != 0) ? Jeu.getMonstre(n - 1) : Monstre.random();
+        e = (n != 0) ? Jeu.getMonstre(n - 1).copie() : Monstre.random();
       }
       case 3 -> e = new Obstacle();
       case 4 -> {

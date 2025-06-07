@@ -30,4 +30,7 @@ public class Position {
     this.y = y;
   }
 
+  public int getSuperficie() {
+    return this.y * this.x;
+  }
 }

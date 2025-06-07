@@ -53,7 +53,7 @@ public class InitialisationJoueurs {
       Output.clear();
       Output.println(nom + ", entrez le numéro associé à la race de votre choix :");
       afficherChoix(listeRaces);
-      indexRace = demanderIndiceValide(listeRaces.size());
+      indexRace = Input.entier(1, listeRaces.size() + 1, "Votre choix : ") - 1;
       Output.println("Vous avez choisis la race " + listeRaces.get(indexRace).getNom()
           + ".\nAppuyer sur entrée pour valider ou sur une autre lettre pour changer de race.");
       valide = Input.string();
@@ -64,7 +64,7 @@ public class InitialisationJoueurs {
       Output.clear();
       Output.println(nom + ", entrez le numéro associé à la classe de votre choix :");
       afficherChoix(listeClasses);
-      indexClasse = demanderIndiceValide(listeClasses.size());
+      indexClasse = Input.entier(1, listeClasses.size() + 1, "Votre choix : ") - 1;
       Output.println("Vous avez choisis la classe " + listeClasses.get(indexClasse).getNom()
           + ".\nAppuyer sur entrée pour valider ou sur une autre lettre pour changer de classe.");
       valide = Input.string();
@@ -97,17 +97,7 @@ public class InitialisationJoueurs {
   // Afficher les choix possibles (races ou classes)
   private static <T> void afficherChoix(ArrayList<T> liste) {
     for (int i = 0; i < liste.size(); i++) {
-      Output.println(i + " : " + liste.get(i).toString());
+      Output.println((i + 1) + " : " + liste.get(i).toString());
     }
-  }
-
-  // Demander un indice valide pour les choix
-  private static int demanderIndiceValide(int tailleListe) {
-    int choix = Input.entier();
-    while (choix < 0 || choix >= tailleListe) {
-      Output.println("Merci de choisir un numéro entre 0 et " + (tailleListe - 1) + " :");
-      choix = Input.entier();
-    }
-    return choix;
   }
 }

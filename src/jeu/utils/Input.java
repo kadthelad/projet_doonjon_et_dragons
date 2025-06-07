@@ -10,7 +10,7 @@ public class Input {
     // on vérifie que l'utilisateur soumet bien un entier et pas autre chose qui
     // pourrait faire crash le programme
     while (!scanner.hasNextInt()) {
-      System.out.print("Merci d'entrer un entier valide : ");
+      System.out.print("Merci d'entrer une proposition valide : ");
       scanner.next();
     }
     int entier = scanner.nextInt();
@@ -37,6 +37,26 @@ public class Input {
         Output.println("Veuillez entrer un nombre entre " + min + " et " + max + ".");
     } while (n < min || n > max);
     return n;
+  }
+
+  public static int entierChar(String prompt) {
+    String input;
+    do {
+        input = string(prompt);
+    } while (input.isEmpty() ||
+        (input.charAt(0) < 65 ||
+        input.charAt(0) > 90));
+    return input.charAt(0) - 65;
+  }
+
+  public static int entierChar(int max, String prompt) {
+    String input;
+    do {
+        input = string(prompt);
+    } while ( input.isEmpty() || 
+        (input.charAt(0) < 65 ||
+        input.charAt(0) > 65 + max));
+    return input.charAt(0) - 65;
   }
 
   public static boolean confirmer(String prompt) {
