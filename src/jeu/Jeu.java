@@ -1,9 +1,10 @@
 package jeu;
 
-import jeu.joueurs.*;
-import jeu.maitre.*;
+import entite.Monstre;
+import entite.Personnage;
+import personnages.InitialisationJoueurs;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Jeu {
   private static ArrayList<Monstre> listeMonstres = new ArrayList<>();

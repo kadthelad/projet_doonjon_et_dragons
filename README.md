@@ -34,7 +34,7 @@ De plus, il y aura un rendu hebdomadaire avant chaque **dimanche, minuit**.
 Il s'agit d'un jeu avec plusieurs joueurs face à des monstres contrôlés par le
 maître du jeu, qui se joue **au tour par tour**. Les joueurs incarnant les
 personnages doivent éliminer les monstres de trois donjons successifs. Un autre
-joueur est Maître du Jeu et a pour rôle de narrer l'histoire et expliquer le
+joueur est Maître du jeu.Jeu et a pour rôle de narrer l'histoire et expliquer le
 contexte aux joueurs. Si un seul joueur est éliminé par un monstre dans un des
 donjons, l'équipe a perdu.
 
@@ -43,7 +43,7 @@ des dés>. Par exemple, 3d4 désigne le jet de 3 dés à 4 faces.
 
 ### Les personnages
 
-Chaque joueur à l'exception du Maître du Jeu incarne un personnage. Chaque
+Chaque joueur à l'exception du Maître du jeu.Jeu incarne un personnage. Chaque
 personnage est défini par:
 
 - un nom
@@ -261,7 +261,7 @@ passent au donjon suivant.
 
 ```console
 ********************************************************************************
-Donjon 2:
+jeu.Donjon 2:
                                     Caelynn (Elfe magicienne)              
 
 ********************************************************************************
@@ -390,7 +390,7 @@ Veillez :
 - N'essayez pas d'implémenter toutes les fonctionnalités en une seule fois.
   Commencez par un programme simple mais fonctionnel et intégrez progressivement
   les fonctionnalités.
-- Il s'agit d'une version très simplifiée de Donjon et Dragon. Il peut être
+- Il s'agit d'une version très simplifiée de jeu.Donjon et Dragon. Il peut être
   tentant d'améliorer le projet et d'intégrer beaucoup de fonctionnalités et
   règles du jeu originel. Cependant cela ne vous permettra pas d'augmenter votre
   note. Ne négligez pas le projet de base ni les projets des autres modules.
