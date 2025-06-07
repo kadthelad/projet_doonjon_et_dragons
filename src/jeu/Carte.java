@@ -270,6 +270,7 @@ public class Carte {
       if (choix > 0 && choix < 6) 
     {
         Entite e = choixEntite(carte, choix);
+        carte.afficherCarte();
         Output.println("Où que ça va ?");
         Position p = choixCase(carte);
         carte.ajouteEntite(e, p);
@@ -314,7 +315,7 @@ public class Carte {
         }
         Output.println("[0] Nouveau monstre");
         int n = Input.entier(0, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
-        e = (n != 0) ? Jeu.getMonstre(n - 1).copie() : Monstre.random();
+        e = (n != 0) ? Jeu.getMonstre(n - 1).copie() : Monstre.create();
       }
       case 3 -> e = new Obstacle();
       case 4 -> {

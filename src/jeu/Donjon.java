@@ -4,7 +4,6 @@ import entite.Caracteristique;
 import entite.Creature;
 import entite.Personnage;
 import entite.Monstre;
-import maitreJeu.Maitre;
 import utils.Des;
 import utils.Input;
 import utils.Output;
@@ -14,8 +13,6 @@ import java.util.ArrayList;
 public class Donjon {
   // La classe resources.Donjon va gérer le donjon en cours
   // Elle passera les tours et gérera les opérations (combat, déplacement, autres actions...)
-
-  private Maitre mj = new Maitre();
 
   private static Carte carte;
   public static Carte getCarte() { return carte; }
@@ -29,6 +26,21 @@ public class Donjon {
 
   public Donjon() {
     carte = Carte.carteAleatoire();
+  }
+
+
+  public void commenter()
+  {
+    Output.println("[Maitre du Jeu] Ajouter un commentaire?\n" +
+            "[0] oui" +
+            "[1] non");
+    int userInt = Input.entier();
+    if (userInt == 0)
+    {
+      Output.println("Votre commentaire : ");
+      String userStr = Input.string();
+      Output.print("-Commentaire- : " + userStr);
+    }
   }
 
   public void lancerJeu() {
@@ -167,33 +179,33 @@ public class Donjon {
           if (crea.equipperArme())
           {
             pointsAction--;
-            mj.commenter();
+            commenter();
           }
           if (crea.equipperArmure())
           {
             pointsAction--;
-            mj.commenter();
+            commenter();
           }
           break;
         case 1: // se deplacer
           if (deplacer(crea))
           {
             pointsAction--;
-            mj.commenter();
+            commenter();
           }
           break;
         case 2: // attaquer
           if (attaquer(crea))
           {
             pointsAction--;
-            mj.commenter();
+            commenter();
           }
           break;
         case 3: // ramasser objet
           if (crea.ramasser(carte))
           {
             pointsAction--;
-            mj.commenter();
+            commenter();
           }
           break;
         case 4: // passer tour
