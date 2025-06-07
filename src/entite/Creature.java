@@ -5,6 +5,7 @@ import java.util.Map;
 
 import personnages.equipement.Catalogue;
 import personnages.equipement.Equipement;
+import utils.Output;
 import utils.Position;
 
 public abstract class Creature extends Entite
@@ -32,14 +33,26 @@ public abstract class Creature extends Entite
     {
       if (this.leaveEquipement() != null)
       {
+        Output.println("[DEBUG] leaving equipement : this.surequipement = " + this.leaveEquipement().getNom() + " at " + this.position.toString());
         carte.ajouteEntite(this.leaveEquipement(), this.position);
       }
       this.stepOnEquipement(e);
+      Output.println("[DEBUG] stepping on equipement : this.surequipement = " + this.leaveEquipement().getNom());
     }
     else if (!e.isEmpty())
     {
       return false;
     }
+    else
+    {
+      // dans le cas ou deux objets sont cote a cote, ceci empeche que l'un disparaisse
+      if (this.leaveEquipement() != null)
+      {
+        Output.println("[DEBUG] leaving equipement : this.surequipement = " + this.leaveEquipement().getNom() + " at " + this.position.toString());
+        carte.ajouteEntite(this.leaveEquipement(), this.position);
+      }
+    }
+
 
     carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)
     return true;

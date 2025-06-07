@@ -33,4 +33,10 @@ public class Position {
   public int getSuperficie() {
     return this.y * this.x;
   }
+
+  @Override
+  public String toString()
+  {
+    return "X = " + this.x + " Y = " + this.y;
+  }
 }
