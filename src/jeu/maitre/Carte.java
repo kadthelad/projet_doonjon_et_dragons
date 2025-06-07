@@ -84,6 +84,21 @@ public class Carte {
       }
       Output.println(points);
     }
+    afficherLegende();
+  }
+
+  public void afficherLegende() {
+    Output.println("""
+
+      Légende :
+      +-----------------------------------+
+      | orX / oXX = orc numéro X          |
+      | drX / dXX = dragon numéro X       |
+      | arX / aXX = arraignée numéro X    |
+      |     ?     = équipement            |
+      |    [x]    = obstacle              |
+      +-----------------------------------+
+      """);
   }
 
   // ====== Entités ======
@@ -146,6 +161,8 @@ public class Carte {
           """);
       carte.afficherCarte();
       Output.println("""
+
+          ---=-=-= | ACTION | =-=-=---
           [0] Choisir cette carte et quitter l'éditeur
           [1] Créer une carte manuellement
           [2] Générer une autre carte aléatoirement
