@@ -9,37 +9,92 @@ import jeu.Caracteristique;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Monstre extends Creature {
-  private String m_espece = "";
-  private int m_numero = 0; // si il existe plusieurs monstres de la meme espece
+  private String espece = "";
+  private int numero = 0; // si il existe plusieurs monstres de la meme espèce
+  private static int nbOrc = 0;
+  private static int nbDragon = 0;
+  private static int nbArrachnide = 0;
 
-  private String m_nomAttaque = "";
-  private String m_attaque = "";
+  private String nomAttaque = "";
+  private String des = "";
 
-  private Position m_position = new Position(0, 0);
+  private Position position = new Position(-1, -1);
 
-  private String m_icon;
+  private String alias;
 
   {
     caracteristiques.put(Caracteristique.CLASSE_ARMURE, 0);
   }
 
-  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String icon) {
-    /// CONSTRUCTEUR DE LA CLASSE Monstre ///
-    this.m_espece = esp;
-    this.m_nomAttaque = nAtt;
-    this.m_attaque = att;
+  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String alias, int numero) {
+    this.espece = esp;
+    this.nomAttaque = nAtt;
+    this.des = att;
     this.caracteristiques = mapCara;
-    this.m_icon = icon;
+    this.alias = alias;
+    this.numero = numero;
   }
 
-  public Monstre(Monstre mstr) {
-    /// CONSTRUCTEUR DE DUPLICATION ///
-    this.m_espece = mstr.getEspece();
-    this.m_nomAttaque = mstr.getNomAttaque();
-    this.m_attaque = mstr.getAttaque();
-    this.caracteristiques = mstr.getMapCaracteristiques();
+  public Monstre copie() {
+    Monstre m = new Monstre(this.espece, this.nomAttaque, this.des, this.caracteristiques, this.alias, this.numero);
+    this.numero++;
+    return m;
+  }
+
+  public static Monstre random() {
+    Random rnd = new Random();
+    Monstre m = orc();
+    switch (rnd.nextInt(3)) {
+      case 0 -> m = orc();
+      case 1 -> m = dragon();
+      case 2 -> m = arrachnide();
+    }
+    return m;
+  }
+
+  public static Monstre orc() {
+    Map<Caracteristique, Integer> mapCara = new HashMap<>();
+    mapCara.put(Caracteristique.PV, 10);
+    mapCara.put(Caracteristique.FORCE, 5);
+    mapCara.put(Caracteristique.INITIATIVE, 2);
+    mapCara.put(Caracteristique.CLASSE_ARMURE, 13);
+    mapCara.put(Caracteristique.VITESSE, 3);
+    mapCara.put(Caracteristique.DEXTERITE, 0);
+    int num = nbOrc;
+    nbOrc++;
+    String alias = (num < 10) ? "or" : "o";
+    return new Monstre("Orc", "Yolo", "1d8", mapCara, alias, num);
+  }
+
+  public static Monstre dragon() {
+    Map<Caracteristique, Integer> mapCara = new HashMap<>();
+    mapCara.put(Caracteristique.PV, 10);
+    mapCara.put(Caracteristique.FORCE, 0);
+    mapCara.put(Caracteristique.INITIATIVE, 0);
+    mapCara.put(Caracteristique.CLASSE_ARMURE, 10);
+    mapCara.put(Caracteristique.VITESSE, 0);
+    mapCara.put(Caracteristique.DEXTERITE, 20);
+    int num = nbDragon;
+    nbDragon++;
+    String alias = (num < 10) ? "dr" : "d";
+    return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, alias, num);
+  }
+
+  public static Monstre arrachnide() {
+    Map<Caracteristique, Integer> mapCara = new HashMap<>();
+    mapCara.put(Caracteristique.PV, 5);
+    mapCara.put(Caracteristique.FORCE, 15);
+    mapCara.put(Caracteristique.INITIATIVE, 20);
+    mapCara.put(Caracteristique.CLASSE_ARMURE, 0);
+    mapCara.put(Caracteristique.VITESSE, 15);
+    mapCara.put(Caracteristique.DEXTERITE, 0);
+    int num = nbArrachnide;
+    nbArrachnide++;
+    String alias = (num < 10) ? "ar" : "a";
+    return new Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num);
   }
 
   public Monstre(String nom)
@@ -111,15 +166,15 @@ public class Monstre extends Creature {
 
   public String getEspece() {
     /// Avoir l'espèce d'un Monstre ///
-    return this.m_espece;
+    return this.espece;
   }
 
   public String getNomAttaque() {
-    return this.m_nomAttaque;
+    return this.nomAttaque;
   }
 
   public String getAttaque() {
-    return this.m_attaque;
+    return this.des;
   }
 
   public Map<Caracteristique, Integer> getMapCaracteristiques() {
@@ -127,23 +182,23 @@ public class Monstre extends Creature {
   }
 
   public void setEspece(String esp) {
-    this.m_espece = esp;
+    this.espece = esp;
   }
 
-  public void setIcon(String icn) {
-    this.m_icon = icn;
+  public void setAlias(String icn) {
+    this.alias = icn;
   }
 
   public void setNomAtt(String nomAtt) {
-    this.m_nomAttaque = nomAtt;
+    this.nomAttaque = nomAtt;
   }
 
   public void setSpeAtt(String speAtt) {
-    this.m_attaque = speAtt;
+    this.des = speAtt;
   }
 
   public Position getPosition() {
-    return this.m_position;
+    return this.position;
   }
 
 
@@ -154,7 +209,7 @@ public class Monstre extends Creature {
       Output.print("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
       return false;
     }
-    int jet = Des.lancer(this.m_attaque);
+    int jet = Des.lancer(this.des);
 
     if (jet < cible.getCA()) {
       Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
@@ -173,15 +228,15 @@ public class Monstre extends Creature {
   }
 
   public String getNom() {
-    return this.m_espece + this.m_numero;
+    return this.espece + this.numero;
   }
 
   @Override
   /// String override ///
   public String toString() {
-    return "Monstre : " + this.m_espece +
+    return "Monstre : " + this.espece +
         " (" + getAlias() + ")" +
-        "\nAttaque : " + m_attaque +
+        "\nAttaque : " + des +
         "\n___Caractéristiques___\n" +
         this.caracteristiques.get(Caracteristique.PV) + " PV\n" +
         this.caracteristiques.get(Caracteristique.FORCE) + " Force\n" +
@@ -197,7 +252,7 @@ public class Monstre extends Creature {
 
   @Override
   public String getAlias() {
-    return this.m_icon + this.m_numero;
+    return this.alias + this.numero;
   }
 
   public void setCaracteristique(Caracteristique c, int v) {

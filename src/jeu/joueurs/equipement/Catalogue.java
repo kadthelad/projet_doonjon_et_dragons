@@ -31,7 +31,7 @@ public class Catalogue {
   public static List<Arme> getListeArmes() {
     List<Arme> copie = new ArrayList<>();
     for (Arme a : LISTE_ARMES)
-      copie.add((Arme)a.copie());
+      copie.add((Arme) a.copie());
     return copie;
   }
 
@@ -43,9 +43,16 @@ public class Catalogue {
     return copie;
   }
 
-  // récupère une arme avec son index
+  public static int getNombreArmure() {
+    return LISTE_ARMURES.size();
+  }
+
   public static Arme getArmeParIndice(int index) {
     return index < LISTE_ARMES.size() ? LISTE_ARMES.get(index) : null;
+  }
+
+  public static int getNombreArmes() {
+    return LISTE_ARMES.size();
   }
 
   // récupère une armure avec son indice

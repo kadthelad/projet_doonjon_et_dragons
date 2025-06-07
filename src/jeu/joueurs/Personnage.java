@@ -10,7 +10,6 @@ import jeu.joueurs.sorts.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public class Personnage extends Creature {
 
@@ -97,6 +96,14 @@ public class Personnage extends Creature {
     return this.listeArmes;
   }
 
+  public Arme getArme(int index) {
+    return this.listeArmes.get(index);
+  }
+
+  public int getNombreArme() {
+    return this.listeArmes.size();
+  }
+
   public List<Armure> getListeAmures() {
     return this.listeArmures;
   }
@@ -131,7 +138,7 @@ public class Personnage extends Creature {
   }
 
   public String getAlias() {
-    return nom.substring(0, 2).toUpperCase();
+    return nom.substring(0, 3).toUpperCase();
   }
 
   public Race getRace() {

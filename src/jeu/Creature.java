@@ -5,6 +5,7 @@ import java.util.Map;
 
 import jeu.joueurs.Personnage;
 import jeu.maitre.Carte;
+import jeu.maitre.Donjon;
 import jeu.utils.Output;
 import jeu.utils.Position;
 
@@ -19,14 +20,13 @@ public abstract class Creature extends Entite {
     caracteristiques.put(Caracteristique.PV, 0);
   }
 
-
   public boolean move(Position p) {
-    Carte carte = Jeu.getCarteEnCours();
-    if (!carte.checkCase(p)) { return false; }
-    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)) { return false; }
-    carte.enleveEntite(p);
-    this.position = p;
-    carte.ajouteEntite(this, p);
+    Carte carte = Donjon.getCarte();
+    if (!carte.inCarte(p))
+      return false;
+    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE))
+      return false;
+    carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)
     return true;
   }
 
