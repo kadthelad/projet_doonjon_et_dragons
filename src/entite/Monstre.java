@@ -619,6 +619,12 @@ public class Monstre extends Creature {
   }
 
   @Override
+  public boolean isMonstre()
+  {
+    return true;
+  }
+
+  @Override
   public boolean ramasser()
   {
     Output.println("Cette créature ne peut pas équipper d'armure !");

@@ -1,6 +1,5 @@
 package entite;
 
-import jeu.Carte;
 import utils.*;
 import personnages.races.*;
 import personnages.classes.*;
@@ -206,7 +205,7 @@ public class Personnage extends Creature
   {
     int nbArmures = this.getListeAmures().size();
 
-    Output.println("|" + this.getNom() + ", choisissez une arme à équipper :");
+    Output.println("|" + this.getNom() + ", choisissez une armure à équipper :");
     for (int i=0; i<nbArmures; i++)
     {
       Output.println("|->[" + i + "] " + this.getListeAmures().get(i).getNom());

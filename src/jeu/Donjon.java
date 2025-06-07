@@ -27,7 +27,6 @@ public class Donjon {
   public Donjon() {
     carte = Carte.carteAleatoire();
     this.personnages = Jeu.getListePersonnages();
-    this.monstres = carte.getMonstresEnJeu();
   }
 
 
@@ -52,7 +51,7 @@ public class Donjon {
     // personnages et des equipement
     Carte.menuCarte();
     boolean jeu = true;
-    ArrayList<Creature> listEveryone = new ArrayList<Creature>() {};
+    ArrayList<Creature> listEveryone = new ArrayList<>() {};
     listEveryone.addAll(this.personnages);
     listEveryone.addAll(this.monstres);
 
@@ -66,7 +65,7 @@ public class Donjon {
         tour++;
       }
 
-      for (Creature crea : listEveryone)
+      for (Creature crea : listeOrdreJeu)
       {
         actionCreature(crea);
       }

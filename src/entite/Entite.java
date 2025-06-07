@@ -14,6 +14,11 @@ public abstract class Entite {
     return false;
   }
 
+  public boolean isMonstre()
+  {
+    return false;
+  }
+
   public String getAlias() {
     return " ? ";
   }
