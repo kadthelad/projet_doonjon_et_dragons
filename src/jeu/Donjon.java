@@ -19,7 +19,7 @@ public class Donjon {
   public static void setCarte(Carte c) { carte = c; }
 
   private ArrayList<Personnage> personnages;
-  private ArrayList<Monstre> monstresEnJeu = new ArrayList<>();
+  private ArrayList<Monstre> monstres;
 
   private int tour = 0;
   private ArrayList<Creature> listeOrdreJeu = new ArrayList<Creature>() {};
@@ -27,6 +27,7 @@ public class Donjon {
   public Donjon() {
     carte = Carte.carteAleatoire();
     this.personnages = Jeu.getListePersonnages();
+    this.monstres = carte.getMonstresEnJeu();
   }
 
 
@@ -52,8 +53,8 @@ public class Donjon {
     Carte.menuCarte();
     boolean jeu = true;
     ArrayList<Creature> listEveryone = new ArrayList<Creature>() {};
-    listEveryone.addAll(Jeu.getListePersonnages());
-    listEveryone.addAll(Jeu.getListeMonstres());
+    listEveryone.addAll(this.personnages);
+    listEveryone.addAll(this.monstres);
 
     while (jeu) {
       Output.print("[Tour : " + this.tour + "]\n");
@@ -62,13 +63,13 @@ public class Donjon {
       if (this.tour == 0)
       {
         demarrageDonjon(listEveryone);
+        tour++;
       }
 
       for (Creature crea : listEveryone)
       {
         actionCreature(crea);
       }
-
 
       this.tour++;
     }
@@ -169,7 +170,7 @@ public class Donjon {
     {
       carte.afficherCarte();
       Output.print(
-              "========================\n" +
+              "======== [Tour : " + this.tour + "] ========\n" +
                       "|Au tour de " + crea.getNom() + " (" + pointsAction + " Points d'Action) :\n" +
                       "|->[0] Equipper un objet\n" +
                       "|->[1] Se déplacer\n" +
@@ -209,7 +210,7 @@ public class Donjon {
           }
           break;
         case 3: // ramasser objet
-          if (crea.ramasser(carte))
+          if (crea.ramasser())
           {
             pointsAction--;
             commenter();

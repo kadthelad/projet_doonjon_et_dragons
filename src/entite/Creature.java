@@ -29,7 +29,7 @@ public abstract class Creature extends Entite
       return false;
     if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)/3)
       return false;
-    if ((!e.isEmpty()) && (Catalogue.getArmeParNom(e.getNom()) != null || Catalogue.getArmureParNom(e.getNom()) != null))
+    if ((!e.isEmpty()) && (e.isEquipment()))
     {
       if (this.leaveEquipement() != null)
       {
@@ -78,7 +78,7 @@ public abstract class Creature extends Entite
 
   public abstract boolean equipperArmure();
 
-  public abstract boolean ramasser(jeu.Carte carte);
+  public abstract boolean ramasser();
 
   public abstract int getCA();
 

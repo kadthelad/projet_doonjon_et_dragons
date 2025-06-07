@@ -227,22 +227,26 @@ public class Personnage extends Creature
     }
   }
 
-public boolean ramasser(Carte carte)
+public boolean ramasser()
 {
-  Arme getArme = Catalogue.getArmeParNom(carte.getEntite(this.position).getNom());
-  Armure getArmure = Catalogue.getArmureParNom(carte.getEntite(this.position).getNom());
-  if (getArmure != null)
+  if (this.leaveEquipement() != null)
   {
-    this.addArmure(getArmure);
-    Output.println(this.getNom() + " à ramassé " + carte.getEntite(this.position).getNom() + ".");
-    return true;
+    Arme getArme = Catalogue.getArmeParNom(this.leaveEquipement().getNom());
+    Armure getArmure = Catalogue.getArmureParNom(this.leaveEquipement().getNom());
+    if (getArmure != null)
+    {
+      this.addArmure(getArmure);
+      Output.println(this.getNom() + " a ramassé " + this.leaveEquipement().getNom() + ".");
+      return true;
+    }
+    if (getArme != null)
+    {
+      this.addArme(getArme);
+      Output.println(this.getNom() + " a ramassé " + this.leaveEquipement().getNom() + ".");
+      return true;
+    }
   }
-  if (getArme != null)
-  {
-    this.addArme(getArme);
-    Output.println(this.getNom() + " à ramassé " + carte.getEntite(this.position).getNom() + ".");
-    return true;
-  }
+  Output.println("Il n'y a rien sur la case où vous êtes!");
   return false;
 }
 

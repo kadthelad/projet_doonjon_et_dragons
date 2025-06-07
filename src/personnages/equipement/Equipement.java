@@ -14,6 +14,12 @@ public abstract class Equipement extends Entite {
     return this.nom;
   }
 
+  @Override
+  public boolean isEquipment()
+  {
+    return true;
+  }
+
   public abstract Equipement copie();
 
   public Map<Caracteristique, Integer> getCaracteristiqueBonus() {

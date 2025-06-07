@@ -2,11 +2,13 @@ package jeu;
 
 import entite.Entite;
 import entite.CaseVide;
+import personnages.equipement.Arme;
 import personnages.equipement.Catalogue;
 import entite.Monstre;
 import entite.Obstacle;
 import utils.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Carte {
@@ -14,6 +16,7 @@ public class Carte {
   private Position taille;
   private Entite[][] carte;
   private static Random rand = new Random();
+  private ArrayList<Monstre> monstresEnJeu = new ArrayList<>();
 
   // ====== Constructeurs ======
 
@@ -55,6 +58,16 @@ public class Carte {
   public Entite[][] getCarte() {
     return this.carte;
   }
+
+  public ArrayList<Monstre> getMonstresEnJeu() { return this.monstresEnJeu; }
+
+
+  // ====== setters ======
+  public void ajouterMstr(Monstre mstr)
+  {
+    this.monstresEnJeu.add(mstr);
+  }
+
 
   // ====== affichage ======
 
@@ -209,7 +222,9 @@ public class Carte {
     while (n < nombreMonstres) {
       Position p = positionAleatoire(carte.getTaille());
       if (carte.getEntite(p).isEmpty()) {
-        carte.ajouteEntite(Monstre.random(), p);
+        Monstre mstrAjoute = Monstre.random();
+        carte.ajouteEntite(mstrAjoute, p);
+        carte.ajouterMstr(mstrAjoute);
         n++;
       }
     }

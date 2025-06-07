@@ -619,7 +619,7 @@ public class Monstre extends Creature {
   }
 
   @Override
-  public boolean ramasser(Carte carte)
+  public boolean ramasser()
   {
     Output.println("Cette créature ne peut pas équipper d'armure !");
     return false;

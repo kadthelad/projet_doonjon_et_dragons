@@ -9,6 +9,11 @@ public abstract class Entite {
 
   public abstract String getNom();
 
+  public boolean isEquipment()
+  {
+    return false;
+  }
+
   public String getAlias() {
     return " ? ";
   }
