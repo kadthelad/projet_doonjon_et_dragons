@@ -3,6 +3,8 @@ package entite;
 import java.util.HashMap;
 import java.util.Map;
 
+import personnages.equipement.Catalogue;
+import personnages.equipement.Equipement;
 import utils.Position;
 
 public abstract class Creature extends Entite
@@ -17,14 +19,40 @@ public abstract class Creature extends Entite
     caracteristiques.put(Caracteristique.PV, 0);
   }
 
+  Entite surEquipement = null;
+
   public boolean move(Position p) {
     jeu.Carte carte = jeu.Donjon.getCarte();
+    Entite e = carte.getEntite(p);
     if (!carte.inCarte(p))
       return false;
-    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE))
+    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)/3)
       return false;
+    if ((!e.isEmpty()) && (Catalogue.getArmeParNom(e.getNom()) != null || Catalogue.getArmureParNom(e.getNom()) != null))
+    {
+      if (this.leaveEquipement() != null)
+      {
+        carte.ajouteEntite(this.leaveEquipement(), this.position);
+      }
+      this.stepOnEquipement(e);
+    }
+    else if (!e.isEmpty())
+    {
+      return false;
+    }
+
     carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)
     return true;
+  }
+
+  public void stepOnEquipement(Entite eqpt)
+  {
+    this.surEquipement = eqpt;
+  }
+
+  public Entite leaveEquipement()
+  {
+    return this.surEquipement;
   }
 
   public abstract int getCaracteristique(Caracteristique c);

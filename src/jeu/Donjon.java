@@ -26,6 +26,7 @@ public class Donjon {
 
   public Donjon() {
     carte = Carte.carteAleatoire();
+    this.personnages = Jeu.getListePersonnages();
   }
 
 
@@ -88,7 +89,7 @@ public class Donjon {
     Output.print("Voici l'ordre de jeu : \n");
     for (int i=0; i<this.listeOrdreJeu.size(); i++)
     {
-      Output.print(i + " : " + this.listeOrdreJeu.get(i).getNom());
+      Output.println(i + " : " + this.listeOrdreJeu.get(i).getNom());
     }
 
     // demander aux joueurs si ils veulent equipper une arme/armure
@@ -101,28 +102,34 @@ public class Donjon {
 
   private void ajouterDansListeOrdre(Creature creatureAjoutee)
   {
-    for (Creature crea : this.listeOrdreJeu)
+    int initiativeAjoutee = creatureAjoutee.getCaracteristique(Caracteristique.INITIATIVE);
+
+    for (int i = 0; i < listeOrdreJeu.size(); i++)
     {
-     if (crea.getCaracteristique(Caracteristique.INITIATIVE) > creatureAjoutee.getCaracteristique(Caracteristique.INITIATIVE))
-     {
-       this.listeOrdreJeu.add(this.listeOrdreJeu.indexOf(crea), creatureAjoutee);
-       return;
-     }
+      Creature crea = listeOrdreJeu.get(i);
+      int initiativeExistante = crea.getCaracteristique(Caracteristique.INITIATIVE);
+
+      if (initiativeAjoutee > initiativeExistante)
+      {
+        listeOrdreJeu.add(i, creatureAjoutee);
+        return;
+      }
     }
+    listeOrdreJeu.add(creatureAjoutee);
   }
 
   private boolean deplacer(Creature crea)
   {
-    Output.println("Où voulez-vous déplacer " + crea.getNom() + "? ==== Vitesse = " + crea.getCaracteristique(Caracteristique.VITESSE));
-    if (crea.move(Output.askPosition()))
+    Output.println("Où voulez-vous déplacer " + crea.getNom() + "? ==== (Vitesse / 3 = " + crea.getCaracteristique(Caracteristique.VITESSE)/3 + ")");
+    if (crea.move(Carte.choixCase(this.carte)))
     {
-      Output.println(crea.getNom() + " bouge avec succès!s");
+      Output.println(crea.getNom() + " bouge avec succès!");
       return true;
     }
     else
     {
       Output.println("[!] Faites attention :\n" +
-              "- Vous pouvez n'avancer que de " + crea.getCaracteristique(Caracteristique.VITESSE) + "cases!\n" +
+              "- Vous pouvez n'avancer que de " + crea.getCaracteristique(Caracteristique.VITESSE)/3 + " cases!\n" +
               "- Soyez sur que vous êtes bien dans les bordures de la carte!\n" +
               "- Vous ne pouvez pas avancer dans une case qui a un obstacle ou une créature!");
       return false;
@@ -163,7 +170,7 @@ public class Donjon {
       carte.afficherCarte();
       Output.print(
               "========================\n" +
-                      "|Au tour de " + crea.getNom() + " :\n" +
+                      "|Au tour de " + crea.getNom() + " (" + pointsAction + " Points d'Action) :\n" +
                       "|->[0] Equipper un objet\n" +
                       "|->[1] Se déplacer\n" +
                       "|->[2] Attaquer\n" +

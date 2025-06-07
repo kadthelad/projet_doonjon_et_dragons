@@ -19,18 +19,8 @@ public class Output {
 
   public static void clear() {
     try {
-      System.out.print("\033\143");
+      System.out.print("\033\143\n");
     } catch (Exception e) {
     }
-  }
-
-  public static Position askPosition()
-  {
-    Output.print("X = ");
-    int userX = Input.entier();
-    Output.print("Y = ");
-    int userY = Input.entier();
-
-    return new Position(userX, userY);
   }
 }
