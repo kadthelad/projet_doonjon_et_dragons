@@ -20,14 +20,13 @@ public abstract class Creature extends Entite {
     caracteristiques.put(Caracteristique.PV, 0);
   }
 
-
   public boolean move(Position p) {
     Carte carte = Donjon.getCarte();
-    if (!carte.inCarte(p)) { return false; }
-    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)) { return false; }
-    carte.enleveEntite(p);
-    this.position = p;
-    carte.ajouteEntite(this, p);
+    if (!carte.inCarte(p))
+      return false;
+    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE))
+      return false;
+    carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)
     return true;
   }
 

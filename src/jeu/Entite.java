@@ -5,7 +5,7 @@ import jeu.maitre.Donjon;
 import jeu.utils.Position;
 
 public abstract class Entite {
-  protected Position position;
+  protected Position position = new Position(-1, -1);
 
   public abstract String getNom();
 
@@ -21,16 +21,33 @@ public abstract class Entite {
     this.position = p;
   }
 
-  public void sortCarte(Position p) {
-    this.position = null;
+  public void sortCarte() {
+    Donjon.getCarte().enleveEntite(this.position);
+    this.position = new Position(-1, -1);
+  }
+
+  public void sortCarte(Carte carte) {
+    if (carte != null && carte.inCarte(this.position) && !this.position.equals(new Position(-1, -1))) {
+      carte.enleveEntite(this.position);
+      this.position = new Position(-1, -1);
+    }
   }
 
   public void TP(Position p) {
     Carte carte = Donjon.getCarte();
     if (carte.inCarte(p)) {
       carte.enleveEntite(p);
-      this.position = p;    
+      this.position = p;
       carte.ajouteEntite(this, p);
+    }
+  }
+
+  public void TP(Carte carte, Position p) {
+    if (carte.inCarte(p)) {
+      carte.enleveEntite(this.position);
+      this.sortCarte(carte);
+      this.position = p;
+      carte.ajouteEntite(this, this.position);
     }
   }
 

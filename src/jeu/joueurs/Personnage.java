@@ -10,7 +10,6 @@ import jeu.joueurs.sorts.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public class Personnage extends Creature {
 
@@ -139,7 +138,7 @@ public class Personnage extends Creature {
   }
 
   public String getAlias() {
-    return nom.substring(0, 2).toUpperCase();
+    return nom.substring(0, 3).toUpperCase();
   }
 
   public Race getRace() {
