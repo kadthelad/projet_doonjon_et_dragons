@@ -3,11 +3,7 @@ package jeu.maitre;
 import jeu.Entite;
 import jeu.Jeu;
 import jeu.carte.CaseVide;
-import jeu.joueurs.Personnage;
-import jeu.joueurs.equipement.Arme;
 import jeu.joueurs.equipement.Catalogue;
-import jeu.maitre.Monstre;
-import jeu.maitre.Obstacle;
 import jeu.utils.*;
 
 import java.util.Random;
@@ -89,9 +85,11 @@ public class Carte {
   }
 
   // ====== Entités ======
-
   public void ajouteEntite(Entite e, Position p) {
     if (inCarte(p)) {
+      if (!e.getPosition().equals(new Position(-1, -1)) && inCarte(e.getPosition())) {
+        enleveEntite(e.getPosition());
+      }
       carte[p.y()][p.x()] = e;
       e.entreCarte(p);
     }
@@ -122,17 +120,7 @@ public class Carte {
       for (int x = 0; x < getLargeur() && x < c.getLargeur(); x++) {
         Position p = new Position(y, x);
         Entite e = c.getEntite(p);
-        if (e != null) {
-          // On fait une nouvelle instance de l'entité si besoin
-          if (e instanceof Obstacle)
-            this.ajouteEntite(new Obstacle(), p);
-          else if (e instanceof CaseVide)
-            this.ajouteEntite(new CaseVide(), p);
-          else if (e instanceof Monstre)
-            this.ajouteEntite(new Monstre((Monstre) e), p);
-          else
-            this.ajouteEntite(e, p); // fallback (à adapter)
-        }
+        this.ajouteEntite(e, p);
       }
     }
   }
@@ -146,7 +134,7 @@ public class Carte {
   }
 
   // ====== Menu principal de gestion de cartes ======
-  public static Carte menuCarte() {
+  public static void menuCarte() {
     Carte carte = carteAleatoire();
     boolean menu = true;
     while (menu) {
@@ -160,14 +148,14 @@ public class Carte {
           [1] Créer une carte manuellement
           [2] Générer une autre carte aléatoirement
           """);
-      int choix = Input.entier(1, 3, "Choix : ");
+      int choix = Input.entier(0, 2, "Choix : ");
       switch (choix) {
         case 1 -> carte = Carte.carteManuelle();
         case 2 -> carte = Carte.carteAleatoire();
-        case 3 -> menu = false;
+        case 0 -> menu = false;
       }
+      Donjon.setCarte(carte);
     }
-    return carte;
   }
 
   // ====== Génération aléatoire ======
@@ -209,7 +197,7 @@ public class Carte {
           """);
       int choix = Input.entier(0, 6, "Action : ");
       if (choix > 0 && choix < 6) {
-        Entite e = choixEntite(choix);
+        Entite e = choixEntite(carte, choix);
         Output.println("Où que ça va ?");
         Position p = choixCase(carte);
         carte.ajouteEntite(e, p);
@@ -231,35 +219,35 @@ public class Carte {
     return new Position(y, x);
   }
 
-  private static Entite choixEntite(int choix) {
+  private static Entite choixEntite(Carte carte, int choix) {
     Entite e = new CaseVide();
 
     switch (choix) {
       case 1 -> {
         int n = Jeu.getNombrePersonnages();
         for (int i = 1; i <= n; i++) {
-          Output.println("[" + i + "]" + Jeu.getPersonnage(i-1));
+          Output.println("[" + i + "]" + Jeu.getPersonnage(i - 1));
         }
         int index = Input.entier(1, n, "Votre choix : ");
-        e = Jeu.getPersonnage(index-1);
-        e.sortCarte();
+        e = Jeu.getPersonnage(index - 1);
+        e.sortCarte(carte);
       }
       case 2 -> {
         int nombreMonstres = Jeu.getNombreMonstres();
         Output.println("Voici la liste des monstres : ");
         for (int i = 1; i <= nombreMonstres; i++) {
-          Output.println("[" + i + "] " + Jeu.getMonstre(i-1).getNom());
+          Output.println("[" + i + "] " + Jeu.getMonstre(i - 1).getNom());
         }
         Output.println("[0] Nouveau monstre");
-        int n = Input.entier(1, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
-        e = (n != nombreMonstres) ? Jeu.getMonstre(n) : Monstre.random();
+        int n = Input.entier(0, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
+        e = (n != 0) ? Jeu.getMonstre(n - 1) : Monstre.random();
       }
       case 3 -> e = new Obstacle();
       case 4 -> {
         int n = Catalogue.getNombreArmes();
         Output.println("Voici la liste des armes : ");
         for (int i = 1; i <= n; i++) {
-          Output.println("[" + i + "] " + Catalogue.getArmeParIndice(i-1));
+          Output.println("[" + i + "] " + Catalogue.getArmeParIndice(i - 1));
         }
         e = Catalogue.getArmeParIndice(Input.entier(1, n, "Votre choix : "));
       }
@@ -267,7 +255,7 @@ public class Carte {
         int n = Catalogue.getNombreArmure();
         Output.println("Voici la liste des armures : ");
         for (int i = 1; i <= n; i++) {
-          Output.println("[" + i + "] " + Catalogue.getArmureParIndice(i-1));
+          Output.println("[" + i + "] " + Catalogue.getArmureParIndice(i - 1));
         }
         e = Catalogue.getArmureParIndice(Input.entier(1, n, "Votre choix : "));
       }

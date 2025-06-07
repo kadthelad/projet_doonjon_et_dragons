@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Monstre extends Creature {
   private String espece = "";
-  private int numero = 0; // si il existe plusieurs monstres de la meme espece
+  private int numero = 0; // si il existe plusieurs monstres de la meme espèce
 
   private String nomAttaque = "";
   private String des = "";
@@ -26,17 +26,19 @@ public class Monstre extends Creature {
     caracteristiques.put(Caracteristique.CLASSE_ARMURE, 0);
   }
 
-  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String alias) {
-    /// CONSTRUCTEUR DE LA CLASSE Monstre ///
+  public Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String alias, int numero) {
     this.espece = esp;
     this.nomAttaque = nAtt;
     this.des = att;
     this.caracteristiques = mapCara;
     this.alias = alias;
+    this.numero = numero;
   }
 
-  public Monstre copie(Monstre mstr) {
-    return new Monstre(this.espece, this.nomAttaque, this.des, this.caracteristiques, this.alias);
+  public Monstre copie() {
+    Monstre m = new Monstre(this.espece, this.nomAttaque, this.des, this.caracteristiques, this.alias, this.numero);
+    this.numero++;
+    return m;
   }
 
   public static Monstre random() {
@@ -59,7 +61,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.VITESSE, 3);
     mapCara.put(Caracteristique.DEXTERITE, 0);
 
-    return new Monstre("Orc", "Yolo", "1d8", mapCara, "rc");
+    return new Monstre("Orc", "Yolo", "1d8", mapCara, "rc", 0);
   }
 
   public static Monstre dragon() {
@@ -71,7 +73,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.VITESSE, 0);
     mapCara.put(Caracteristique.DEXTERITE, 20);
 
-    return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, "dr");
+    return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, "dr", 0);
   }
 
   public static Monstre arrachnide() {
@@ -83,7 +85,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.VITESSE, 15);
     mapCara.put(Caracteristique.DEXTERITE, 0);
 
-    return new Monstre("Arrachnide", "ksss", "2d6", mapCara, "ar");
+    return new Monstre("Arrachnide", "ksss", "2d6", mapCara, "ar", 0);
   }
 
   public String getEspece() {
@@ -96,7 +98,7 @@ public class Monstre extends Creature {
   }
 
   public String getAttaque() {
-    return this.attaque;
+    return this.des;
   }
 
   public Map<Caracteristique, Integer> getMapCaracteristiques() {

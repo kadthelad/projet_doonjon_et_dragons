@@ -2,12 +2,8 @@ package jeu.maitre;
 
 import jeu.Caracteristique;
 import jeu.Creature;
-import jeu.Entite;
 import jeu.Jeu;
-import jeu.joueurs.equipement.Arme;
-import jeu.joueurs.equipement.Catalogue;
 import jeu.joueurs.Personnage;
-import jeu.joueurs.equipement.Equipement;
 import jeu.maitre.maitreJeu.Maitre;
 import jeu.utils.Des;
 import jeu.utils.Input;
@@ -16,7 +12,6 @@ import jeu.utils.Position;
 import jeu.maitre.Carte;
 
 import java.util.ArrayList;
-import java.util.jar.JarOutputStream;
 
 public class Donjon {
   // La classe Donjon va gérer le donjon en cours
@@ -24,19 +19,18 @@ public class Donjon {
 
   private Maitre mj = new Maitre();
 
-  private static Carte carte = Carte.menuCarte();
+  private static Carte carte;
   public static Carte getCarte() { return carte; }
+  public static void setCarte(Carte c) { carte = c; }
 
   private ArrayList<Personnage> personnages;
-  private ArrayList<Monstre> monstres;
+  private ArrayList<Monstre> monstresEnJeu = new ArrayList<>();
 
   private int tour = 0;
   private ArrayList<Creature> listeOrdreJeu = new ArrayList<Creature>() {};
 
-  public Donjon(ArrayList<Personnage> listPersonnages, ArrayList<Monstre> listMonstres) {
-    /// CONSTRUCTEUR DE LA CLASSE Donjon ///
-    this.personnages = listPersonnages;
-    this.monstres = listMonstres;
+  public Donjon() {
+    carte = Carte.carteAleatoire();
   }
 
   public void lancerJeu() {
@@ -44,10 +38,11 @@ public class Donjon {
     // Lors de l'appel de la méthode, le maitre du jeu devra créer la carte,
     /// l'emplacement des obstacles, des
     // personnages et des equipement
+    Carte.menuCarte();
     boolean jeu = true;
     ArrayList<Creature> listEveryone = new ArrayList<Creature>() {};
-    listEveryone.addAll(this.personnages);
-    listEveryone.addAll(this.monstres);
+    listEveryone.addAll(Jeu.getListePersonnages());
+    listEveryone.addAll(Jeu.getListeMonstres());
 
     while (jeu) {
       Output.print("[Tour : " + this.tour + "]\n");
@@ -197,7 +192,7 @@ public class Donjon {
           }
           break;
         case 3: // ramasser objet
-          if (crea.ramasser(this.carte))
+          if (crea.ramasser(carte))
           {
             pointsAction--;
             mj.commenter();

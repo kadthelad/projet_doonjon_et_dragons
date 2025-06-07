@@ -83,7 +83,7 @@ public class InitialisationJoueurs {
 
   // Demander un nom valide
   private static String demanderNom() {
-    Pattern pattern = Pattern.compile("([a-z]+([ -][a-z]+)?)+", Pattern.CASE_INSENSITIVE);
+    Pattern pattern = Pattern.compile("[a-zA-Z][a-zA-Z -]{1,}[a-zA-Z]", Pattern.CASE_INSENSITIVE);
     String nom = Input.string();
     Matcher matcher = pattern.matcher(nom);
     while (!matcher.matches()) {

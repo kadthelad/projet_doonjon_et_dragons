@@ -125,7 +125,7 @@ public class MonstreEditeur
       caraMstr.replace(cara.getKey(), userInt);
     }
 
-    Monstre monstreCree = new Monstre(nomMstr, attMstr[0], attMstr[1], caraMstr, icone);
+    Monstre monstreCree = new Monstre(nomMstr, attMstr[0], attMstr[1], caraMstr, icone, 0);
 
     Output.print("Voici le monstre crée : \n" + monstreCree);
 
@@ -186,7 +186,7 @@ public class MonstreEditeur
     {
       boolean inMstrEditing = true;
       Monstre mstrChoisi = listMonstre.get(userInt);
-      Monstre mstrNonSauvegarde = new Monstre(mstrChoisi);
+      Monstre mstrNonSauvegarde = mstrChoisi.copie();
 
       while (inMstrEditing)
       {
@@ -226,7 +226,7 @@ public class MonstreEditeur
               String userString = Input.string();
               if (userString.length() == 2)
               {
-                mstrChoisi.setIcon(userString);
+                mstrChoisi.setAlias(userString);
                 inIconEditing = false;
               }
               else

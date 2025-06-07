@@ -10,8 +10,8 @@ public class Position {
   }
 
   public Position() {
-    this.y = 15;
-    this.x = 15;
+    this.y = -1;
+    this.x = -1;
   }
 
   public int x() {
