@@ -46,13 +46,16 @@ public class Personnage extends Creature {
     this.listeSorts = classe.getListeSorts();
   }
 
-  public void changePV(int pv) {
-    this.setCaracteristique(Caracteristique.PV, pv);
-
+  public boolean changePV(int modifPV) {
+    this.setCaracteristique(Caracteristique.PV, modifPV);
     int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
-    if (this.caracteristiques.get(Caracteristique.PV) > pvMax) {
+    int pv = this.caracteristiques.get(Caracteristique.PV);
+    if (pv > pvMax) {
       this.caracteristiques.put(Caracteristique.PV, pvMax);
+    } else if (pv < 1) {
+      return false; 
     }
+    return true;
   }
 
   public void getPV() {

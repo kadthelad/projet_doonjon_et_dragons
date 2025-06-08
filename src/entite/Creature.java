@@ -82,5 +82,5 @@ public abstract class Creature extends Entite
 
   public abstract int getCA();
 
-  public abstract void changePV(int pv);
+  public abstract boolean changePV(int pv);
 }

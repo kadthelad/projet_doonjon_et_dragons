@@ -531,8 +531,14 @@ public class Monstre extends Creature {
         this.caracteristiques.get(Caracteristique.CLASSE_ARMURE) + " Classe d'Armure\n";
   }
 
-  public void changePV(int pv) {
-    this.caracteristiques.replace(Caracteristique.PV, this.caracteristiques.get(Caracteristique.PV) + pv);
+  public boolean changePV(int modifPV) {
+    this.caracteristiques.replace(Caracteristique.PV, this.caracteristiques.get(Caracteristique.PV) + modifPV);
+
+    int pv = this.caracteristiques.get(Caracteristique.PV);
+    if (pv < 1) {
+      return false; 
+    }
+    return true;
   }
 
   @Override
