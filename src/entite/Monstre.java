@@ -430,7 +430,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 20);
     int num = nbDragon;
     nbDragon++;
-    String alias "dr";
+    String alias = "dr";
     return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, alias, num);
   }
 
@@ -444,7 +444,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbArrachnide;
     nbArrachnide++;
-    String alias "ar";
+    String alias = "ar";
     return new Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num);
   }
 
