@@ -462,7 +462,7 @@ public class Monstre extends Creature {
 
     cible.changePV((jet+this.getCaracteristique(Caracteristique.FORCE)) * -1);
 
-    Output.print("Le monstre à attaqué avec  " + this.nomAttaque + " et à infligé " + jet + " degats à " + cible.getNom() + "!");
+    Output.println("Le monstre à attaqué avec " + this.nomAttaque + " et à infligé " + jet + " degats à " + cible.getNom() + "!");
     return true;
   }
 
