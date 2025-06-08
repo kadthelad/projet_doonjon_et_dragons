@@ -145,7 +145,11 @@ public class Personnage extends Creature {
   }
 
   public int getCA() {
-    return this.armureEquipee.getClasseArmure();
+    if (this.armureEquipee != null)
+    {
+      return this.armureEquipee.getClasseArmure();
+    }
+    return 0;
   }
 
   public boolean attaque(Creature cible) {

@@ -136,23 +136,48 @@ public class Donjon {
     Output.println(" === Attaquer ===\n" +
             "Qui voulez-vous attaquer?");
 
-    int nbCibles = this.listeOrdreJeu.size();
 
-    for (int i=0; i<nbCibles; i++)
+    if (crea.isMonstre())
     {
-      Output.println("[" + i + "] " + this.listeOrdreJeu.get(i).getNom());
-    }
-    int userInt = Input.entier();
+      int nbCibles = Jeu.getNombrePersonnages();
 
-    if (userInt < nbCibles)
-    {
-      crea.attaque(this.listeOrdreJeu.get(userInt));
-      return true;
+      for (int i=0; i<nbCibles; i++)
+      {
+        Output.println("[" + i + "] " + Jeu.getListePersonnages().get(i).getNom());
+      }
+      int userInt = Input.entier();
+
+      if (userInt < nbCibles)
+      {
+        crea.attaque(Jeu.getListePersonnages().get(userInt));
+        return true;
+      }
+      else
+      {
+        Output.println(crea.getNom() + " n'attaque personne.");
+        return false;
+      }
     }
     else
     {
-      Output.println("Vous n'attaquez personne.");
-      return false;
+      int nbCibles = carte.getListeMonstresEnJeu().size();
+
+      for (int i=0; i<nbCibles; i++)
+      {
+        Output.println("[" + i + "] " + carte.getListeMonstresEnJeu().get(i).getNom());
+      }
+      int userInt = Input.entier();
+
+      if (userInt < nbCibles)
+      {
+        crea.attaque(carte.getListeMonstresEnJeu().get(userInt));
+        return true;
+      }
+      else
+      {
+        Output.println(crea.getNom() + " n'attaque personne.");
+        return false;
+      }
     }
   }
 
@@ -170,10 +195,11 @@ public class Donjon {
                       "|->[2] Se déplacer (" + crea.getCaracteristique(Caracteristique.VITESSE) / 3 + " cases)\n" +
                       "|->[3] Attaquer\n" +
                       "|->[4] Ramasser un objet\n" +
+                      "|->[5] Voir statistiques\n" +
                       "|->[0] Passer son tour\n" +
                       "========================\n"
       );
-      int choix = Input.entier(0, 2, "Choix : ");
+      int choix = Input.entier(0, 5, "Choix : ");
       switch (choix)
       {
         case 1 ->  // equipper objet
@@ -213,6 +239,7 @@ public class Donjon {
             commenter();
           }
         }
+        case 5 -> Output.println(crea.toString());
         case 0 -> pointsAction = 0;
       }
     }
