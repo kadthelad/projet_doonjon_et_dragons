@@ -117,20 +117,21 @@ public class Carte {
   }
 
   // ====== Entités ======
-  // public void ajouteEntite(Entite e, Position p) {
-  // enleveEntite(e.getPosition());
-  // if (inCarte(p)) {
-  // carte[p.y()][p.x()] = e;
-  // e.entreCarte(p);
-  // }
-  // }
   public void ajouteEntite(Entite e, Position p) {
-    Position oldPos = e.getPosition();
-    if (inCarte(oldPos) && carte[oldPos.y()][oldPos.x()] == e) {
-      enleveEntite(oldPos);
-    }
-    if (inCarte(p) && carte[p.y()][p.x()] != e) {
-      enleveEntite(p);
+    enleveEntite(e.getPosition());
+    // avant, marche pas for some reason, le probleme doit venir de enleveEntite,
+    // mais ça marche tres bien pour les persos, ça bug que pour les monstres
+    // if (inCarte(p)) {
+    // carte[p.y()][p.x()] = e;
+    // e.entreCarte(p);
+    // }
+
+    for (int y = 0; y < carte.length; y++) {
+      for (int x = 0; x < carte[y].length; x++) {
+        if (carte[y][x] == e && (y != p.y() || x != p.x())) {
+          carte[y][x] = new CaseVide();
+        }
+      }
     }
     if (inCarte(p)) {
       carte[p.y()][p.x()] = e;
@@ -139,8 +140,9 @@ public class Carte {
   }
 
   public void enleveEntite(Position p) {
-    if (inCarte(p)) {
+    try {
       carte[p.y()][p.x()] = new CaseVide();
+    } catch (Exception e) {
     }
   }
 
