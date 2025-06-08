@@ -3,7 +3,6 @@ package entite;
 import java.util.HashMap;
 import java.util.Map;
 
-import utils.Output;
 import utils.Position;
 
 public abstract class Creature extends Entite
@@ -22,36 +21,29 @@ public abstract class Creature extends Entite
 
   public boolean move(Position p) {
     jeu.Carte carte = jeu.Donjon.getCarte();
+    Entite e = carte.getEntite(p);
     if (!carte.inCarte(p))
       return false;
-
-    Entite e = carte.getEntite(p);
-
     if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)/3)
       return false;
-
-    if ((!e.isEmpty()) && (e.isEquipment()))
+    if (e.isEquipment())
     {
       if (this.leaveEquipement() != null)
       {
-        Output.println("[DEBUG] leaving equipement : this.surequipement = " + this.leaveEquipement().getNom() + " at " + this.position.toString());
         carte.ajouteEntite(this.leaveEquipement(), this.position);
       }
       this.stepOnEquipement(e);
-      Output.println("[DEBUG] stepping on equipement : this.surequipement = " + this.leaveEquipement().getNom());
+
     }
-    else if (!e.isEmpty())
+    if (!e.isEmpty())
     {
       return false;
     }
-    else
+
+    // dans le cas ou deux objets sont cote a cote, ceci empeche que l'un disparaisse
+    if (this.leaveEquipement() != null)
     {
-      // dans le cas ou deux objets sont cote a cote, ceci empeche que l'un disparaisse
-      if (this.leaveEquipement() != null)
-      {
-        Output.println("[DEBUG] leaving equipement : this.surequipement = " + this.leaveEquipement().getNom() + " at " + this.position.toString());
-        carte.ajouteEntite(this.leaveEquipement(), this.position);
-      }
+      carte.ajouteEntite(this.leaveEquipement(), this.position);
     }
 
     carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)

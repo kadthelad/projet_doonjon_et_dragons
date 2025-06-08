@@ -1,5 +1,6 @@
 package entite;
 
+import jeu.Carte;
 import jeu.Jeu;
 import utils.Des;
 import utils.Input;
@@ -78,43 +79,35 @@ public class Monstre extends Creature {
       if (listMonstres.isEmpty())
       {
         System.out.println("[Vous n'avez aucun monstre crée pour l'instant!]");
-      }
-      else
+      } else
       {
         System.out.println("Vous avez déjà ce(s) monstre(s):");
-        for (int i=0; i<listMonstres.size(); i++)
+        for (int i = 0; i < listMonstres.size(); i++)
         {
           System.out.println(listMonstres.get(i).getEspece());
         }
       }
 
 
-      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Modifier un monstre\n[3] Choisir le monstre et continuer la création de carte");
-      userInput = Input.entier();
-      switch (userInput)
+      System.out.println("----------------------\nChoisissez une action:\n[1] Ajouter un monstre\n[2] Modifier un monstre\n[0] Choisir le monstre et continuer la création de carte");
+      int choix = Input.entier(0, 2, "Choix : ");
+      switch (choix)
       {
-        case 0:
-          listMonstres.add(ajoutMonstre());
-          break;
-        case 1:
-          supprMonstre(listMonstres);
-          break;
-        case 2:
-          modifMonstre(listMonstres);
-          break;
-        case 3:
+        case 1 -> listMonstres.add(ajoutMonstre());
+        case 2 -> modifMonstre(listMonstres);
+        case 0 ->
+        {
           int nombreMonstres = Jeu.getNombreMonstres();
           Output.println("Voici la liste des monstres : ");
-          for (int i = 1; i <= nombreMonstres; i++) {
+          for (int i = 1; i <= nombreMonstres; i++)
+          {
             Output.println("[" + i + "] " + Jeu.getMonstre(i - 1).getNom());
           }
           Output.println("[0] Monstre au hasard");
           int n = Input.entier(0, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
           Entite e = (n != 0) ? Jeu.getMonstre(n - 1).copie() : Monstre.random();
           return e;
-        default:
-          Output.printValid();
-          break;
+        }
       }
     }
     return Monstre.random();
@@ -189,41 +182,6 @@ public class Monstre extends Creature {
 
     System.out.println("Le monstre " + monstreCree.getEspece() + " est ajouté dans la liste des monstres!");
     return monstreCree;
-  }
-
-  private static void supprMonstre(ArrayList<Monstre> listMonstres)
-  {
-    boolean inDeleting = true;
-
-    while (inDeleting)
-    {
-      if (listMonstres.isEmpty())
-      {
-        System.out.println("[!] Il n'y a pas de monstre crée!\n");
-        return;
-      }
-      // supprimer un monstre
-      System.out.println("-- Quel monstre voulez-vous supprimer? --");
-      for (int i = 0; i < listMonstres.size(); i++)
-      {
-        System.out.println("[" + i + "] - " + listMonstres.get(i).getEspece());
-      }
-      System.out.println("[" + listMonstres.size() + "] - Revenir à l'éditeur de monstre");
-      int userInt = utils.Input.entier();
-      if (userInt == listMonstres.size())
-      {
-        return;
-      }
-      else if (userInt < listMonstres.size())
-      {
-        System.out.println("[!] Monstre " + listMonstres.get(userInt).getEspece() + " supprimé!\n");
-        listMonstres.remove(userInt);
-      }
-      else
-      {
-        System.out.println("Entrez une commande existante!");
-      }
-    }
   }
 
   private static void modifMonstre(ArrayList<Monstre> listMonstre)
