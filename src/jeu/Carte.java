@@ -66,6 +66,7 @@ public class Carte {
 
   public void afficherCarte() {
     Output.clear();
+    afficherLegende();
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String ligneAbscisse = "   *";
     int l = this.getLargeur();
@@ -89,9 +90,16 @@ public class Carte {
       for (int x = 0; x < l; x++) {
         points += carte[y][x].getAlias();
       }
+      points += "| " + y;
       Output.println(points);
     }
-    afficherLegende();
+    Output.println(ligneAbscisse + "*");
+    Output.print("    ");
+    for (int i = 0; i < l; i++) {
+      Output.print(" " + (alph.charAt(i)) + " ");
+    }
+    Output.println();
+
   }
 
   public void afficherLegende() {
@@ -107,8 +115,21 @@ public class Carte {
   }
 
   // ====== Entités ======
+  // public void ajouteEntite(Entite e, Position p) {
+  // enleveEntite(e.getPosition());
+  // if (inCarte(p)) {
+  // carte[p.y()][p.x()] = e;
+  // e.entreCarte(p);
+  // }
+  // }
   public void ajouteEntite(Entite e, Position p) {
-    enleveEntite(e.getPosition());
+    Position oldPos = e.getPosition();
+    if (inCarte(oldPos) && carte[oldPos.y()][oldPos.x()] == e) {
+      enleveEntite(oldPos);
+    }
+    if (inCarte(p) && carte[p.y()][p.x()] != e) {
+      enleveEntite(p);
+    }
     if (inCarte(p)) {
       carte[p.y()][p.x()] = e;
       e.entreCarte(p);

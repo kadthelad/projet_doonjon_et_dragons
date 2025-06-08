@@ -5,8 +5,7 @@ import java.util.Map;
 
 import utils.Position;
 
-public abstract class Creature extends Entite
-{
+public abstract class Creature extends Entite {
 
   protected Map<Caracteristique, Integer> caracteristiques = new HashMap<>();
   {
@@ -19,44 +18,74 @@ public abstract class Creature extends Entite
 
   Entite surEquipement = null;
 
+  // public boolean move(Position p) {
+  // jeu.Carte carte = jeu.Donjon.getCarte();
+  // Entite e = carte.getEntite(p);
+  //
+  // if (!carte.inCarte(p))
+  // return false;
+  //
+  // if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)/3)
+  // return false;
+  //
+  // if (e.isEquipment())
+  // {
+  // if (this.leaveEquipement() != null)
+  // {
+  // carte.ajouteEntite(this.leaveEquipement(), this.position);
+  // }
+  // this.stepOnEquipement(e);
+  //
+  // }
+  // if (!e.isEmpty())
+  // {
+  // return false;
+  // }
+  //
+  // // dans le cas ou deux objets sont cote a cote, ceci empeche que l'un
+  // disparaisse
+  // if (this.leaveEquipement() != null)
+  // {
+  // carte.ajouteEntite(this.leaveEquipement(), this.position);
+  // }
+  //
+  // carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement
+  // nouveau)
+  // return true;
+  // }
+
   public boolean move(Position p) {
     jeu.Carte carte = jeu.Donjon.getCarte();
-    Entite e = carte.getEntite(p);
+
     if (!carte.inCarte(p))
       return false;
-    if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)/3)
+    if (this.distance(p) > this.getCaracteristique(Caracteristique.VITESSE) / 3)
       return false;
-    if (e.isEquipment())
-    {
-      if (this.leaveEquipement() != null)
-      {
-        carte.ajouteEntite(this.leaveEquipement(), this.position);
-      }
-      this.stepOnEquipement(e);
 
-    }
-    if (!e.isEmpty())
-    {
+    Entite destination = carte.getEntite(p);
+
+    if (!destination.isEmpty() && !destination.isEquipment())
       return false;
-    }
 
-    // dans le cas ou deux objets sont cote a cote, ceci empeche que l'un disparaisse
-    if (this.leaveEquipement() != null)
-    {
+    // Reposer équipement si on en avait un
+    if (this.leaveEquipement() != null) {
       carte.ajouteEntite(this.leaveEquipement(), this.position);
+      this.surEquipement = null;
     }
 
-    carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)
+    // Récupérer équipement si on marche dessus
+    if (destination.isEquipment())
+      this.stepOnEquipement(destination);
+
+    carte.ajouteEntite(this, p);
     return true;
   }
 
-  public void stepOnEquipement(Entite eqpt)
-  {
+  public void stepOnEquipement(Entite eqpt) {
     this.surEquipement = eqpt;
   }
 
-  public Entite leaveEquipement()
-  {
+  public Entite leaveEquipement() {
     return this.surEquipement;
   }
 
