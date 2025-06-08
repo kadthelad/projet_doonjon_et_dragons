@@ -213,6 +213,7 @@ public class Donjon {
             pointsAction--;
             commenter();
           }
+          Input.entreePourPasser();
         }
         case 2 -> // se deplacer
         {
@@ -221,6 +222,7 @@ public class Donjon {
             pointsAction--;
             commenter();
           }
+          Input.entreePourPasser();
         }
         case 3 -> // attaquer
         {
@@ -229,6 +231,7 @@ public class Donjon {
             pointsAction--;
             commenter();
           }
+          Input.entreePourPasser();
         }
         case 4 -> // ramasser
         {
@@ -237,8 +240,13 @@ public class Donjon {
             pointsAction--;
             commenter();
           }
+          Input.entreePourPasser();
         }
-        case 5 -> Output.println(crea.toString());
+        case 5 ->
+        {
+          Output.println(crea.toString());
+          Input.entreePourPasser();
+        }
         case 0 -> pointsAction = 0;
       }
     }

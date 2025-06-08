@@ -73,4 +73,10 @@ public class Input {
     Output.print(prompt);
     return scanner.nextLine();
   }
+
+  public static void entreePourPasser()
+  {
+    Output.print("Appuyez sur entrée pour passer.");
+    Input.string();
+  }
 }
