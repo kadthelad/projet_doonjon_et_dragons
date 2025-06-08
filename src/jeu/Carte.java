@@ -68,18 +68,20 @@ public class Carte {
     Output.clear();
     afficherLegende();
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    String ligneAbscisse = "   *";
+    String ligneAbscisseHaut = "   /";
+    String ligneAbscisseBas = "   \\";
     int l = this.getLargeur();
     int h = this.getHauteur();
 
     Output.print("    ");
     for (int i = 0; i < l; i++) {
       Output.print(" " + (alph.charAt(i)) + " ");
-      ligneAbscisse += "---";
+      ligneAbscisseHaut += "---";
+      ligneAbscisseBas += "---";
     }
 
     Output.println();
-    Output.println(ligneAbscisse + "*");
+    Output.println(ligneAbscisseHaut + "\\");
 
     for (int y = 0; y < h; y++) {
       if (y < 9)
@@ -93,7 +95,7 @@ public class Carte {
       points += "| " + y;
       Output.println(points);
     }
-    Output.println(ligneAbscisse + "*");
+    Output.println(ligneAbscisseBas + "/");
     Output.print("    ");
     for (int i = 0; i < l; i++) {
       Output.print(" " + (alph.charAt(i)) + " ");
