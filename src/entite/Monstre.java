@@ -436,72 +436,7 @@ public class Monstre extends Creature {
     return new Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num);
   }
 
-  public Monstre(String nom)
-  {
-    switch (nom)
-    {
-      case "Orc":
-        createOrc();
-        break;
-      case "Dragon":
-        createDragon();
-        break;
-      case "Araignée":
-        createAraignee();
-        break;
-      default:
-        Output.println("[!!!] Il n'y a pas de monstre préfait à ce nom! Ce monstre n'aura aucune valeur définie!");
-        break;
-    }
-  }
 
-  private void createOrc()
-  {
-    this.espece = "Orc";
-    this.nomAttaque = "Coup de pied";
-    this.des = "2d3";
-    this.alias = "DC";
-
-    this.setCaracteristique(Caracteristique.PV_MAX, 20);
-    this.setCaracteristique(Caracteristique.PV, 20);
-    this.setCaracteristique(Caracteristique.FORCE, 3);
-    this.setCaracteristique(Caracteristique.INITIATIVE, 2);
-    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 10);
-    this.setCaracteristique(Caracteristique.VITESSE, 3);
-    this.setCaracteristique(Caracteristique.DEXTERITE, 4);
-  }
-
-  private void createDragon()
-  {
-    this.espece = "Dragon";
-    this.nomAttaque = "Boule de feu";
-    this.des = "3d4";
-    this.alias = "dg";
-
-    this.setCaracteristique(Caracteristique.PV_MAX, 15);
-    this.setCaracteristique(Caracteristique.PV, 15);
-    this.setCaracteristique(Caracteristique.FORCE, 2);
-    this.setCaracteristique(Caracteristique.INITIATIVE, 4);
-    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 7);
-    this.setCaracteristique(Caracteristique.VITESSE, 5);
-    this.setCaracteristique(Caracteristique.DEXTERITE, 6);
-  }
-
-  private void createAraignee()
-  {
-    this.espece = "Araignée";
-    this.nomAttaque = "Morsure";
-    this.des = "1d6";
-    this.alias = "DC";
-
-    this.setCaracteristique(Caracteristique.PV_MAX, 10);
-    this.setCaracteristique(Caracteristique.PV, 10);
-    this.setCaracteristique(Caracteristique.FORCE, 5);
-    this.setCaracteristique(Caracteristique.INITIATIVE, 8);
-    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 2);
-    this.setCaracteristique(Caracteristique.VITESSE, 5);
-    this.setCaracteristique(Caracteristique.DEXTERITE, 7);
-  }
 
   public String getEspece() {
     /// Avoir l'espèce d'un Monstre ///
