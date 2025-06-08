@@ -1,9 +1,6 @@
 package jeu;
 
-import entite.Caracteristique;
-import entite.Creature;
-import entite.Monstre;
-import entite.Personnage;
+import entite.*;
 import utils.Des;
 import utils.Input;
 import utils.Output;
@@ -28,11 +25,7 @@ public class Donjon {
 
   public void commenter()
   {
-    Output.println("[Maitre du Jeu] Ajouter un commentaire?\n" +
-            "[0] oui" +
-            "[1] non");
-    int userInt = Input.entier();
-    if (userInt == 0)
+    if (Input.confirmer("[Maitre du Jeu] Ajouter un commentaire?"))
     {
       Output.println("Votre commentaire : ");
       String userStr = Input.string();
@@ -173,18 +166,18 @@ public class Donjon {
       Output.print(
               "======== [Tour : " + this.tour + "] ========\n" +
                       "|Au tour de " + crea.getNom() + " (" + pointsAction + " Points d'Action) :\n" +
-                      "|->[0] Equipper un objet\n" +
-                      "|->[1] Se déplacer\n" +
-                      "|->[2] Attaquer\n" +
-                      "|->[3] Ramasser un objet\n" +
-                      "|->[4] Passer son tour\n" +
+                      "|->[1] Equipper un objet\n" +
+                      "|->[2] Se déplacer (" + crea.getCaracteristique(Caracteristique.VITESSE) / 3 + " cases)\n" +
+                      "|->[3] Attaquer\n" +
+                      "|->[4] Ramasser un objet\n" +
+                      "|->[0] Passer son tour\n" +
                       "========================\n"
       );
-      int userVal = Input.entier();
-
-      switch (userVal)
+      int choix = Input.entier(0, 2, "Choix : ");
+      switch (choix)
       {
-        case 0: // equipper objet
+        case 1 ->  // equipper objet
+        {
           if (crea.equipperArme())
           {
             pointsAction--;
@@ -195,33 +188,32 @@ public class Donjon {
             pointsAction--;
             commenter();
           }
-          break;
-        case 1: // se deplacer
+        }
+        case 2 -> // se deplacer
+        {
           if (deplacer(crea))
           {
             pointsAction--;
             commenter();
           }
-          break;
-        case 2: // attaquer
+        }
+        case 3 -> // attaquer
+        {
           if (attaquer(crea))
           {
             pointsAction--;
             commenter();
           }
-          break;
-        case 3: // ramasser objet
+        }
+        case 4 -> // ramasser
+        {
           if (crea.ramasser())
           {
             pointsAction--;
             commenter();
           }
-          break;
-        case 4: // passer tour
-          pointsAction = 0;
-          break;
-        default:
-          Output.printValid();
+        }
+        case 0 -> pointsAction = 0;
       }
     }
   }
