@@ -107,7 +107,7 @@ public class Carte {
   // ====== Entités ======
   public void ajouteEntite(Entite e, Position p) {
     if (inCarte(p)) {
-      if (!e.getPosition().equals(new Position(-1, -1)) && inCarte(e.getPosition())) {
+      if (inCarte(e.getPosition())) {
         enleveEntite(e.getPosition());
       }
       carte[p.y()][p.x()] = e;
