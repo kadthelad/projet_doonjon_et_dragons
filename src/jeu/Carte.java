@@ -15,7 +15,7 @@ public class Carte {
   private Position taille;
   private Entite[][] carte;
   private static Random rand = new Random();
-  private static ArrayList<Monstre> listeMonstresEnJeu = new ArrayList<>();
+  private ArrayList<Monstre> listeMonstresEnJeu = new ArrayList<>();
 
   // ====== Constructeurs ======
 
@@ -209,7 +209,7 @@ public class Carte {
       if (carte.getEntite(p).isEmpty()) {
         Monstre m = Monstre.random();
         carte.ajouteEntite(m, p);
-        listeMonstresEnJeu.add(m);
+        carte.getListeMonstresEnJeu().add(m);
         n++;
       }
     }
