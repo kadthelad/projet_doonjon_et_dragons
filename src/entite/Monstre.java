@@ -1,6 +1,5 @@
 package entite;
 
-import jeu.Carte;
 import jeu.Jeu;
 import utils.Des;
 import utils.Input;

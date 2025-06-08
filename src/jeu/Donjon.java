@@ -2,8 +2,6 @@ package jeu;
 
 import entite.Caracteristique;
 import entite.Creature;
-import entite.Personnage;
-import entite.Monstre;
 import utils.Des;
 import utils.Input;
 import utils.Output;
@@ -18,17 +16,13 @@ public class Donjon {
   public static Carte getCarte() { return carte; }
   public static void setCarte(Carte c) { carte = c; }
 
-  private ArrayList<Personnage> personnages;
-  private ArrayList<Monstre> monstres;
 
   private int tour = 0;
   private ArrayList<Creature> listeOrdreJeu = new ArrayList<Creature>() {};
 
   public Donjon() {
     carte = Carte.carteAleatoire();
-    this.personnages = Jeu.getListePersonnages();
   }
-
 
   public void commenter()
   {
@@ -51,11 +45,15 @@ public class Donjon {
     // personnages et des equipement
     Carte.menuCarte();
     boolean jeu = true;
+    Output.println("DEBUG \n 1 \n DEBUG");
     ArrayList<Creature> listEveryone = new ArrayList<>() {};
-    listEveryone.addAll(this.personnages);
-    listEveryone.addAll(this.monstres);
+    Output.println("DEBUG \n 2 \n DEBUG");
+    listEveryone.addAll(Jeu.getListePersonnages());
+    listEveryone.addAll(carte.getListeMonstresEnJeu());
+    Output.println("DEBUG \n 3 \n DEBUG");
 
     while (jeu) {
+    Output.println("DEBUG \n boulce \n DEBUG");
       Output.print("[Tour : " + this.tour + "]\n");
 
       // au demarrage du dojon tour, faire l'ordre de jeu
@@ -92,11 +90,10 @@ public class Donjon {
       Output.println(i + " : " + this.listeOrdreJeu.get(i).getNom());
     }
 
-    // demander aux joueurs si ils veulent equipper une arme/armure
-    for (Personnage joueur : this.personnages)
-    {
-      joueur.equipperArme();
-      joueur.equipperArmure();
+    // proposer aux joueurs d'équiper une arme et/ou une armure
+    for (int i = 0; i < Jeu.getNombrePersonnages(); i++) {
+      Jeu.getPersonnage(i).equipperArme();
+      Jeu.getPersonnage(i).equipperArmure();
     }
   }
 
@@ -121,7 +118,7 @@ public class Donjon {
   private boolean deplacer(Creature crea)
   {
     Output.println("Où voulez-vous déplacer " + crea.getNom() + "? ==== (Vitesse / 3 = " + crea.getCaracteristique(Caracteristique.VITESSE)/3 + ")");
-    if (crea.move(Carte.choixCase(this.carte)))
+    if (crea.move(Carte.choixCase(carte)))
     {
       Output.println(crea.getNom() + " bouge avec succès!");
       return true;
