@@ -85,9 +85,7 @@ public class Personnage extends Creature {
     this.listeArmes.add(a);
   }
 
-  public void addArmure(Armure a) {
-    this.listeArmures.add(a);
-  }
+  public void addArmure(Armure a) { this.listeArmures.add(a); }
 
   public List<Arme> getListeArmes() {
     return this.listeArmes;
@@ -152,6 +150,13 @@ public class Personnage extends Creature {
 
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
+    Output.println("[DEBUG] : cible = " + cible.getNom() + " position cible = " + cible.getPosition());
+
+    if (this.armeEquipee == null)
+    {
+      Output.println("Vous n'avez pas d'armes! vous ne pouvez donc pas attaquer!");
+      return false;
+    }
     int portee = this.armeEquipee.getPortee();
     if (d > portee) {
       Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");

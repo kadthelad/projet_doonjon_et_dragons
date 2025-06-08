@@ -2,6 +2,8 @@ package jeu;
 
 import entite.Caracteristique;
 import entite.Creature;
+import entite.Monstre;
+import entite.Personnage;
 import utils.Des;
 import utils.Input;
 import utils.Output;
@@ -72,13 +74,20 @@ public class Donjon {
   {
     // Setup l'ordre de jeu
     Output.print("Tous les joueurs et les monstres lancent un 1d20 et ajoutent sa valeur dans leur initiative!\n");
-    for (Creature crea : listEveryone)
+    for (Monstre mstr : carte.getListeMonstresEnJeu())
     {
       int deVal = Des.lancer();
-      int val = crea.getCaracteristique(Caracteristique.INITIATIVE);
-      Output.print(crea.getNom() + " (Initiative = " + val + ") aura une addition de + " + deVal + " points d'initiative!\n");
-      crea.setCaracteristique(Caracteristique.INITIATIVE, val + deVal);
-      ajouterDansListeOrdre(crea);
+      int val = mstr.getCaracteristique(Caracteristique.INITIATIVE);
+      mstr.setCaracteristique(Caracteristique.INITIATIVE, val + deVal);
+      ajouterDansListeOrdre(mstr);
+    }
+    for (Personnage pers : Jeu.getListePersonnages())
+    {
+      int deVal = Des.lancer();
+      int val = pers.getCaracteristique(Caracteristique.INITIATIVE);
+      Output.print(pers.getNom() + " (Initiative = " + val + ") aura une addition de + " + deVal + " points d'initiative!\n");
+      pers.setCaracteristique(Caracteristique.INITIATIVE, val + deVal);
+      ajouterDansListeOrdre(pers);
     }
     Output.print("Voici l'ordre de jeu : \n");
     for (int i=0; i<this.listeOrdreJeu.size(); i++)
