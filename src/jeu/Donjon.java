@@ -38,28 +38,24 @@ public class Donjon {
     }
   }
 
+  // Méthode permettant au maitre du jeu de créer la carte,
   public void lancerJeu() {
-    /// Méthode pour créer le jeu ///
-    // Lors de l'appel de la méthode, le maitre du jeu devra créer la carte,
-    /// l'emplacement des obstacles, des
-    // personnages et des equipement
+
+    // Création (aléatoire ou manuelle) de la carte
     Carte.menuCarte();
+
     boolean jeu = true;
-    Output.println("DEBUG \n 1 \n DEBUG");
+    listeOrdreJeu = new ArrayList<>();
     ArrayList<Creature> listEveryone = new ArrayList<>() {};
-    Output.println("DEBUG \n 2 \n DEBUG");
     listEveryone.addAll(Jeu.getListePersonnages());
     listEveryone.addAll(carte.getListeMonstresEnJeu());
-    Output.println("DEBUG \n 3 \n DEBUG");
 
     while (jeu) {
-    Output.println("DEBUG \n boulce \n DEBUG");
       Output.print("[Tour : " + this.tour + "]\n");
 
-      // au demarrage du dojon tour, faire l'ordre de jeu
       if (this.tour == 0)
       {
-        demarrageDonjon(listEveryone);
+        premierTour(listEveryone);
         tour++;
       }
 
@@ -72,7 +68,7 @@ public class Donjon {
     }
   }
 
-  private void demarrageDonjon(ArrayList<Creature> listEveryone)
+  private void premierTour(ArrayList<Creature> listEveryone)
   {
     // Setup l'ordre de jeu
     Output.print("Tous les joueurs et les monstres lancent un 1d20 et ajoutent sa valeur dans leur initiative!\n");
