@@ -8,7 +8,7 @@ import personnages.sorts.ArmeMagique;
 public class Clerc extends Classe {
 
   public Clerc() {
-    nom = "Clerc";
+    nom = "Clerc.esse";
     pv = 16;
     
     this.listeArmes = Arrays.asList(

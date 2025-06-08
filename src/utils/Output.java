@@ -18,9 +18,6 @@ public class Output {
   }
 
   public static void clear() {
-    try {
-      System.out.print("\033\143\n");
-    } catch (Exception e) {
-    }
+    System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + "\033\143");
   }
 }

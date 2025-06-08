@@ -66,19 +66,22 @@ public class Carte {
 
   public void afficherCarte() {
     Output.clear();
+    afficherLegende();
     String alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    String ligneAbscisse = "   *";
+    String ligneAbscisseHaut = "   /";
+    String ligneAbscisseBas = "   \\";
     int l = this.getLargeur();
     int h = this.getHauteur();
 
     Output.print("    ");
     for (int i = 0; i < l; i++) {
       Output.print(" " + (alph.charAt(i)) + " ");
-      ligneAbscisse += "---";
+      ligneAbscisseHaut += "---";
+      ligneAbscisseBas += "---";
     }
 
     Output.println();
-    Output.println(ligneAbscisse + "*");
+    Output.println(ligneAbscisseHaut + "\\");
 
     for (int y = 0; y < h; y++) {
       if (y < 9)
@@ -89,16 +92,21 @@ public class Carte {
       for (int x = 0; x < l; x++) {
         points += carte[y][x].getAlias();
       }
+      points += "| " + y;
       Output.println(points);
     }
-    afficherLegende();
+    Output.println(ligneAbscisseBas + "/");
+    Output.print("    ");
+    for (int i = 0; i < l; i++) {
+      Output.print(" " + (alph.charAt(i)) + " ");
+    }
+    Output.println();
+
   }
 
   public void afficherLegende() {
     Output.println("""
-
-        Légende :
-        +-----------------------------------+
+        + Légende --------------------------+
         | orX / oXX = orc numéro X          |
         | drX / dXX = dragon numéro X       |
         | arX / aXX = arraignée numéro X    |
@@ -110,18 +118,29 @@ public class Carte {
 
   // ====== Entités ======
   public void ajouteEntite(Entite e, Position p) {
-    if (inCarte(p)) {
-      if (inCarte(e.getPosition())) {
-        enleveEntite(e.getPosition());
+    enleveEntite(e.getPosition());
+    // avant, marche pas for some reason, le probleme doit venir de enleveEntite,
+    // mais ça marche tres bien pour les persos, ça bug que pour les monstres
+    // if (inCarte(p)) {
+    // carte[p.y()][p.x()] = e;
+    // e.entreCarte(p);
+    // }
+
+    for (int y = 0; y < carte.length; y++) {
+      for (int x = 0; x < carte[y].length; x++) {
+        if (carte[y][x] == e && (y != p.y() || x != p.x())) {
+          carte[y][x] = new CaseVide();
+        }
       }
-      carte[p.y()][p.x()] = e;
-      e.entreCarte(p);
     }
+    carte[p.y()][p.x()] = e;
+    e.entreCarte(p);
   }
 
   public void enleveEntite(Position p) {
-    if (inCarte(p)) {
+    try {
       carte[p.y()][p.x()] = new CaseVide();
+    } catch (Exception e) {
     }
   }
 
@@ -168,7 +187,6 @@ public class Carte {
           """);
       carte.afficherCarte();
       Output.println("""
-
           ---=-=-= | ACTION | =-=-=---
           [0] Choisir cette carte et quitter l'éditeur
           [1] Créer une carte manuellement

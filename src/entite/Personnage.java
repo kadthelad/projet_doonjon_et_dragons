@@ -9,8 +9,7 @@ import personnages.sorts.Sort;
 import java.util.List;
 import java.util.Map;
 
-public class Personnage extends Creature
-{
+public class Personnage extends Creature {
 
   private String nom;
   private Race race;
@@ -37,29 +36,32 @@ public class Personnage extends Creature
       if (key == Caracteristique.PV || key == Caracteristique.PV_MAX) {
         value = race.bonus(key) + entry.getValue();
         entry.setValue(value);
-      } else {
-        value = Des.lancer(4, 4) + race.bonus(key);
-        entry.setValue(value);
-      }
+      } 
+
+      int pv = value = Des.lancer(4, 4) + race.bonus(key);
+      caracteristiques.put(Caracteristique.PV, pv);
+      caracteristiques.put(Caracteristique.PV_MAX, pv);
     }
     this.listeArmes = classe.getListeArmes();
     this.listeArmures = classe.getListeArmures();
     this.listeSorts = classe.getListeSorts();
   }
 
-  public void changePV(int pv) {
-    this.setCaracteristique(Caracteristique.PV, pv);
-
+  public boolean changePV(int modifPV) {
+    this.setCaracteristique(Caracteristique.PV, modifPV);
     int pvMax = this.caracteristiques.get(Caracteristique.PV_MAX);
-    if (this.caracteristiques.get(Caracteristique.PV) > pvMax) {
+    int pv = this.caracteristiques.get(Caracteristique.PV);
+    if (pv > pvMax) {
       this.caracteristiques.put(Caracteristique.PV, pvMax);
+    } else if (pv < 1) {
+      return false; 
     }
+    return true;
   }
 
   public void getPV() {
     this.getCaracteristique(Caracteristique.PV);
   }
-
 
   public void setCaracteristique(Caracteristique c, int v) {
     int previous = this.caracteristiques.get(c);
@@ -74,7 +76,7 @@ public class Personnage extends Creature
   public String getCaracteristique() {
     String c = "";
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
-      c += "	- " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
+      c += " - " + entry.getKey() + " : " + entry.getValue().toString() + "\n";
     }
     return c;
   }
@@ -87,9 +89,7 @@ public class Personnage extends Creature
     this.listeArmes.add(a);
   }
 
-  public void addArmure(Armure a) {
-    this.listeArmures.add(a);
-  }
+  public void addArmure(Armure a) { this.listeArmures.add(a); }
 
   public List<Arme> getListeArmes() {
     return this.listeArmes;
@@ -149,21 +149,31 @@ public class Personnage extends Creature
   }
 
   public int getCA() {
-    return this.armureEquipee.getClasseArmure();
+    if (this.armureEquipee != null)
+    {
+      return this.armureEquipee.getClasseArmure();
+    }
+    return 0;
   }
 
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
+
+    if (this.armeEquipee == null)
+    {
+      Output.println("Vous n'avez pas d'armes! vous ne pouvez donc pas attaquer!");
+      return false;
+    }
     int portee = this.armeEquipee.getPortee();
     if (d > portee) {
-      Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
+      Output.println("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
       return false;
     }
     int jet = Des.lancer() + this.armeEquipee.getBonus()
         + this.getCaracteristique(this.armeEquipee.getCaracteristique());
 
     if (jet < cible.getCA()) {
-      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+      Output.println("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
           + cible.getCA() + ")");
       return false;
     }
@@ -171,89 +181,83 @@ public class Personnage extends Creature
     int degats = Des.lancer(this.armeEquipee.getDegats()) + this.armeEquipee.getBonus();
     cible.changePV(degats * -1);
 
-    Output.print("Vous avez infligé " + degats + " degats à " + cible.getNom());
+    Output.println("Vous avez infligé " + degats + " degats à " + cible.getNom());
 
     return true;
   }
 
-  public boolean equipperArme()
-  {
+  public boolean equipperArme() {
     int nbArmes = this.getListeArmes().size();
 
     Output.println("|" + this.getNom() + ", choisissez une arme à équipper :");
-    for (int i=0; i<nbArmes; i++)
-    {
-      Output.println("|->[" + i + "] " + this.getListeArmes().get(i).getNom());
+    for (int i = 1; i <= nbArmes; i++) {
+      Output.println("|->[" + i + "] " + this.getListeArmes().get(i-1).getNom());
     }
-    Output.println("|->[" + nbArmes + "] Ne pas équipper");
+    Output.println("|->[0] Ne pas équipper");
     int userInt = Input.entier();
 
-    if (userInt < nbArmes)
-    {
-      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt).getNom());
-      this.changeArmeeEquipee(this.getListeArmes().get(userInt));
-      return true;
+    if (userInt == 0 || userInt > nbArmes) {
+        Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
+        return false;
     }
-    else
-    {
-      Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
-      return false;
+    else {
+      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt-1).getNom());
+      this.changeArmeeEquipee(this.getListeArmes().get(userInt-1));
+      return true;
     }
   }
 
-  public boolean equipperArmure()
-  {
+  public boolean equipperArmure() {
     int nbArmures = this.getListeAmures().size();
 
     Output.println("|" + this.getNom() + ", choisissez une armure à équipper :");
-    for (int i=0; i<nbArmures; i++)
-    {
-      Output.println("|->[" + i + "] " + this.getListeAmures().get(i).getNom());
+    for (int i = 1; i <= nbArmures; i++) {
+      Output.println("|->[" + i + "] " + this.getListeAmures().get(i-1).getNom());
     }
-    Output.println("|->[" + nbArmures + "] Ne pas équipper");
+    Output.println("|->[0] Ne pas équipper");
     int userInt = Input.entier();
 
-    if (userInt < nbArmures)
-    {
-      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt).getNom());
-      this.changeArmureEquipee(this.getListeAmures().get(userInt));
-      return true;
-    }
-    else
-    {
+    if (userInt == 0 || userInt > nbArmures) {
       Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle armure");
       return false;
+    } else {
+      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt-1).getNom());
+      this.changeArmureEquipee(this.getListeAmures().get(userInt-1));
+      return true;
     }
   }
 
-public boolean ramasser()
-{
-  if (this.leaveEquipement() != null)
-  {
-    Arme getArme = Catalogue.getArmeParNom(this.leaveEquipement().getNom());
-    Armure getArmure = Catalogue.getArmureParNom(this.leaveEquipement().getNom());
-    if (getArmure != null)
-    {
-      this.addArmure(getArmure);
-      Output.println(this.getNom() + " a ramassé " + this.leaveEquipement().getNom() + ".");
-      return true;
+  public boolean ramasser() {
+    if (this.leaveEquipement() != null) {
+      Arme getArme = Catalogue.getArmeParNom(this.leaveEquipement().getNom());
+      Armure getArmure = Catalogue.getArmureParNom(this.leaveEquipement().getNom());
+      if (getArmure != null) {
+        this.addArmure(getArmure);
+        Output.println(this.getNom() + " a ramassé " + this.leaveEquipement().getNom() + ".");
+        return true;
+      }
+      if (getArme != null) {
+        this.addArme(getArme);
+        Output.println(this.getNom() + " a ramassé " + this.leaveEquipement().getNom() + ".");
+        return true;
+      }
     }
-    if (getArme != null)
-    {
-      this.addArme(getArme);
-      Output.println(this.getNom() + " a ramassé " + this.leaveEquipement().getNom() + ".");
-      return true;
-    }
+    Output.println("Il n'y a rien sur la case où vous êtes!");
+    return false;
   }
-  Output.println("Il n'y a rien sur la case où vous êtes!");
-  return false;
-}
 
   @Override
   public String toString() {
 
-    return this.getNom() + ", le ou la " + this.getClasse().getNom() + " "
-        + this.getRace().getNom()
-        + "\nCaractéristiques :\n" + this.getCaracteristique();
+    String pres = "Personnage : " + this.getNom() + "\n\nRace : " + this.getClasse().getNom() + "\nClasse : " + this.getRace().getNom();
+    pres += "\nCaractéristiques :\n" + this.getCaracteristique();
+    pres += "\nEquipement :\n";
+    for (Arme a : listeArmes) {
+      pres += " - " + a.toString() + "\n";
+    }
+    for (Armure a : listeArmures) {
+      pres += " - " + a.toString() + "\n";
+    }
+    return pres;
   }
 }

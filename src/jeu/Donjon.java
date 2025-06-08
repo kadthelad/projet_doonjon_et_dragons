@@ -1,7 +1,6 @@
 package jeu;
 
-import entite.Caracteristique;
-import entite.Creature;
+import entite.*;
 import utils.Des;
 import utils.Input;
 import utils.Output;
@@ -18,6 +17,7 @@ public class Donjon {
 
 
   private int tour = 0;
+  private int donjonNB = 0;
   private ArrayList<Creature> listeOrdreJeu = new ArrayList<Creature>() {};
 
   public Donjon() {
@@ -26,23 +26,24 @@ public class Donjon {
 
   public void commenter()
   {
-    Output.println("[Maitre du Jeu] Ajouter un commentaire?\n" +
-            "[0] oui" +
-            "[1] non");
-    int userInt = Input.entier();
-    if (userInt == 0)
+    if (Input.confirmer("[commenter] Ajouter un commentaire?"))
     {
       Output.println("Votre commentaire : ");
-      String userStr = Input.string();
-      Output.print("-Commentaire- : " + userStr);
+      Output.print("-Commentaire- : " + Input.string());
     }
   }
 
   // Méthode permettant au maitre du jeu de créer la carte,
   public void lancerJeu() {
+    if (this.donjonNB >= 3)
+    {
+      Output.println("*/=====================/*\nFélicitations, vous avez fini le jeu!\n*/=====================/*");
+      return;
+    }
 
     // Création (aléatoire ou manuelle) de la carte
     Carte.menuCarte();
+    this.donjonNB++;
 
     boolean jeu = true;
     listeOrdreJeu = new ArrayList<>();
@@ -61,24 +62,39 @@ public class Donjon {
 
       for (Creature crea : listeOrdreJeu)
       {
-        actionCreature(crea);
+        switch (actionCreature(crea))
+        {
+          case 0: // quitter, la partie est perdue
+            return;
+          case 1: // aller dans le prochain donjon
+            jeu = false;
+          case 2: // continuer le jeu
+            break;
+        }
       }
-
       this.tour++;
     }
+    lancerJeu();
   }
 
   private void premierTour(ArrayList<Creature> listEveryone)
   {
     // Setup l'ordre de jeu
     Output.print("Tous les joueurs et les monstres lancent un 1d20 et ajoutent sa valeur dans leur initiative!\n");
-    for (Creature crea : listEveryone)
+    for (Monstre mstr : carte.getListeMonstresEnJeu())
     {
       int deVal = Des.lancer();
-      int val = crea.getCaracteristique(Caracteristique.INITIATIVE);
-      Output.print(crea.getNom() + " (Initiative = " + val + ") aura une addition de + " + deVal + " points d'initiative!\n");
-      crea.setCaracteristique(Caracteristique.INITIATIVE, val + deVal);
-      ajouterDansListeOrdre(crea);
+      int val = mstr.getCaracteristique(Caracteristique.INITIATIVE);
+      mstr.setCaracteristique(Caracteristique.INITIATIVE, val + deVal);
+      ajouterDansListeOrdre(mstr);
+    }
+    for (Personnage pers : Jeu.getListePersonnages())
+    {
+      int deVal = Des.lancer();
+      int val = pers.getCaracteristique(Caracteristique.INITIATIVE);
+      Output.print(pers.getNom() + " (Initiative = " + val + ") aura une addition de + " + deVal + " points d'initiative!\n");
+      pers.setCaracteristique(Caracteristique.INITIATIVE, val + deVal);
+      ajouterDansListeOrdre(pers);
     }
     Output.print("Voici l'ordre de jeu : \n");
     for (int i=0; i<this.listeOrdreJeu.size(); i++)
@@ -134,48 +150,96 @@ public class Donjon {
     Output.println(" === Attaquer ===\n" +
             "Qui voulez-vous attaquer?");
 
-    int nbCibles = this.listeOrdreJeu.size();
 
-    for (int i=0; i<nbCibles; i++)
+    if (crea.isMonstre())
     {
-      Output.println("[" + i + "] " + this.listeOrdreJeu.get(i).getNom());
-    }
-    int userInt = Input.entier();
+      int nbCibles = Jeu.getNombrePersonnages();
 
-    if (userInt < nbCibles)
-    {
-      crea.attaque(this.listeOrdreJeu.get(userInt));
-      return true;
+      for (int i=0; i<nbCibles; i++)
+      {
+        Output.println("[" + i + "] " + Jeu.getListePersonnages().get(i).getNom());
+      }
+      int userInt = Input.entier();
+
+      if (userInt < nbCibles)
+      {
+        crea.attaque(Jeu.getListePersonnages().get(userInt));
+        return true;
+      }
+      else
+      {
+        Output.println(crea.getNom() + " n'attaque personne.");
+        return false;
+      }
     }
     else
     {
-      Output.println("Vous n'attaquez personne.");
-      return false;
+      int nbCibles = carte.getListeMonstresEnJeu().size();
+
+      for (int i=0; i<nbCibles; i++)
+      {
+        Output.println("[" + i + "] " + carte.getListeMonstresEnJeu().get(i).getNom());
+      }
+      int userInt = Input.entier();
+
+      if (userInt < nbCibles)
+      {
+        crea.attaque(carte.getListeMonstresEnJeu().get(userInt));
+        return true;
+      }
+      else
+      {
+        Output.println(crea.getNom() + " n'attaque personne.");
+        return false;
+      }
     }
   }
 
-  private void actionCreature(Creature crea)
+  private int actionCreature(Creature crea)
   {
     int pointsAction = 3;
 
     while (pointsAction > 0)
     {
+      // verifier si la partie est finie
+      for (Personnage pers : Jeu.getListePersonnages())
+      {
+        Output.println("player = " + pers.getNom() + " / HP = " + pers.getCaracteristique(Caracteristique.PV));
+        if (pers.getCaracteristique(Caracteristique.PV) <= 0)
+        {
+          Output.println("Vous avez péri dans le donjon, GAME OVER.");
+          return 0; // finir la partie
+        }
+      }
+
+
+      for (Monstre mstr : carte.getListeMonstresEnJeu())
+      {
+        if (mstr.getCaracteristique(Caracteristique.PV) <= 0)
+        {
+          Output.println("Bravo, vous avez fini ce donjon!");
+          return 1; // changer donjon
+        }
+      }
+
+      // ==================================== //
       carte.afficherCarte();
       Output.print(
               "======== [Tour : " + this.tour + "] ========\n" +
                       "|Au tour de " + crea.getNom() + " (" + pointsAction + " Points d'Action) :\n" +
-                      "|->[0] Equipper un objet\n" +
-                      "|->[1] Se déplacer\n" +
-                      "|->[2] Attaquer\n" +
-                      "|->[3] Ramasser un objet\n" +
-                      "|->[4] Passer son tour\n" +
+                      "|->[1] Equipper un objet\n" +
+                      "|->[2] Se déplacer (" + crea.getCaracteristique(Caracteristique.VITESSE) / 3 + " cases)\n" +
+                      "|->[3] Attaquer\n" +
+                      "|->[4] Ramasser un objet\n" +
+                      "|->[5] Voir statistiques\n" +
+                      "|->[0] Passer son tour\n" +
                       "========================\n"
       );
-      int userVal = Input.entier();
-
-      switch (userVal)
+      int choix = Input.entier(0, 5, "Choix : ");
+      switch (choix)
       {
-        case 0: // equipper objet
+        case 1 ->  // equipper objet
+        {
           if (crea.equipperArme())
           {
             pointsAction--;
@@ -186,34 +250,43 @@ public class Donjon {
             pointsAction--;
             commenter();
           }
-          break;
-        case 1: // se deplacer
+          Input.entreePourPasser();
+        }
+        case 2 -> // se deplacer
+        {
           if (deplacer(crea))
           {
             pointsAction--;
             commenter();
           }
-          break;
-        case 2: // attaquer
+          Input.entreePourPasser();
+        }
+        case 3 -> // attaquer
+        {
           if (attaquer(crea))
           {
             pointsAction--;
             commenter();
           }
-          break;
-        case 3: // ramasser objet
+          Input.entreePourPasser();
+        }
+        case 4 -> // ramasser
+        {
           if (crea.ramasser())
           {
             pointsAction--;
             commenter();
           }
-          break;
-        case 4: // passer tour
-          pointsAction = 0;
-          break;
-        default:
-          Output.printValid();
+          Input.entreePourPasser();
+        }
+        case 5 ->
+        {
+          Output.println(crea.toString());
+          Input.entreePourPasser();
+        }
+        case 0 -> pointsAction = 0;
       }
     }
+    return 2; // continue
   }
 }

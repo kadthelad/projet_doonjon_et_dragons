@@ -1,5 +1,6 @@
 package entite;
 
+import jeu.Carte;
 import jeu.Jeu;
 import utils.Des;
 import utils.Input;
@@ -17,8 +18,6 @@ public class Monstre extends Creature {
 
   private String nomAttaque = "";
   private String des = "";
-
-  private Position position = new Position(-1, -1);
 
   private String alias;
 
@@ -78,43 +77,35 @@ public class Monstre extends Creature {
       if (listMonstres.isEmpty())
       {
         System.out.println("[Vous n'avez aucun monstre crée pour l'instant!]");
-      }
-      else
+      } else
       {
         System.out.println("Vous avez déjà ce(s) monstre(s):");
-        for (int i=0; i<listMonstres.size(); i++)
+        for (int i = 0; i < listMonstres.size(); i++)
         {
           System.out.println(listMonstres.get(i).getEspece());
         }
       }
 
 
-      System.out.println("----------------------\nChoisissez une action:\n[0] Ajouter un monstre\n[1] Supprimer un monstre\n[2] Modifier un monstre\n[3] Choisir le monstre et continuer la création de carte");
-      userInput = Input.entier();
-      switch (userInput)
+      System.out.println("----------------------\nChoisissez une action:\n[1] Ajouter un monstre\n[2] Modifier un monstre\n[0] Choisir le monstre et continuer la création de carte");
+      int choix = Input.entier(0, 2, "Choix : ");
+      switch (choix)
       {
-        case 0:
-          listMonstres.add(ajoutMonstre());
-          break;
-        case 1:
-          supprMonstre(listMonstres);
-          break;
-        case 2:
-          modifMonstre(listMonstres);
-          break;
-        case 3:
+        case 1 -> listMonstres.add(ajoutMonstre());
+        case 2 -> modifMonstre(listMonstres);
+        case 0 ->
+        {
           int nombreMonstres = Jeu.getNombreMonstres();
           Output.println("Voici la liste des monstres : ");
-          for (int i = 1; i <= nombreMonstres; i++) {
+          for (int i = 1; i <= nombreMonstres; i++)
+          {
             Output.println("[" + i + "] " + Jeu.getMonstre(i - 1).getNom());
           }
           Output.println("[0] Monstre au hasard");
           int n = Input.entier(0, nombreMonstres, "Quel monstre souhaitez-vous placer ?");
           Entite e = (n != 0) ? Jeu.getMonstre(n - 1).copie() : Monstre.random();
           return e;
-        default:
-          Output.printValid();
-          break;
+        }
       }
     }
     return Monstre.random();
@@ -189,41 +180,6 @@ public class Monstre extends Creature {
 
     System.out.println("Le monstre " + monstreCree.getEspece() + " est ajouté dans la liste des monstres!");
     return monstreCree;
-  }
-
-  private static void supprMonstre(ArrayList<Monstre> listMonstres)
-  {
-    boolean inDeleting = true;
-
-    while (inDeleting)
-    {
-      if (listMonstres.isEmpty())
-      {
-        System.out.println("[!] Il n'y a pas de monstre crée!\n");
-        return;
-      }
-      // supprimer un monstre
-      System.out.println("-- Quel monstre voulez-vous supprimer? --");
-      for (int i = 0; i < listMonstres.size(); i++)
-      {
-        System.out.println("[" + i + "] - " + listMonstres.get(i).getEspece());
-      }
-      System.out.println("[" + listMonstres.size() + "] - Revenir à l'éditeur de monstre");
-      int userInt = utils.Input.entier();
-      if (userInt == listMonstres.size())
-      {
-        return;
-      }
-      else if (userInt < listMonstres.size())
-      {
-        System.out.println("[!] Monstre " + listMonstres.get(userInt).getEspece() + " supprimé!\n");
-        listMonstres.remove(userInt);
-      }
-      else
-      {
-        System.out.println("Entrez une commande existante!");
-      }
-    }
   }
 
   private static void modifMonstre(ArrayList<Monstre> listMonstre)
@@ -411,7 +367,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.FORCE, 5);
     mapCara.put(Caracteristique.INITIATIVE, 2);
     mapCara.put(Caracteristique.CLASSE_ARMURE, 13);
-    mapCara.put(Caracteristique.VITESSE, 3);
+    mapCara.put(Caracteristique.VITESSE, 9);
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbOrc;
     nbOrc++;
@@ -491,20 +447,20 @@ public class Monstre extends Creature {
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
     if (d > 1) {
-      Output.print("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
+      Output.println("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
       return false;
     }
     int jet = Des.lancer(this.des);
 
     if (jet < cible.getCA()) {
-      Output.print("Votre des ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+      Output.println("Votre des ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
               + cible.getCA() + ")");
       return false;
     }
 
     cible.changePV((jet+this.getCaracteristique(Caracteristique.FORCE)) * -1);
 
-    Output.print("Le monstre à attaqué avec  " + this.nomAttaque + " et à infligé " + jet + " degats à " + cible.getNom() + "!");
+    Output.println("Le monstre à attaqué avec " + this.nomAttaque + " et à infligé " + jet + " degats à " + cible.getNom() + "!");
     return true;
   }
 
@@ -523,16 +479,22 @@ public class Monstre extends Creature {
         " (" + getAlias() + ")" +
         "\nAttaque : " + des +
         "\n___Caractéristiques___\n" +
-        this.caracteristiques.get(Caracteristique.PV) + " PV\n" +
-        this.caracteristiques.get(Caracteristique.FORCE) + " Force\n" +
-        this.caracteristiques.get(Caracteristique.DEXTERITE) + " Déxterité\n" +
-        this.caracteristiques.get(Caracteristique.VITESSE) + " Vitesse\n" +
-        this.caracteristiques.get(Caracteristique.INITIATIVE) + " Initiative\n" +
-        this.caracteristiques.get(Caracteristique.CLASSE_ARMURE) + " Classe d'Armure\n";
+            "[PV : " + this.caracteristiques.get(Caracteristique.PV) + "]\n" +
+            "[Force : " +this.caracteristiques.get(Caracteristique.FORCE) + "]\n" +
+            "[Déxterité : " + this.caracteristiques.get(Caracteristique.DEXTERITE) + "]\n" +
+            "[Vitesse : "  + this.caracteristiques.get(Caracteristique.VITESSE) + "]\n"+
+            "[Initiative : "  + this.caracteristiques.get(Caracteristique.INITIATIVE) + "]\n"+
+            "[Classe d'Armure : " + this.caracteristiques.get(Caracteristique.CLASSE_ARMURE) + "]\n";
   }
 
-  public void changePV(int pv) {
-    this.caracteristiques.replace(Caracteristique.PV, this.caracteristiques.get(Caracteristique.PV) + pv);
+  public boolean changePV(int modifPV) {
+    this.caracteristiques.replace(Caracteristique.PV, this.caracteristiques.get(Caracteristique.PV) + modifPV);
+
+    int pv = this.caracteristiques.get(Caracteristique.PV);
+    if (pv < 1) {
+      return false; 
+    }
+    return true;
   }
 
   @Override

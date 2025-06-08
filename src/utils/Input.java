@@ -60,9 +60,9 @@ public class Input {
   }
 
   public static boolean confirmer(String prompt) {
-    Output.println(prompt + " [0] Oui [1] Non");
-    int choix = entier(0, 1, "Votre choix : ");
-    return choix == 0;
+    Output.println(prompt + " [1] Oui [2] Non");
+    int choix = entier(1, 2, "Votre choix : ");
+    return choix == 1;
   }
 
   public static String string() {
@@ -72,5 +72,11 @@ public class Input {
   public static String string(String prompt) {
     Output.print(prompt);
     return scanner.nextLine();
+  }
+
+  public static void entreePourPasser()
+  {
+    Output.print("Appuyez sur entrée pour passer.");
+    Input.string();
   }
 }
