@@ -36,10 +36,11 @@ public class Personnage extends Creature {
       if (key == Caracteristique.PV || key == Caracteristique.PV_MAX) {
         value = race.bonus(key) + entry.getValue();
         entry.setValue(value);
-      } else {
-        value = Des.lancer(4, 4) + race.bonus(key);
-        entry.setValue(value);
-      }
+      } 
+
+      int pv = value = Des.lancer(4, 4) + race.bonus(key);
+      caracteristiques.put(Caracteristique.PV, pv);
+      caracteristiques.put(Caracteristique.PV_MAX, pv);
     }
     this.listeArmes = classe.getListeArmes();
     this.listeArmures = classe.getListeArmures();

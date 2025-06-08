@@ -133,10 +133,8 @@ public class Carte {
         }
       }
     }
-    if (inCarte(p)) {
-      carte[p.y()][p.x()] = e;
-      e.entreCarte(p);
-    }
+    carte[p.y()][p.x()] = e;
+    e.entreCarte(p);
   }
 
   public void enleveEntite(Position p) {

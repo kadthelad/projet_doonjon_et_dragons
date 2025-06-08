@@ -369,7 +369,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.FORCE, 5);
     mapCara.put(Caracteristique.INITIATIVE, 2);
     mapCara.put(Caracteristique.CLASSE_ARMURE, 13);
-    mapCara.put(Caracteristique.VITESSE, 3);
+    mapCara.put(Caracteristique.VITESSE, 9);
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbOrc;
     nbOrc++;
