@@ -110,10 +110,8 @@ public class Carte {
 
   // ====== Entités ======
   public void ajouteEntite(Entite e, Position p) {
+    enleveEntite(e.getPosition());
     if (inCarte(p)) {
-      if (inCarte(e.getPosition())) {
-        enleveEntite(e.getPosition());
-      }
       carte[p.y()][p.x()] = e;
       e.entreCarte(p);
     }

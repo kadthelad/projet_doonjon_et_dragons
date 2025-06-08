@@ -24,11 +24,14 @@ public abstract class Creature extends Entite
 
   public boolean move(Position p) {
     jeu.Carte carte = jeu.Donjon.getCarte();
-    Entite e = carte.getEntite(p);
     if (!carte.inCarte(p))
       return false;
+
+    Entite e = carte.getEntite(p);
+
     if (this.distance(p) > this.caracteristiques.get(Caracteristique.VITESSE)/3)
       return false;
+
     if ((!e.isEmpty()) && (e.isEquipment()))
     {
       if (this.leaveEquipement() != null)
@@ -52,7 +55,6 @@ public abstract class Creature extends Entite
         carte.ajouteEntite(this.leaveEquipement(), this.position);
       }
     }
-
 
     carte.ajouteEntite(this, p); // gère tout (retrait ancien + placement nouveau)
     return true;
