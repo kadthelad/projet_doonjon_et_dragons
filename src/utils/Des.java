@@ -8,7 +8,7 @@ public class Des {
   public static int lancer(int nombreDeDes, int nombreDeFaces) {
     int resultat = 0;
     for (int i = 0; i < nombreDeDes; i++) {
-      resultat += r.nextInt(nombreDeFaces);
+      resultat += r.nextInt(nombreDeFaces + 1) + 1;
     }
     return resultat;
   }
