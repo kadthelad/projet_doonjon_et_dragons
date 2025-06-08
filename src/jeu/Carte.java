@@ -92,7 +92,7 @@ public class Carte {
       for (int x = 0; x < l; x++) {
         points += carte[y][x].getAlias();
       }
-      points += "| " + y;
+      points += "| " + (y + 1);
       Output.println(points);
     }
     Output.println(ligneAbscisseBas + "/");

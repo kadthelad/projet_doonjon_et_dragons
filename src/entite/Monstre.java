@@ -19,8 +19,6 @@ public class Monstre extends Creature {
   private String nomAttaque = "";
   private String des = "";
 
-  private Position position = new Position(-1, -1);
-
   private String alias;
 
   {

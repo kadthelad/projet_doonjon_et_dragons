@@ -32,15 +32,14 @@ public class Personnage extends Creature {
 
     for (Map.Entry<Caracteristique, Integer> entry : caracteristiques.entrySet()) {
       Caracteristique key = entry.getKey();
-      int value;
+      int value = 0;
       if (key == Caracteristique.PV || key == Caracteristique.PV_MAX) {
-        value = race.bonus(key) + entry.getValue();
-        entry.setValue(value);
-      } 
-
-      int pv = value = Des.lancer(4, 4) + race.bonus(key);
-      caracteristiques.put(Caracteristique.PV, pv);
-      caracteristiques.put(Caracteristique.PV_MAX, pv);
+        value = race.bonus(key) + Des.lancer(4, 4) + 3;
+        caracteristiques.put(key, value);
+      } else {
+        value = Des.lancer(4, 4) + race.bonus(key);
+        caracteristiques.put(key, value);
+      }
     }
     this.listeArmes = classe.getListeArmes();
     this.listeArmures = classe.getListeArmures();
@@ -54,7 +53,7 @@ public class Personnage extends Creature {
     if (pv > pvMax) {
       this.caracteristiques.put(Caracteristique.PV, pvMax);
     } else if (pv < 1) {
-      return false; 
+      return false;
     }
     return true;
   }
@@ -89,7 +88,9 @@ public class Personnage extends Creature {
     this.listeArmes.add(a);
   }
 
-  public void addArmure(Armure a) { this.listeArmures.add(a); }
+  public void addArmure(Armure a) {
+    this.listeArmures.add(a);
+  }
 
   public List<Arme> getListeArmes() {
     return this.listeArmes;
@@ -149,8 +150,7 @@ public class Personnage extends Creature {
   }
 
   public int getCA() {
-    if (this.armureEquipee != null)
-    {
+    if (this.armureEquipee != null) {
       return this.armureEquipee.getClasseArmure();
     }
     return 0;
@@ -159,8 +159,7 @@ public class Personnage extends Creature {
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
 
-    if (this.armeEquipee == null)
-    {
+    if (this.armeEquipee == null) {
       Output.println("Vous n'avez pas d'armes! vous ne pouvez donc pas attaquer!");
       return false;
     }
@@ -191,18 +190,17 @@ public class Personnage extends Creature {
 
     Output.println("|" + this.getNom() + ", choisissez une arme à équipper :");
     for (int i = 1; i <= nbArmes; i++) {
-      Output.println("|->[" + i + "] " + this.getListeArmes().get(i-1).getNom());
+      Output.println("|->[" + i + "] " + this.getListeArmes().get(i - 1).getNom());
     }
     Output.println("|->[0] Ne pas équipper");
     int userInt = Input.entier();
 
     if (userInt == 0 || userInt > nbArmes) {
-        Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
-        return false;
-    }
-    else {
-      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt-1).getNom());
-      this.changeArmeeEquipee(this.getListeArmes().get(userInt-1));
+      Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
+      return false;
+    } else {
+      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt - 1).getNom());
+      this.changeArmeeEquipee(this.getListeArmes().get(userInt - 1));
       return true;
     }
   }
@@ -212,7 +210,7 @@ public class Personnage extends Creature {
 
     Output.println("|" + this.getNom() + ", choisissez une armure à équipper :");
     for (int i = 1; i <= nbArmures; i++) {
-      Output.println("|->[" + i + "] " + this.getListeAmures().get(i-1).getNom());
+      Output.println("|->[" + i + "] " + this.getListeAmures().get(i - 1).getNom());
     }
     Output.println("|->[0] Ne pas équipper");
     int userInt = Input.entier();
@@ -221,8 +219,8 @@ public class Personnage extends Creature {
       Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle armure");
       return false;
     } else {
-      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt-1).getNom());
-      this.changeArmureEquipee(this.getListeAmures().get(userInt-1));
+      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt - 1).getNom());
+      this.changeArmureEquipee(this.getListeAmures().get(userInt - 1));
       return true;
     }
   }
@@ -249,7 +247,8 @@ public class Personnage extends Creature {
   @Override
   public String toString() {
 
-    String pres = "Personnage : " + this.getNom() + "\n\nRace : " + this.getClasse().getNom() + "\nClasse : " + this.getRace().getNom();
+    String pres = "Personnage : " + this.getNom() + "\n\nRace : " + this.getClasse().getNom() + "\nClasse : "
+        + this.getRace().getNom();
     pres += "\nCaractéristiques :\n" + this.getCaracteristique();
     pres += "\nEquipement :\n";
     for (Arme a : listeArmes) {
