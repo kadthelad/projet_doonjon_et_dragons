@@ -215,7 +215,6 @@ public class Donjon {
 
       for (Monstre mstr : carte.getListeMonstresEnJeu())
       {
-        Output.println("player = " + mstr.getNom() + " / HP = " + mstr.getCaracteristique(Caracteristique.PV));
         if (mstr.getCaracteristique(Caracteristique.PV) <= 0)
         {
           Output.println("Bravo, vous avez fini ce donjon!");
