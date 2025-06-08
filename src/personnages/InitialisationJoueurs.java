@@ -1,5 +1,6 @@
 package personnages;
 
+import entite.Caracteristique;
 import entite.Personnage;
 import personnages.races.*;
 import jeu.Jeu;
@@ -55,6 +56,11 @@ public class InitialisationJoueurs {
       personnage = new Personnage(nom, raceChoisie, classeChoisie);
 
       // récap + confirmation
+      if (personnage.getCaracteristique(Caracteristique.VITESSE) / 3 <= 0)
+      {
+        personnage.setCaracteristique(Caracteristique.VITESSE, personnage.getCaracteristique(Caracteristique.VITESSE)+1);
+      }
+
       Output.clear();
       Output.println(personnage.toString());
     } while (!Input.confirmer("Valider le personnage ?"));

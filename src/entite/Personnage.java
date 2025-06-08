@@ -154,7 +154,6 @@ public class Personnage extends Creature {
 
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
-    Output.println("[DEBUG] : cible = " + cible.getNom() + " position cible = " + cible.getPosition());
 
     if (this.armeEquipee == null)
     {
@@ -178,7 +177,7 @@ public class Personnage extends Creature {
     int degats = Des.lancer(this.armeEquipee.getDegats()) + this.armeEquipee.getBonus();
     cible.changePV(degats * -1);
 
-    Output.print("Vous avez infligé " + degats + " degats à " + cible.getNom());
+    Output.println("Vous avez infligé " + degats + " degats à " + cible.getNom());
 
     return true;
   }
@@ -187,19 +186,20 @@ public class Personnage extends Creature {
     int nbArmes = this.getListeArmes().size();
 
     Output.println("|" + this.getNom() + ", choisissez une arme à équipper :");
-    for (int i = 0; i < nbArmes; i++) {
-      Output.println("|->[" + i + "] " + this.getListeArmes().get(i).getNom());
+    for (int i = 1; i <= nbArmes; i++) {
+      Output.println("|->[" + i + "] " + this.getListeArmes().get(i-1).getNom());
     }
-    Output.println("|->[" + nbArmes + "] Ne pas équipper");
+    Output.println("|->[0] Ne pas équipper");
     int userInt = Input.entier();
 
-    if (userInt < nbArmes) {
-      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt).getNom());
-      this.changeArmeeEquipee(this.getListeArmes().get(userInt));
+    if (userInt == 0 || userInt > nbArmes) {
+        Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
+        return false;
+    }
+    else {
+      Output.println(this.getNom() + " à équippé " + this.getListeArmes().get(userInt-1).getNom());
+      this.changeArmeeEquipee(this.getListeArmes().get(userInt-1));
       return true;
-    } else {
-      Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle arme");
-      return false;
     }
   }
 
@@ -207,19 +207,19 @@ public class Personnage extends Creature {
     int nbArmures = this.getListeAmures().size();
 
     Output.println("|" + this.getNom() + ", choisissez une armure à équipper :");
-    for (int i = 0; i < nbArmures; i++) {
-      Output.println("|->[" + i + "] " + this.getListeAmures().get(i).getNom());
+    for (int i = 1; i <= nbArmures; i++) {
+      Output.println("|->[" + i + "] " + this.getListeAmures().get(i-1).getNom());
     }
-    Output.println("|->[" + nbArmures + "] Ne pas équipper");
+    Output.println("|->[0] Ne pas équipper");
     int userInt = Input.entier();
 
-    if (userInt < nbArmures) {
-      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt).getNom());
-      this.changeArmureEquipee(this.getListeAmures().get(userInt));
-      return true;
-    } else {
+    if (userInt == 0 || userInt > nbArmures) {
       Output.println(this.getNom() + " n'a pas changé/équippé de nouvelle armure");
       return false;
+    } else {
+      Output.println(this.getNom() + " à équippé " + this.getListeAmures().get(userInt-1).getNom());
+      this.changeArmureEquipee(this.getListeAmures().get(userInt-1));
+      return true;
     }
   }
 

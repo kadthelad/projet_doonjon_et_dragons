@@ -25,11 +25,10 @@ public class Donjon {
 
   public void commenter()
   {
-    if (Input.confirmer("[Maitre du Jeu] Ajouter un commentaire?"))
+    if (Input.confirmer("[commenter] Ajouter un commentaire?"))
     {
       Output.println("Votre commentaire : ");
-      String userStr = Input.string();
-      Output.print("-Commentaire- : " + userStr);
+      Output.print("-Commentaire- : " + Input.string());
     }
   }
 
