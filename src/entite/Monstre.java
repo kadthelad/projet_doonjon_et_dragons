@@ -53,6 +53,18 @@ public class Monstre extends Creature {
     return m;
   }
 
+  public static void resetMonstres () {
+    nbOrc = nbArrachnide = nbDragon = 0;
+  }
+
+  public int getNumero() {
+    return this.numero;
+  }
+
+  public void setNumero(int num) {
+    this.numero = num;
+  }
+
   public static Entite create() {
     ArrayList<Monstre> listMonstres = Jeu.getListeMonstres();
     int userInput;
@@ -404,7 +416,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbOrc;
     nbOrc++;
-    String alias = (num < 10) ? "or" : "o";
+    String alias = "or";
     return new Monstre("Orc", "Yolo", "1d8", mapCara, alias, num);
   }
 
@@ -418,7 +430,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 20);
     int num = nbDragon;
     nbDragon++;
-    String alias = (num < 10) ? "dr" : "d";
+    String alias "dr";
     return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, alias, num);
   }
 
@@ -432,7 +444,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbArrachnide;
     nbArrachnide++;
-    String alias = (num < 10) ? "ar" : "a";
+    String alias "ar";
     return new Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num);
   }
 
@@ -526,7 +538,7 @@ public class Monstre extends Creature {
 
   @Override
   public String getAlias() {
-    return this.alias + this.numero;
+    return this.numero < 10 ? this.alias + this.numero : this.alias.substring(0, 1) + numero;
   }
 
   public void setCaracteristique(Caracteristique c, int v) {
