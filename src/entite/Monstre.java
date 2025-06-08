@@ -53,6 +53,18 @@ public class Monstre extends Creature {
     return m;
   }
 
+  public static void resetMonstres () {
+    nbOrc = nbArrachnide = nbDragon = 0;
+  }
+
+  public int getNumero() {
+    return this.numero;
+  }
+
+  public void setNumero(int num) {
+    this.numero = num;
+  }
+
   public static Entite create() {
     ArrayList<Monstre> listMonstres = Jeu.getListeMonstres();
     int userInput;
@@ -404,7 +416,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbOrc;
     nbOrc++;
-    String alias = (num < 10) ? "or" : "o";
+    String alias = "or";
     return new Monstre("Orc", "Yolo", "1d8", mapCara, alias, num);
   }
 
@@ -418,7 +430,7 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 20);
     int num = nbDragon;
     nbDragon++;
-    String alias = (num < 10) ? "dr" : "d";
+    String alias "dr";
     return new Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, alias, num);
   }
 
@@ -432,76 +444,11 @@ public class Monstre extends Creature {
     mapCara.put(Caracteristique.DEXTERITE, 0);
     int num = nbArrachnide;
     nbArrachnide++;
-    String alias = (num < 10) ? "ar" : "a";
+    String alias "ar";
     return new Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num);
   }
 
-  public Monstre(String nom)
-  {
-    switch (nom)
-    {
-      case "Orc":
-        createOrc();
-        break;
-      case "Dragon":
-        createDragon();
-        break;
-      case "Araignée":
-        createAraignee();
-        break;
-      default:
-        Output.println("[!!!] Il n'y a pas de monstre préfait à ce nom! Ce monstre n'aura aucune valeur définie!");
-        break;
-    }
-  }
 
-  private void createOrc()
-  {
-    this.espece = "Orc";
-    this.nomAttaque = "Coup de pied";
-    this.des = "2d3";
-    this.alias = "DC";
-
-    this.setCaracteristique(Caracteristique.PV_MAX, 20);
-    this.setCaracteristique(Caracteristique.PV, 20);
-    this.setCaracteristique(Caracteristique.FORCE, 3);
-    this.setCaracteristique(Caracteristique.INITIATIVE, 2);
-    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 10);
-    this.setCaracteristique(Caracteristique.VITESSE, 3);
-    this.setCaracteristique(Caracteristique.DEXTERITE, 4);
-  }
-
-  private void createDragon()
-  {
-    this.espece = "Dragon";
-    this.nomAttaque = "Boule de feu";
-    this.des = "3d4";
-    this.alias = "dg";
-
-    this.setCaracteristique(Caracteristique.PV_MAX, 15);
-    this.setCaracteristique(Caracteristique.PV, 15);
-    this.setCaracteristique(Caracteristique.FORCE, 2);
-    this.setCaracteristique(Caracteristique.INITIATIVE, 4);
-    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 7);
-    this.setCaracteristique(Caracteristique.VITESSE, 5);
-    this.setCaracteristique(Caracteristique.DEXTERITE, 6);
-  }
-
-  private void createAraignee()
-  {
-    this.espece = "Araignée";
-    this.nomAttaque = "Morsure";
-    this.des = "1d6";
-    this.alias = "DC";
-
-    this.setCaracteristique(Caracteristique.PV_MAX, 10);
-    this.setCaracteristique(Caracteristique.PV, 10);
-    this.setCaracteristique(Caracteristique.FORCE, 5);
-    this.setCaracteristique(Caracteristique.INITIATIVE, 8);
-    this.setCaracteristique(Caracteristique.CLASSE_ARMURE, 2);
-    this.setCaracteristique(Caracteristique.VITESSE, 5);
-    this.setCaracteristique(Caracteristique.DEXTERITE, 7);
-  }
 
   public String getEspece() {
     /// Avoir l'espèce d'un Monstre ///
@@ -591,7 +538,7 @@ public class Monstre extends Creature {
 
   @Override
   public String getAlias() {
-    return this.alias + this.numero;
+    return this.numero < 10 ? this.alias + this.numero : this.alias.substring(0, 1) + numero;
   }
 
   public void setCaracteristique(Caracteristique c, int v) {

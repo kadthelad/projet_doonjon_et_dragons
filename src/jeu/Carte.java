@@ -107,7 +107,7 @@ public class Carte {
   // ====== Entités ======
   public void ajouteEntite(Entite e, Position p) {
     if (inCarte(p)) {
-      if (!e.getPosition().equals(new Position(-1, -1)) && inCarte(e.getPosition())) {
+      if (inCarte(e.getPosition())) {
         enleveEntite(e.getPosition());
       }
       carte[p.y()][p.x()] = e;
@@ -206,6 +206,7 @@ public class Carte {
     }
 
     // on rajoute des monstres aléatoirement (~3-10% des cases)
+    Monstre.resetMonstres();
     int nombreMonstres = (int) (carte.getTaille().getSuperficie() * 0.027);
     n = 0;
     while (n < nombreMonstres) {
@@ -249,6 +250,10 @@ public class Carte {
 
   // ====== Création interactive ======
   public static Carte carteManuelle() {
+    Monstre.resetMonstres();
+    for (int i = 0; i < Jeu.getNombreMonstres(); i++) {
+      Jeu.getMonstre(i).setNumero(0);
+    }
     Output.println("Création d'une nouvelle carte.");
     int hauteur = Input.entier(15, 25, "Hauteur (Y) = ");
     // int largeur = Input.entier(15, 25, "Largeur (X) = ");
