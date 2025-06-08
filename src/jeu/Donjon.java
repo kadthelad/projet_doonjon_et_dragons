@@ -17,6 +17,7 @@ public class Donjon {
 
 
   private int tour = 0;
+  private int donjonNB = 0;
   private ArrayList<Creature> listeOrdreJeu = new ArrayList<Creature>() {};
 
   public Donjon() {
@@ -34,9 +35,15 @@ public class Donjon {
 
   // Méthode permettant au maitre du jeu de créer la carte,
   public void lancerJeu() {
+    if (this.donjonNB >= 3)
+    {
+      Output.println("*/=====================/*\nFélicitations, vous avez fini le jeu!\n*/=====================/*");
+      return;
+    }
 
     // Création (aléatoire ou manuelle) de la carte
     Carte.menuCarte();
+    this.donjonNB++;
 
     boolean jeu = true;
     listeOrdreJeu = new ArrayList<>();
@@ -55,11 +62,19 @@ public class Donjon {
 
       for (Creature crea : listeOrdreJeu)
       {
-        actionCreature(crea);
+        switch (actionCreature(crea))
+        {
+          case 0: // quitter, la partie est perdue
+            return;
+          case 1: // aller dans le prochain donjon
+            jeu = false;
+          case 2: // continuer le jeu
+            break;
+        }
       }
-
       this.tour++;
     }
+    lancerJeu();
   }
 
   private void premierTour(ArrayList<Creature> listEveryone)
@@ -180,12 +195,34 @@ public class Donjon {
     }
   }
 
-  private void actionCreature(Creature crea)
+  private int actionCreature(Creature crea)
   {
     int pointsAction = 3;
 
     while (pointsAction > 0)
     {
+      // verifier si la partie est finie
+      for (Personnage pers : Jeu.getListePersonnages())
+      {
+        Output.println("player = " + pers.getNom() + " / HP = " + pers.getCaracteristique(Caracteristique.PV));
+        if (pers.getCaracteristique(Caracteristique.PV) <= 0)
+        {
+          Output.println("Vous avez péri dans le donjon, GAME OVER.");
+          return 0; // finir la partie
+        }
+      }
+
+
+      for (Monstre mstr : carte.getListeMonstresEnJeu())
+      {
+        if (mstr.getCaracteristique(Caracteristique.PV) <= 0)
+        {
+          Output.println("Bravo, vous avez fini ce donjon!");
+          return 1; // changer donjon
+        }
+      }
+
+      // ==================================== //
       carte.afficherCarte();
       Output.print(
               "======== [Tour : " + this.tour + "] ========\n" +
@@ -250,5 +287,6 @@ public class Donjon {
         case 0 -> pointsAction = 0;
       }
     }
+    return 2; // continue
   }
 }

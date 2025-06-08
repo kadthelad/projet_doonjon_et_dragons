@@ -447,13 +447,13 @@ public class Monstre extends Creature {
   public boolean attaque(Creature cible) {
     int d = distance(cible.getPosition());
     if (d > 1) {
-      Output.print("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
+      Output.println("La cible est trop loin (portée : " + 1 + " < distance :" + d + ")");
       return false;
     }
     int jet = Des.lancer(this.des);
 
     if (jet < cible.getCA()) {
-      Output.print("Votre des ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+      Output.println("Votre des ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
               + cible.getCA() + ")");
       return false;
     }
@@ -479,12 +479,12 @@ public class Monstre extends Creature {
         " (" + getAlias() + ")" +
         "\nAttaque : " + des +
         "\n___Caractéristiques___\n" +
-        this.caracteristiques.get(Caracteristique.PV) + " PV\n" +
-        this.caracteristiques.get(Caracteristique.FORCE) + " Force\n" +
-        this.caracteristiques.get(Caracteristique.DEXTERITE) + " Déxterité\n" +
-        this.caracteristiques.get(Caracteristique.VITESSE) + " Vitesse\n" +
-        this.caracteristiques.get(Caracteristique.INITIATIVE) + " Initiative\n" +
-        this.caracteristiques.get(Caracteristique.CLASSE_ARMURE) + " Classe d'Armure\n";
+            "[PV : " + this.caracteristiques.get(Caracteristique.PV) + "]\n" +
+            "[Force : " +this.caracteristiques.get(Caracteristique.FORCE) + "]\n" +
+            "[Déxterité : " + this.caracteristiques.get(Caracteristique.DEXTERITE) + "]\n" +
+            "[Vitesse : "  + this.caracteristiques.get(Caracteristique.VITESSE) + "]\n"+
+            "[Initiative : "  + this.caracteristiques.get(Caracteristique.INITIATIVE) + "]\n"+
+            "[Classe d'Armure : " + this.caracteristiques.get(Caracteristique.CLASSE_ARMURE) + "]\n";
   }
 
   public boolean changePV(int modifPV) {

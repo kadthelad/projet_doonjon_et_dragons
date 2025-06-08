@@ -165,14 +165,14 @@ public class Personnage extends Creature {
     }
     int portee = this.armeEquipee.getPortee();
     if (d > portee) {
-      Output.print("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
+      Output.println("La cible est trop loin (portée : " + portee + " < distance :" + d + ")");
       return false;
     }
     int jet = Des.lancer() + this.armeEquipee.getBonus()
         + this.getCaracteristique(this.armeEquipee.getCaracteristique());
 
     if (jet < cible.getCA()) {
-      Output.print("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+      Output.println("Votre attaque ne touche pas ( jet + caracteristique : " + jet + " < classe d'amure de la cible :"
           + cible.getCA() + ")");
       return false;
     }
