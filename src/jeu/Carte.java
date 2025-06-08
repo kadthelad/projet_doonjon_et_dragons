@@ -96,9 +96,7 @@ public class Carte {
 
   public void afficherLegende() {
     Output.println("""
-
-        Légende :
-        +-----------------------------------+
+        + Légende --------------------------+
         | orX / oXX = orc numéro X          |
         | drX / dXX = dragon numéro X       |
         | arX / aXX = arraignée numéro X    |
@@ -166,7 +164,6 @@ public class Carte {
           """);
       carte.afficherCarte();
       Output.println("""
-
           ---=-=-= | ACTION | =-=-=---
           [0] Choisir cette carte et quitter l'éditeur
           [1] Créer une carte manuellement

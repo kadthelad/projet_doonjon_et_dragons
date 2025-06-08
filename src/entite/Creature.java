@@ -3,8 +3,6 @@ package entite;
 import java.util.HashMap;
 import java.util.Map;
 
-import personnages.equipement.Catalogue;
-import personnages.equipement.Equipement;
 import utils.Output;
 import utils.Position;
 
