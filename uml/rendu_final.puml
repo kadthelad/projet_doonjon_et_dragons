@@ -26,7 +26,7 @@ package "jeu.joueurs" {
   Creature <|-- Monstre
 }
 
-' ==== PACKAGE jeu.joueurs.races ====
+' ==== PACKAGE personnages.races ====
 package "jeu.joueurs.races" {
   abstract class Race {
     - nom: String
@@ -45,7 +45,7 @@ package "jeu.joueurs.races" {
   Nain --|> Race
 }
 
-' ==== PACKAGE jeu.joueurs.classes ====
+' ==== PACKAGE personnages.classes ====
 package "jeu.joueurs.classes" {
   abstract class Classe {
     - nom: String
@@ -68,7 +68,7 @@ package "jeu.joueurs.classes" {
   Roublard --|> Classe
 }
 
-' ==== PACKAGE jeu.joueurs.equipement ====
+' ==== PACKAGE personnages.equipement ====
 package "jeu.joueurs.equipement" {
   abstract class Arme
   abstract class Armure
@@ -100,7 +100,7 @@ package "jeu.joueurs.equipement" {
   }
 }
 
-' ==== PACKAGE jeu.utils ====
+' ==== PACKAGE utils ====
 package "jeu.utils" {
   enum Caracteristique {
     FORCE
