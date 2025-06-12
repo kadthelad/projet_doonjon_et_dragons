@@ -1,0 +1,796 @@
+@startuml
+skinparam linetype ortho
+skinparam style strictuml
+package "default" #LightBlue {
+class Main {
+    p {static} main(String[] args) : void
+}
+}
+package "entite" #LightYellow {
+class Obstacle {
+    p getNom() : String
+    p getAlias() : String
+}
+abstract class Entite {
+    p position : Position
+    + false : return
+    + false : return
+    + carte : jeu.Carte
+    + false : return
+    + Position(-1, -1) : new
+    + getNom() : String
+    p isEquipment() : boolean
+    p isMonstre() : boolean
+    p getAlias() : String
+    p getPosition() : Position
+    p entreCarte(Position p) : void
+    p sortCarte() : void
+    + Position(-1, -1) : new
+    p sortCarte(Carte carte) : void
+    + Position(-1, -1) : new
+    p TP(Position p) : void
+    p TP(Carte carte, Position p) : void
+    p distance(Entite e) : int
+    + distance(e.getPosition() : return
+    p distance(Position p) : int
+    p isEmpty() : boolean
+}
+class CaseVide {
+    + true : return
+    p getAlias() : String
+    p getNom() : String
+    p isEmpty() : boolean
+}
+enum Caracteristique {
+    + PV : PV_MAX,
+    p toString() : String
+    + name() : return
+}
+abstract class Creature {
+    + caracteristiques : Integer>
+    + surEquipement : Entite
+    + carte : jeu.Carte
+    + e : Entite
+    + false : return
+    + false : return
+    + false : return
+    + true : return
+    + carte : jeu.Carte
+    + false : return
+    + false : return
+    + destination : Entite
+    + false : return
+    + true : return
+    p move(Position p) : boolean
+    p move(Position p) : boolean
+    + if(this.leaveEquipement() : un
+    + if(destination.isEquipment() : dessus
+    p stepOnEquipement(Entite eqpt) : void
+    p leaveEquipement() : Entite
+    + getCaracteristique(Caracteristique c) : int
+    + setCaracteristique(Caracteristique c, int v) : void
+    + attaque(Creature cible) : boolean
+    + equipperArme() : boolean
+    + equipperArmure() : boolean
+    + ramasser() : boolean
+    + getCA() : int
+    + changePV(int pv) : boolean
+}
+class Monstre {
+    p espece : String
+    p numero : int
+    + nbOrc : int
+    + nbDragon : int
+    + nbArrachnide : int
+    p nomAttaque : String
+    p des : String
+    p alias : String
+    + m : Monstre
+    + m : return
+    + rnd : Random
+    + m : Monstre
+    + m : return
+    + listMonstres : ArrayList<Monstre>
+    + userInput : int
+    + userStrInput : String
+    + inMstrEditor : boolean
+    + choix : int
+    + nombreMonstres : int
+    + n : int
+    + e : Entite
+    + e : return
+    + nomMstr : String
+    + icone : String
+    + caraMstr : Integer>
+    + chooseName : boolean
+    + inIconEditing : boolean
+    + userString : String
+    + attMstr : attaque
+    + userInt : int
+    + monstreCree : Monstre
+    + monstreCree : return
+    + userInt : int
+    + inMstrEditing : boolean
+    + mstrChoisi : Monstre
+    + mstrNonSauvegarde : Monstre
+    + userInt2 : int
+    + chooseName : boolean
+    + nomMstr : String
+    + inIconEditing : boolean
+    + userString : String
+    + attInfo : String[]
+    + userDecision : int
+    + attMstr : String
+    + speAttMstr : String
+    + inAttEditor : boolean
+    + userInt : int
+    + caraMstr : Integer>
+    + inCaraEditor : boolean
+    + keys : List<Caracteristique>
+    + userInt1 : int
+    + userInt2 : int
+    + mapCara : Integer>
+    + num : int
+    + alias : String
+    + mapCara : Integer>
+    + num : int
+    + alias : String
+    + mapCara : Integer>
+    + num : int
+    + alias : String
+    + d : int
+    + false : return
+    + jet : int
+    + false : return
+    + true : return
+    + pv : int
+    + false : return
+    + true : return
+    + false : return
+    + false : return
+    + true : return
+    + false : return
+    + Monstre(String esp, String nAtt, String att, Map<Caracteristique, Integer> mapCara, String alias, int numero) : public
+    p copie() : Monstre
+    + Monstre(this.espece, this.nomAttaque, this.des, this.caracteristiques, this.alias, this.numero) : new
+    p {static} random() : Monstre
+    + Random() : new
+    p {static} resetMonstres() : void
+    p getNumero() : int
+    p setNumero(int num) : void
+    p {static} create() : Entite
+    p {static} ajoutMonstre() : Monstre
+    + icone(2 caractères total OBLIGATIOIRE) : nouvelle
+    + Monstre(nomMstr, attMstr[0], attMstr[1], caraMstr, icone, 0) : new
+    p {static} modifMonstre(ArrayList<Monstre> listMonstre) : void
+    + icone(2 caractères total OBLIGATIOIRE) : nouvelle
+    p {static} editMonstreAttaque() : String[]
+    p {static} editMonstreCaracteristiques(Monstre mstrEditer) : void
+    p {static} orc() : Monstre
+    + Monstre("Orc", "Yolo", "1d8", mapCara, alias, num) : new
+    p {static} dragon() : Monstre
+    + Monstre("Dragon", "Crache-Flamme", "3d6", mapCara, alias, num) : new
+    p {static} arrachnide() : Monstre
+    + Monstre("Arrachnide", "ksss", "2d6", mapCara, alias, num) : new
+    p getEspece() : String
+    p getNomAttaque() : String
+    p getAttaque() : String
+    + getMapCaracteristiques() : Integer>
+    p setEspece(String esp) : void
+    p setAlias(String icn) : void
+    p setNomAtt(String nomAtt) : void
+    p setSpeAtt(String speAtt) : void
+    p getPosition() : Position
+    p attaque(Creature cible) : boolean
+    + loin(portée : " + 1 + " < distance :" + d + ") : trop
+    + pas(jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+              + cible.getCA() : touche
+    p getCA() : int
+    p getNom() : String
+    p toString() : String
+    p changePV(int modifPV) : boolean
+    p getAlias() : String
+    p setCaracteristique(Caracteristique c, int v) : void
+    p getCaracteristique(Caracteristique c) : int
+    p changeCaracteristiqueMap(Map<Caracteristique, Integer> map) : void
+    p equipperArme() : boolean
+    p equipperArmure() : boolean
+    p isMonstre() : boolean
+    p ramasser() : boolean
+}
+class Personnage {
+    p nom : String
+    p race : Race
+    p classe : Classe
+    p listeArmes : List<Arme>
+    p listeArmures : List<Armure>
+    p listeSorts : List<Sort>
+    p armeEquipee : Arme
+    p armureEquipee : Armure
+    + key : Caracteristique
+    + value : int
+    + pvMax : int
+    + pv : int
+    + false : return
+    + true : return
+    + previous : int
+    + c : String
+    + c : return
+    + listeSorts : return
+    + key : Caracteristique
+    + value : int
+    + nom : return
+    + race : return
+    + classe : return
+    + 0 : return
+    + d : int
+    + false : return
+    + portee : int
+    + false : return
+    + jet : int
+    + false : return
+    + degats : int
+    + true : return
+    + nbArmes : int
+    + userInt : int
+    + false : return
+    + true : return
+    + nbArmures : int
+    + userInt : int
+    + false : return
+    + true : return
+    + getArme : Arme
+    + getArmure : Armure
+    + true : return
+    + true : return
+    + false : return
+    + pres : String
+    + pres : return
+    + Personnage(String nom, Race race, Classe classe) : public
+    p changePV(int modifPV) : boolean
+    + if(pv < 1) : else
+    p getPV() : void
+    p setCaracteristique(Caracteristique c, int v) : void
+    p getCaracteristique(Caracteristique c) : int
+    p getCaracteristique() : String
+    p getListeSorts() : List<Sort>
+    p addArme(Arme a) : void
+    p addArmure(Armure a) : void
+    p getListeArmes() : List<Arme>
+    p getArme(int index) : Arme
+    p getNombreArme() : int
+    p getListeAmures() : List<Armure>
+    p bonusEquipement(Equipement e, int sign) : void
+    p changeArmeeEquipee(Arme nouvelleArme) : void
+    + bonusEquipement(this.armeEquipee, -1) : bonus
+    + bonusEquipement(this.armeEquipee, 1) : bonus
+    p changeArmureEquipee(Armure nouvelleArmure) : void
+    p getNom() : String
+    p getAlias() : String
+    p getRace() : Race
+    p getClasse() : Classe
+    p getCA() : int
+    p attaque(Creature cible) : boolean
+    + loin(portée : " + portee + " < distance :" + d + ") : trop
+    + pas(jet + caracteristique : " + jet + " < classe d'amure de la cible :"
+          + cible.getCA() : touche
+    p equipperArme() : boolean
+    p equipperArmure() : boolean
+    p ramasser() : boolean
+    p toString() : String
+}
+}
+package "jeu" #Thistle {
+class Carte {
+    p taille : Position
+    p carte : Entite[][]
+    + rand : Random
+    p listeMonstresEnJeu : ArrayList<Monstre>
+    + y : int
+    + x : int
+    + y : <
+    + x : <
+    + listeMonstresEnJeu : return
+    + alph : String
+    + ligneAbscisseHaut : String
+    + ligneAbscisseBas : String
+    + l : int
+    + h : int
+    + l : <
+    + h : <
+    + points : String
+    + l : <
+    + l : <
+    + null : return
+    + y : int
+    + x : int
+    + p : Position
+    + e : Entite
+    + taille : de
+    + copie : Carte
+    + cartes : de
+    + carte : Carte
+    + menu : boolean
+    + choix : int
+    + carte : Carte
+    + n : int
+    + nbObstacles : int
+    + p : Position
+    + nombreMonstres : int
+    + p : Position
+    + m : Monstre
+    + nombreEquipement : int
+    + p : Position
+    + n : personnages
+    + p : Position
+    + carte : return
+    + hauteur : int
+    + largeur : int
+    + largeur : int
+    + carte : Carte
+    + editing : boolean
+    + choix : int
+    + e : Entite
+    + p : Position
+    + carte : return
+    + y : int
+    + x : int
+    + e : Entite
+    + n : int
+    + index : int
+    + nombreMonstres : int
+    + n : int
+    + n : int
+    + n : int
+    + e : return
+    + Random() : new
+    + Carte(Position taille) : public
+    + CaseVide() : new
+    + Carte(int largeur, int hauteur) : public
+    + Carte(Carte c) : public
+    p getLargeur() : int
+    p getHauteur() : int
+    p getTaille() : Position
+    p getCarte() : Entite[][]
+    p getListeMonstresEnJeu() : ArrayList<Monstre>
+    p afficherCarte() : void
+    p afficherLegende() : void
+    p ajouteEntite(Entite e, Position p) : void
+    + CaseVide() : new
+    p enleveEntite(Position p) : void
+    + CaseVide() : new
+    p getEntite(Position p) : Entite
+    p inCarte(Position pos) : boolean
+    + getLargeur() : <
+    + getHauteur() : <
+    p copieCarte(Carte c) : void
+    + getHauteur() : <
+    + getLargeur() : <
+    + Position(y, x) : new
+    p changeTaille(Position taille) : void
+    + Carte(taille) : new
+    p {static} menuCarte() : void
+    p {static} carteAleatoire() : Carte
+    + Carte(positionAleatoire(15, 25) : new
+    p {static} positionAleatoire(int min, int max) : Position
+    + Position(rand.nextInt(max - min + 1) : new
+    p {static} positionAleatoire(Position p) : Position
+    + Position(rand.nextInt(p.y() : new
+    p {static} carteManuelle() : Carte
+    + Carte(hauteur, largeur) : new
+    + if(choix == 6) : else
+    p {static} choixCase(Carte c) : Position
+    + Position(y, x) : new
+    p {static} choixEntite(Carte carte, int choix) : Entite
+    + CaseVide() : new
+    + Obstacle() : new
+}
+class Jeu {
+    + listeMonstres : ArrayList<Monstre>
+    + listeMonstres : return
+    + listePersonnages : ArrayList<Personnage>
+    + listePersonnages : return
+    + donjon : Donjon
+    p {static} getMonstre(int index) : Monstre
+    p {static} getNombreMonstres() : int
+    p {static} getListeMonstres() : ArrayList<Monstre>
+    p {static} getPersonnage(int index) : Personnage
+    p {static} getNombrePersonnages() : int
+    p {static} addPersonnage(Personnage p) : void
+    p {static} getListePersonnages() : ArrayList<Personnage>
+    p {static} main(String args[]) : void
+    + Donjon() : new
+}
+class Donjon {
+    + carte : Carte
+    + carte : return
+    p tour : int
+    p donjonNB : int
+    p listeOrdreJeu : ArrayList<Creature>
+    + jeu : boolean
+    + listEveryone : ArrayList<Creature>
+    + return : perdue
+    + jeu : donjon
+    + break : jeu
+    + deVal : int
+    + val : int
+    + deVal : int
+    + val : int
+    + initiativeAjoutee : int
+    + crea : Creature
+    + initiativeExistante : int
+    + true : return
+    + false : return
+    + nbCibles : int
+    + userInt : int
+    + true : return
+    + false : return
+    + nbCibles : int
+    + userInt : int
+    + true : return
+    + false : return
+    + pointsAction : int
+    + 0 : return
+    + 1 : return
+    + choix : int
+    + 2 : return
+    p {static} getCarte() : Carte
+    p {static} setCarte(Carte c) : void
+    + Donjon() : public
+    p commenter() : void
+    p lancerJeu() : void
+    p premierTour(ArrayList<Creature> listEveryone) : void
+    + for(int i = 0; i < Jeu.getNombrePersonnages() : armure
+    p ajouterDansListeOrdre(Creature creatureAjoutee) : void
+    p deplacer(Creature crea) : boolean
+    p attaquer(Creature crea) : boolean
+    p actionCreature(Creature crea) : int
+    + for(Personnage pers : Jeu.getListePersonnages() : finie
+}
+}
+package "personnages" #LightPink {
+class InitialisationJoueurs {
+    + listeRaces : ArrayList<Race>
+    + listeClasses : ArrayList<Classe>
+    + n : int
+    + n : <
+    + personnage : Personnage
+    + nom : String
+    + indexRace : int
+    + indexClasse : int
+    + raceChoisie : Race
+    + classeChoisie : Classe
+    + personnage : return
+    + pattern : Pattern
+    + nom : String
+    + matcher : Matcher
+    + nom : return
+    + Elfe() : new
+    + Humain() : new
+    + Halfelin() : new
+    + Guerrier() : new
+    + Magicien() : new
+    + Roublard() : new
+    p {static} main() : void
+    p {static} creationPersonnage(int numero) : Personnage
+    + Personnage(nom, raceChoisie, classeChoisie) : new
+    + if(personnage.getCaracteristique(Caracteristique.VITESSE) : confirmation
+    p {static} demanderNom() : String
+    + possibles(races ou classes) : choix
+    + choix(ArrayList<T> liste) : int
+}
+}
+package "personnages.classes" #PaleGreen {
+class Clerc {
+    + Clerc() : public
+    + ArmeMagique() : new
+}
+class Magicien {
+    + Magicien() : public
+    + Guerison() : new
+    + BoogieWoogie() : new
+    + ArmeMagique() : new
+}
+class Roublard {
+    + Roublard() : public
+}
+class Guerrier {
+    + Guerrier() : public
+}
+abstract class Classe {
+    p nom : String
+    p pv : int
+    p listeArmes : List<Arme>
+    p listeArmures : List<Armure>
+    p listeSorts : List<Sort>
+    + listeSorts : return
+    + nom : return
+    + pv : return
+    + pres : StringBuilder
+    p getListeSorts() : List<Sort>
+    p getNom() : String
+    p getPV() : int
+    p getListeArmes() : List<Arme>
+    p getListeArmures() : List<Armure>
+    p toString() : String
+    + StringBuilder(nom + "\n\tPV : " + pv + "\n\tÉquipement :") : new
+}
+}
+package "personnages.equipement" #LightCyan {
+abstract class Arme {
+    p degats : String
+    p portee : int
+    p bonus : int
+    p caracteristique : Caracteristique
+    + degats : return
+    + portee : return
+    + Arme(String nom, String degats, int portee) : public
+    p getCaracteristique() : Caracteristique
+    p setDegats(String degats) : void
+    p setPortee(int portee) : void
+    p getDegats() : String
+    p getPortee() : int
+    p getBonus() : int
+    p ameliore() : void
+    p toString() : String
+}
+abstract class Armure {
+    p classeArmure : int
+    + pres : String
+    + pres : return
+    p getClasseArmure() : int
+    p setClasseArmure(int classeArmure) : void
+    p toString() : String
+}
+abstract class Equipement {
+    p nom : String
+    + caracteristiquesBonus : Integer>
+    + true : return
+    p getNom() : String
+    p isEquipment() : boolean
+    + copie() : Equipement
+    + getCaracteristiqueBonus() : Integer>
+}
+class Catalogue {
+    p LISTE_ARMES : List<Arme>
+    p LISTE_ARMURES : List<Armure>
+    + copie : List<Arme>
+    + copie : return
+    + copie : List<Armure>
+    + copie : return
+    + null : return
+    + null : return
+    p {static} getListeArmes() : List<Arme>
+    p {static} getListeArmures() : List<Armure>
+    p {static} getNombreArmure() : int
+    p {static} getArmeParIndice(int index) : Arme
+    p {static} getNombreArmes() : int
+    p {static} getArmureParIndice(int index) : Armure
+    + nom(toujours une copie) : son
+    p {static} getArmeParNom(String nom) : Arme
+    + nom(toujours une copie) : son
+    p {static} getArmureParNom(String nom) : Armure
+}
+class ArmeCourante {
+    + ArmeCourante(String nom, String degats, int portee) : public
+    p copie() : ArmeCourante
+    + ArmeCourante(this.nom, this.degats, this.portee) : new
+}
+class ArmureLegere {
+    + classeArmure : int
+    + ArmureLegere(String nom, int CA) : public
+    p copie() : ArmureLegere
+    + ArmureLegere(this.nom, this.classeArmure) : new
+}
+class ArmeDistance {
+    p caracteristique : Caracteristique
+    + caracteristique : return
+    + ArmeDistance(String nom, String degats, int portee) : public
+    p copie() : ArmeDistance
+    + ArmeDistance(this.nom, this.degats, this.portee) : new
+    p getCaracteristique() : Caracteristique
+}
+class ArmureLourde {
+    + caracteristiquesBonus : Integer>
+    + caracteristiquesBonus : return
+    + pres : String
+    + pres : return
+    + ArmureLourde(String nom, int CA) : public
+    + getBonusCaracteristiques(Caracteristique c) : Integer>
+    p setBonusCaracteristiques(Caracteristique key, Integer value) : void
+    p copie() : ArmureLourde
+    + ArmureLourde(this.nom, this.classeArmure) : new
+    p toString() : String
+}
+class ArmeDeGuerre {
+    + caracteristiquesBonus : Integer>
+    + ArmeDeGuerre(String nom, String degats, int portee) : public
+    p copie() : ArmeDeGuerre
+    + ArmeDeGuerre(this.nom, this.degats, this.portee) : new
+}
+}
+package "personnages.races" #Plum {
+class Elfe {
+    + Elfe() : public
+}
+class Halfelin {
+    + Halfelin() : public
+}
+class Nain {
+    + Nain() : public
+}
+class Humain {
+    + valeurBonus : int
+    + Humain() : public
+}
+abstract class Race {
+    p nom : String
+    + bonusCaracteristiques : Integer>
+    + nom : return
+    + pres : StringBuilder
+    + n : int
+    p getNom() : String
+    p bonus(Caracteristique c) : int
+    p toString() : String
+    + StringBuilder(nom) : new
+}
+}
+package "personnages.sorts" #Wheat {
+interface Sort {
+    + getNom() : String
+    + lancer() : void
+}
+class ArmeMagique {
+    + p : Personnage
+    + n : int
+    p getNom() : String
+    p lancer() : void
+}
+class BoogieWoogie {
+    + posA : Position
+    + posB : Position
+    + tmp : Position
+    p getNom() : String
+    p lancer() : void
+    p lancer(Personnage lanceur, Personnage cible1, Personnage cible2) : void
+    + Position(-1, -1) : new
+}
+class Guerison {
+    + n : int
+    + p : Personnage
+    + soin : int
+    p getNom() : String
+    p lancer() : void
+}
+}
+package "utils" #Orange {
+class Input {
+    + scanner : Scanner
+    + entier : int
+    + entier : return
+    + n : int
+    + n : return
+    + n : int
+    + n : return
+    + input : String
+    + input : String
+    + choix : int
+    + choix : return
+    + Scanner(System.in) : new
+    p {static} entier() : int
+    + while(!scanner.hasNextInt() : programme
+    p {static} entier(int min, int max) : int
+    p {static} entier(int min, int max, String prompt) : int
+    p {static} entierChar(String prompt) : int
+    p {static} entierChar(int max, String prompt) : int
+    p {static} confirmer(String prompt) : boolean
+    p {static} string() : String
+    p {static} string(String prompt) : String
+    p {static} entreePourPasser() : void
+}
+class Position {
+    p x : int
+    p y : int
+    + Position(int y, int x) : public
+    + Position() : public
+    p x() : int
+    p y() : int
+    p x(int x) : void
+    p y(int y) : void
+    p getSuperficie() : int
+    p toString() : String
+}
+class Des {
+    + r : Random
+    + resultat : int
+    + nombreDeDes : <
+    + resultat : return
+    + nombreDeFaces : nombreDeDes,
+    + Random() : new
+    p {static} lancer(int nombreDeDes, int nombreDeFaces) : int
+    p {static} lancer() : int
+    + lancer(1, 20) : return
+    p {static} lancer(String degats) : int
+    + lancer(nombreDeDes, nombreDeFaces) : return
+}
+class Output {
+    p {static} print(String ligne) : void
+    p {static} println(String ligne) : void
+    p {static} println() : void
+    p {static} printValid() : void
+    p {static} clear() : void
+}
+}
+Entite <|-- Obstacle
+Entite <|-- CaseVide
+Entite <|-- Creature
+Creature <|-- Monstre
+Creature <|-- Personnage
+Race <|-- Elfe
+Race <|-- Halfelin
+Race <|-- Nain
+Race <|-- Humain
+Classe <|-- Clerc
+Classe <|-- Magicien
+Classe <|-- Roublard
+Classe <|-- Guerrier
+Sort <|.. ArmeMagique
+Sort <|.. BoogieWoogie
+Sort <|.. Guerison
+Equipement <|-- Arme
+Equipement <|-- Armure
+Entite <|-- Equipement
+Arme <|-- ArmeCourante
+Armure <|-- ArmureLegere
+Arme <|-- ArmeDistance
+Armure <|-- ArmureLourde
+Arme <|-- ArmeDeGuerre
+Entite --> Position : position
+Creature --> Entite : surEquipement
+Creature --> Entite : e
+Creature --> Entite : destination
+Monstre --> Entite : e
+Monstre --> Caracteristique : keys
+Personnage --> Race : race
+Personnage --> Classe : classe
+Personnage --> Arme : listeArmes
+Personnage --> Armure : listeArmures
+Personnage --> Sort : listeSorts
+Personnage --> Arme : armeEquipee
+Personnage --> Armure : armureEquipee
+Personnage --> Caracteristique : key
+Personnage --> Caracteristique : key
+Personnage --> Arme : getArme
+Personnage --> Armure : getArmure
+InitialisationJoueurs --> Personnage : personnage
+InitialisationJoueurs --> Race : raceChoisie
+InitialisationJoueurs --> Classe : classeChoisie
+Classe --> Arme : listeArmes
+Classe --> Armure : listeArmures
+Classe --> Sort : listeSorts
+ArmeMagique --> Personnage : p
+BoogieWoogie --> Position : posA
+BoogieWoogie --> Position : posB
+BoogieWoogie --> Position : tmp
+Guerison --> Personnage : p
+Arme --> Caracteristique : caracteristique
+Catalogue --> Arme : LISTE_ARMES
+Catalogue --> Armure : LISTE_ARMURES
+Catalogue --> Arme : copie
+Catalogue --> Armure : copie
+ArmeDistance --> Caracteristique : caracteristique
+Carte --> Position : taille
+Carte --> Position : p
+Carte --> Entite : e
+Carte --> Position : p
+Carte --> Position : p
+Carte --> Monstre : m
+Carte --> Position : p
+Carte --> Position : p
+Carte --> Entite : e
+Carte --> Position : p
+Carte --> Entite : e
+Jeu --> Donjon : donjon
+Donjon --> Carte : carte
+Donjon --> Creature : crea
+@enduml

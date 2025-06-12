@@ -1,0 +1,100 @@
+@startuml
+
+skinparam linetype ortho
+' skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+' ==== PACKAGE entite ====
+package entite #LightBlue {
+  class Entite
+  class Creature
+  class Monstre
+  class Personnage
+  class Obstacle
+  class CaseVide
+  enum Caracteristique
+}
+
+' ==== PACKAGE jeu ====
+package jeu #LightYellow {
+  class Carte
+  class Donjon
+  class Jeu
+}
+
+' ==== PACKAGE personnages ====
+package personnages #Thistle {
+  class InitialisationJoueurs
+}
+
+package "personnages.classes" #LightPink {
+  class Classe
+  class Guerrier
+  class Roublard
+  class Magicien
+  class Clerc
+  Classe <|-- Guerrier
+  Classe <|-- Roublard
+  Classe <|-- Magicien
+  Classe <|-- Clerc
+}
+
+package "personnages.equipement" #PaleGreen {
+  class Arme
+  class Armure
+  class Equipement
+  class Catalogue
+  Equipement <|-- Arme
+  Equipement <|-- Armure
+}
+
+package "personnages.races" #LightCyan {
+  class Race
+  class Humain
+  class Nain
+  class Elfe
+  class Halfelin
+  Race <|-- Humain
+  Race <|-- Nain
+  Race <|-- Elfe
+  Race <|-- Halfelin
+}
+
+package "personnages.sorts" #Plum {
+  class Sort
+}
+
+' ==== PACKAGE utils ====
+package utils #Wheat {
+  class Position
+  class Output
+  class Input
+  class Des
+}
+
+' ==== Héritages principaux ====
+entite.Entite <|-- entite.Creature
+entite.Entite <|-- entite.Obstacle
+entite.Entite <|-- entite.CaseVide
+entite.Creature <|-- entite.Monstre
+entite.Creature <|-- entite.Personnage
+
+' ==== Associations principales ====
+jeu.Carte o-- entite.Monstre : "listeMonstresEnJeu"
+jeu.Carte o-- entite.Entite : "carte"
+jeu.Carte o-- utils.Position : "taille"
+jeu.Carte ..> entite.Entite
+
+jeu.Donjon o-- jeu.Carte
+jeu.Donjon o-- entite.Creature
+
+jeu.Jeu o-- entite.Monstre
+jeu.Jeu o-- entite.Personnage
+
+entite.Personnage o-- "1" personnages.races.Race
+entite.Personnage o-- "1" personnages.classes.Classe
+entite.Personnage o-- "*" personnages.equipement.Arme
+entite.Personnage o-- "*" personnages.equipement.Armure
+entite.Personnage o-- "*" personnages.sorts.Sort
+
+@enduml

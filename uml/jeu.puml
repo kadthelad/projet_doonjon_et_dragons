@@ -1,0 +1,63 @@
+@startuml
+skinparam linetype ortho
+skinparam style strictuml
+
+package "jeu" #LightYellow {
+class Carte {
+    - taille : utils.Position
+    - carte : entite.Entite[][]
+    - listeMonstresEnJeu : ArrayList<entite.Monstre>
+    + Carte()
+    + getLargeur() : int
+    + getHauteur() : int
+    + getTaille() : utils.Position
+    + getCarte() : entite.Entite[][]
+    + getListeMonstresEnJeu() : ArrayList<entite.Monstre>
+    + afficherCarte() : void
+    + ajouterEntite(e : entite.Entite, p : utils.Position) : void
+    + enleveEntite(p : utils.Position) : void
+    + getEntite(p : utils.Position) : entite.Entite
+    + inCarte(pos : utils.Position) : boolean
+    + copieCarte(c : Carte) : void
+    + changeTaille(taille : utils.Position) : void
+    + menuCarte() : void
+    + carteAleatoire() : Carte
+    + carteManuelle() : Carte
+    + choixCase(c : Carte) : utils.Position
+}
+
+class Donjon {
+    - static carte : Carte
+    - tour : int
+    - donjonNB : int
+    - listeOrdreJeu : ArrayList<entite.Creature>
+    + Donjon()
+    + lancerJeu() : void
+    + commenter() : void
+    + getCarte() : Carte
+    + setCarte(c : Carte) : void
+}
+
+class Jeu {
+    - static listeMonstres : ArrayList<entite.Monstre>
+    - static listePersonnages : ArrayList<entite.Personnage>
+    + getMonstre(index : int) : entite.Monstre
+    + getNombreMonstres() : int
+    + getListeMonstres() : ArrayList<entite.Monstre>
+    + getPersonnage(index : int) : entite.Personnage
+    + getNombrePersonnages() : int
+    + addPersonnage(p : entite.Personnage) : void
+    + getListePersonnages() : ArrayList<entite.Personnage>
+    + main(args : String[]) : void
+}
+}
+
+Carte --> "1..*" entite.Monstre : listeMonstresEnJeu
+Carte --> "1" utils.Position : taille
+Carte --> "1..*" entite.Entite : carte
+Donjon --> "1" Carte
+Donjon --> "1..*" entite.Creature : listeOrdreJeu
+Jeu --> "1..*" entite.Monstre : listeMonstres
+Jeu --> "1..*" entite.Personnage : listePersonnages
+
+@enduml

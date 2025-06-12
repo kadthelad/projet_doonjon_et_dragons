@@ -1,0 +1,62 @@
+@startuml
+skinparam linetype ortho
+skinparam style strictuml
+hide empty members
+
+package "personnages" #Thistle {
+    class InitialisationJoueurs {
+        - listePersonnages : ArrayList<entite.Personnage>
+        - listeRaces : ArrayList<personnages.races.Race>
+        - listeClasses : ArrayList<personnages.classes.Classe>
+        + combienJoueurs() : Integer
+        + creationPersonnages(nombreJoueurs : Integer) : ArrayList<entite.Personnage>
+    }
+}
+package "personnages.classes" #LightPink {
+    abstract class Classe
+    class Guerrier extends Classe
+    class Roublard extends Classe
+    class Magicien extends Classe
+    class Clerc extends Classe
+}
+package "personnages.equipement" #PaleGreen {
+    abstract class Equipement
+    class Arme extends Equipement
+    class ArmeCourante extends Arme
+    class ArmeDeGuerre extends Arme
+    class ArmeDistance extends Arme
+    class Armure extends Equipement
+    class ArmureLegere extends Armure
+    class ArmureLourde extends Armure
+    class Catalogue {
+        - LISTE_ARMES : List<Arme>
+        - LISTE_ARMURES : List<Armure>
+        + getListeArmes() : List<Arme>
+        + getListeArmures() : List<Armure>
+        + getArmeParNom(nom : String) : Arme
+        + getArmureParNom(nom : String) : Armure
+    }
+}
+Catalogue --> "0..*" Arme : LISTE_ARMES
+Catalogue --> "0..*" Armure : LISTE_ARMURES
+
+package "personnages.races" #LightCyan {
+    abstract class Race {
+        - nom : String
+        - bonusCaracteristiques : Map<entite.Caracteristique, Integer>
+        + getNom() : String
+        + bonus(c : entite.Caracteristique) : Integer
+    }
+    class Humain extends Race
+    class Nain extends Race
+    class Elfe extends Race
+    class Halfelin extends Race
+}
+package "personnages.sorts" #Plum {
+    class Sort
+    class ArmeMagique extends Sort
+    class BoogieWoogie extends Sort
+    class Guerison extends Sort
+}
+
+@enduml

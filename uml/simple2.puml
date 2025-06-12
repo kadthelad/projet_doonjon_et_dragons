@@ -1,0 +1,293 @@
+@startuml
+
+skinparam linetype ortho
+skinparam classAttributeIconSize 12
+skinparam style strictuml
+hide empty members
+
+' ==== PACKAGE jeu ====
+package jeu #LightYellow {
+  class Carte {
+    - taille: Position
+    - carte: Entite[][]
+    - listeMonstresEnJeu: ArrayListe<Monstre>
+    + getLargeur(): int
+    + getHauteur(): int
+    + getEntite(p : Position) : Entite
+    + ajouteEntite(e : Entite, p : Position)
+    + enleveEntite(p : Position)
+    + afficherCarte()
+    + menuCarte()
+    + carteAleatoire()
+    + carteManuelle()
+  }
+  class Donjon {
+    - carte: Carte
+    + lancerJeu() 
+    + ajouterDansListeOrdre(creatureAjoutee : Creature)
+    + deplacer(crea : Creature)
+    + attaque(crea : Creature)
+    + actionCreature(crea : Creature)
+    + commenter()
+  }
+  class Jeu {
+    - listeMonstres: ArrayListe<Monstre>
+    - listePersonnages: ArrayListe<Personnage>
+    + main(args[]: String)
+  }
+  Jeu "1..*" *-> Donjon
+  Donjon "1" *-> Carte
+
+}
+
+' ==== PACKAGE entite ====
+package entite #LightBlue {
+  class Entite {
+    ~ position : Position
+    + {abstract} getNom(): String
+    + getAlias() : String
+    + isEmpty() : Boolean
+    + isEquipment() : Boolean
+    + isMonstre() : Boolean
+    + getPosition() : Position
+    + entreCarte(p : Position)
+    + sortCarte()
+    + TP(p : Position)
+    + distance(p : Position) : Integer
+  }
+
+  class Creature {
+    ~ caracteristiques : Map<Caracteristique, Integer>
+    + getCaracteristique(c : Caracteristique) : Integer
+    + setCaracteristique(c : Caracteristique, v : Integer)
+    + move(p : Position) : Boolean
+    + attaque(cible: Creature) : boolean
+    + ramasser() : Boolean
+    + equipperArme() : Boolean
+    + equipperArmure() : Boolean
+    + changePV(pv : Integer) : Boolean
+    + getCA() : Integer
+  }
+
+  class Personnage {
+    - nom: String
+    - race: Race
+    - classe: Classe
+    - listeArmes: List<Arme>
+    - listeArmures: List<Armure>
+    - listeSorts: List<Sort>
+    - armeEquipee: Arme
+    - armureEquipee: Armure
+    + changePV(modifPV: Integer): boolean
+    + setCaracteristique(c: Caracteristique, v: Integer)
+    + getCaracteristique(c: Caracteristique): Integer
+    + changeArmeEquipee(nouvellArmure: Arme)
+    + changeArmureEquipee(nouvelleArmure: Armure)
+  }
+
+  class Monstre {
+    - numero: Integer
+    - espece: String
+    - degats: String
+    - alias: String
+    + getAlias(): String
+    + attaque(cible: Creature): boolean
+    + changePV(modifPV: Integer): boolean
+    + random() : Monstre
+    + dragon() : Monstre
+    + orc() : Monstre
+    + arrachnide() : Monstre
+    + create() : Entite
+  }
+
+  class Obstacle {
+    + getAlias(): String
+
+  }
+
+  class CaseVide {
+    + getAlias(): String
+    + isEmpty() : boolean
+  }
+
+  Entite <|-- Creature
+  Creature <|-- Personnage
+  Creature <|-- Monstre
+  Entite <|-- Obstacle
+  Entite <|-- CaseVide
+
+  enum Caracteristique <<enumeration>> {
+    FORCE
+    DEXTERITE
+    VITESSE
+    INITIATIVE
+    CLASSE_ARMURE
+    PV_MAX
+    PV
+  }
+}
+
+' ==== PACKAGE utils ====
+package utils #Wheat {
+  class Position {
+    - x: int
+    - y: int
+    + x(): int
+    + y(): int
+    + x(x: int)
+    + y(y: int)
+    + getSuperficie(): int
+  }
+
+  class Output {
+    + print(ligne: String)
+    + println(ligne: String)
+    + clear()
+  }
+
+  class Input {
+    - scanner: Scanner
+    + entier(): int
+    + entier(min: int, max: int): int
+    + entier(min: int, max: int, prompt: String): int
+    + entierChar(prompt: String): int
+    + entierChar(max: int, prompt: String): int
+    + confirmer(prompt: String): boolean
+    + string(): String
+    + string(prompt: String): String
+    + entreePourPasser()
+  }
+
+  class Des {
+    - r: Random
+    + lancer(nombreDeDes: int, nombreDeFaces: int): int
+    + lancer(): int
+    + lancer(degats: String): int
+  }
+}
+
+' ==== PACKAGE personnages.races ====
+package "personnages.races" #LightCyan {
+  class Race {
+    ~ bonusCaracteristiques: Map<Caracteristique, Integer>
+    + bonus(c : Caracteristique) : Integer
+  }
+  class Humain
+  class Nain
+  class Elfe
+  class Halfelin
+  Race <|-- Humain
+  Race <|-- Nain
+  Race <|-- Elfe
+  Race <|-- Halfelin
+}
+
+' ==== PACKAGE personnages.classes ====
+package "personnages.classes" #LightPink {
+  class Classe {
+    ~ listeArmes: ArrayList<Arme>
+    ~ listeArmures: ArrayList<Armure>
+    ~ listeSorts: ArrayList<Sort>
+    + getListeArmes() : List<Arme>
+    + getListeArmures() : List<Armure>
+    + getListeSorts() : List<Sort>
+  }
+  class Guerrier
+  class Roublard
+  class Magicien
+  class Clerc
+  Classe <|-- Guerrier
+  Classe <|-- Roublard
+  Classe <|-- Magicien
+  Classe <|-- Clerc
+}
+
+' ==== PACKAGE personnages.equipement ====
+package "personnages.equipement" #PaleGreen {
+  class Equipement {
+    ~ caracteristiquesBonus: Map<Caracteristique, Integer>
+    + getCaracteristiqueBonus() : Map<Caracteristique, Integer>
+    + isEquipement(): boolean
+    + {abstract} copie(): Equipement
+  }
+  class Arme {
+    + getPortee() : Integer
+    + getBonus() : Integer
+    + getDegats() : String
+    + ameliore()
+    + getCaracteristique() : Caracteristique
+  }
+  class Armure {
+    + getClasseArmure() : Integer
+  }
+  class Catalogue {
+    - {static} {final} LISTE_ARMES: ArrayList
+    - {static} {final} LISTE_ARMURES: ArrayList
+    + getArmeParNom(nom : String) : Arme
+    + getArmureParNom(nom : String) : Armure
+    + getArmeParIndice(index: Integer) : Arme
+    + getArmureParIndice(index: Integer) : Armure
+  }
+  class ArmeCourante
+  class ArmeDeGuerre
+  class ArmeDistance
+  class ArmureLegere
+  class ArmureLourde
+  Equipement <|-- Arme
+  Equipement <|-- Armure
+  Arme <|-- ArmeCourante
+  Arme <|-- ArmeDeGuerre
+  Arme <|-- ArmeDistance
+  Armure <|-- ArmureLegere
+  Armure <|-- ArmureLourde
+}
+
+' ==== PACKAGE personnages.sorts ====
+package "personnages.sorts" #Plum {
+  class Sort {
+    + lancer()
+  }
+  class ArmeMagique
+  class BoogieWoogie
+  class Guerison
+  Sort <|-- ArmeMagique
+  Sort <|-- BoogieWoogie
+  Sort <|-- Guerison
+}
+
+' ==== PACKAGE personnages ====
+package personnages #Thistle {
+  class InitialisationJoueurs {
+    + main()
+    + creationPersonnage(numero: Integer) : Personnage
+  }
+}
+
+' ==== Relations ====
+entite.Personnage *--> "1" personnages.races.Race : race
+entite.Personnage --> personnages.races.Race : toString()
+entite.Personnage *--> "1" personnages.classes.Classe : classe
+entite.Personnage --> personnages.classes.Classe : toString()
+entite.Personnage o--> "*" personnages.equipement.Arme : listeArmes
+entite.Personnage o--> "*" personnages.equipement.Armure : listeArmures
+entite.Personnage o--> "*" personnages.sorts.Sort : listeSorts
+entite.Personnage --> "0..1" personnages.equipement.Arme : armeEquipee
+entite.Personnage --> "0..1" personnages.equipement.Armure : armureEquipee
+entite.Personnage ..> personnages.equipement.Catalogue : getArmeParNom() / getArmureParNom()
+
+entite.Creature ..> jeu.Donjon : getCarte()
+entite.Creature ..> jeu.Carte : move()
+entite.Entite "1" *--> utils.Position: position
+entite.Monstre ..> jeu.Jeu : getListeMonstres()
+
+jeu.Carte *--> "1" utils.Position : taille
+jeu.Carte *--> "225..625" entite.Entite : carte
+jeu.Carte --> entite.Monstre : listeMonstresEnJeu
+jeu.Carte ..> personnages.equipement.Catalogue : getArmeParIndice() / getArmeParIndice()
+jeu.Carte ..> jeu.Jeu : getNombrePersonnages()
+jeu.Jeu --> entite.Monstre: listeMonstres
+jeu.Jeu --> entite.Personnage: listePersonnages
+jeu.Jeu ..> personnages.InitialisationJoueurs : main()
+
+
+@enduml

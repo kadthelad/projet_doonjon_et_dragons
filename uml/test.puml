@@ -1,0 +1,275 @@
+@startuml
+
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+' ==== PACKAGE jeu ====
+package jeu #LightYellow {
+
+  abstract class Entite
+  abstract class Creature
+  class Obstacle
+  abstract class Equipement
+
+  Entite <|-- Creature
+  Entite <|-- Equipement
+  Entite <|-- Obstacle
+}
+
+' ==== PACKAGE jeu.joueurs ====
+package "jeu.joueurs" #MistyRose {
+  class Personnage
+  class Monstre
+
+  Creature <|-- Personnage
+  Creature <|-- Monstre
+}
+
+' ==== PACKAGE personnages.races ====
+package "jeu.joueurs.races" #LightBlue {
+  abstract class Race {
+    - nom: String
+    - bonusCaracteristiques: Map<Caracteristique, Integer>
+    + getNom(): String
+    + bonus(c: Caracteristique): Integer
+  }
+  class Elfe
+  class Halfelin
+  class Humain
+  class Nain
+
+  Elfe --|> Race
+  Halfelin --|> Race
+  Humain --|> Race
+  Nain --|> Race
+}
+
+' ==== PACKAGE personnages.classes ====
+package "jeu.joueurs.classes" #Thistle {
+  abstract class Classe {
+    - nom: String
+    - pv: Integer
+    - listeArmes: List<Arme>
+    - listeArmures: List<Armure>
+    + getNom(): String
+    + getPV(): Integer
+    + getListeArmes(): List<Arme>
+    + getListeArmures(): List<Armure>
+  }
+  class Clerc
+  class Guerrier
+  class Magicien
+  class Roublard
+
+  Clerc --|> Classe
+  Guerrier --|> Classe
+  Magicien --|> Classe
+  Roublard --|> Classe
+}
+
+' ==== PACKAGE personnages.equipement ====
+package "jeu.joueurs.equipement" #PaleGreen {
+  abstract class Arme
+  abstract class Armure
+
+  Equipement <|-- Arme
+  Equipement <|-- Armure
+
+  class ArmeCourante
+  class ArmeDeGuerre
+  class ArmeDistance
+
+  ArmeCourante --|> Arme
+  ArmeDeGuerre --|> Arme
+  ArmeDistance --|> Arme
+
+  class ArmureLegere
+  class ArmureLourde
+
+  ArmureLegere --|> Armure
+  ArmureLourde --|> Armure
+
+  class Catalogue {
+    - LISTE_ARMES: List<Arme>
+    - LISTE_ARMURES: List<Armure>
+    + getListeArmes(): List<Arme>
+    + getListeArmures(): List<Armure>
+    + getArmeParNom(nom: String): Arme
+    + getArmureParNom(nom: String): Armure
+  }
+}
+
+' ==== PACKAGE utils ====
+package "jeu.utils" #Wheat {
+  enum Caracteristique {
+    FORCE
+    DEXTERITE
+    VITESSE
+    INITIATIVE
+    CLASSE_ARMURE
+    PV_MAX
+    PV
+  }
+  class Des {
+    + lancer(nombreDeDes: Integer, nombreDeFaces: Integer): Integer
+    + lancer(): Integer
+    + lancer(degats: String): Integer
+  }
+  class Position {
+    - x: Integer
+    - y: Integer
+    + Position(x: Integer, y: Integer)
+    + getX(): Integer
+    + getY(): Integer
+    + TP(x: Integer, y: Integer): Position
+    + move(x: Integer, y: Integer): Position
+    + get(): Position
+    + distance(x: Integer, y: Integer): Integer
+    + equalsTo(pos2: Position): Boolean
+  }
+  class Input {
+    + entier(): Integer
+    + string(): String
+  }
+}
+
+' ==== PACKAGE jeu ====
+package jeu #LightYellow {
+  class Jeu {
+    - listePersonnages: ArrayList<jeu.joueurs.Personnage>
+    + getListePersonnages(): ArrayList<jeu.joueurs.Personnage>
+    + main(args: String[]): void
+  }
+  class InitialisationJoueurs {
+    - listePersonnages: ArrayList<jeu.joueurs.Personnage>
+    - listeRaces: ArrayList<jeu.joueurs.races.Race>
+    - listeClasses: ArrayList<jeu.joueurs.classes.Classe>
+    + combienJoueurs(): Integer
+    + creationPersonnages(nombreJoueurs: Integer): ArrayList<jeu.joueurs.Personnage>
+  }
+}
+
+' ==== ASSOCIATIONS ====
+jeu.joueurs.Personnage "1" o-- "1" jeu.joueurs.races.Race
+jeu.joueurs.Personnage "1" o-- "1" jeu.joueurs.classes.Classe
+jeu.joueurs.Personnage "0..*" o-- "0..*" jeu.joueurs.equipement.Arme
+jeu.joueurs.Personnage "0..*" o-- "0..*" jeu.joueurs.equipement.Armure
+jeu.joueurs.Personnage "0..1" *-- "0..1" jeu.joueurs.equipement.Arme : "armeEquipee"
+jeu.joueurs.Personnage "0..1" *-- "0..1" jeu.joueurs.equipement.Armure : "armureEquipee"
+
+jeu.Jeu o-- "0..*" jeu.joueurs.Personnage
+jeu.InitialisationJoueurs o-- "0..*" jeu.joueurs.Personnage
+jeu.InitialisationJoueurs o-- "0..*" jeu.joueurs.races.Race
+jeu.InitialisationJoueurs o-- "0..*" jeu.joueurs.classes.Classe
+
+' ==== AJOUTS ET AJUSTEMENTS POUR entite ====
+package entite #LightBlue {
+  enum Caracteristique
+  abstract class Entite {
+    - position: jeu.utils.Position
+    + getNom(): String
+    + isEquipment(): boolean
+    + isMonstre(): boolean
+    + getAlias(): String
+    + getPosition(): jeu.utils.Position
+    + entreCarte(p: jeu.utils.Position): void
+    + sortCarte(): void
+    + sortCarte(carte: jeu.Carte): void
+    + TP(p: jeu.utils.Position): void
+    + TP(carte: jeu.Carte, p: jeu.utils.Position): void
+    + distance(e: Entite): int
+    + distance(p: jeu.utils.Position): int
+    + isEmpty(): boolean
+  }
+  abstract class Creature extends Entite {
+    # caracteristiques: Map<Caracteristique, Integer>
+    # surEquipement: Entite
+    + move(p: jeu.utils.Position): boolean
+    + stepOnEquipement(eqpt: Entite): void
+    + leaveEquipement(): Entite
+    + getCaracteristique(c: Caracteristique): int
+    + setCaracteristique(c: Caracteristique, v: int): void
+    + attaque(cible: Creature): boolean
+    + equipperArme(): boolean
+    + equipperArmure(): boolean
+    + ramasser(): boolean
+    + getCA(): int
+    + changePV(pv: int): boolean
+  }
+  class CaseVide extends Entite {
+    + getAlias(): String
+    + getNom(): String
+    + isEmpty(): boolean
+  }
+  class Obstacle extends Entite {
+    + getNom(): String
+    + getAlias(): String
+  }
+  class Monstre extends Creature {
+    - espece: String
+    - numero: int
+    - nomAttaque: String
+    - des: String
+    - alias: String
+    + getEspece(): String
+    + getNomAttaque(): String
+    + getAttaque(): String
+    + getMapCaracteristiques(): Map<Caracteristique, Integer>
+    + setEspece(esp: String): void
+    + setAlias(icn: String): void
+    + setNomAtt(nomAtt: String): void
+    + setSpeAtt(speAtt: String): void
+    + getNom(): String
+    + getAlias(): String
+    + attaque(cible: Creature): boolean
+    + getCA(): int
+    + changePV(modifPV: int): boolean
+    + equipperArme(): boolean
+    + equipperArmure(): boolean
+    + ramasser(): boolean
+    + isMonstre(): boolean
+    + copie(): Monstre
+    + static random(): Monstre
+    + static orc(): Monstre
+    + static dragon(): Monstre
+    + static arrachnide(): Monstre
+    + static create(): Entite
+    + static resetMonstres(): void
+  }
+  class Personnage extends Creature {
+    - nom: String
+    - race: jeu.joueurs.races.Race
+    - classe: jeu.joueurs.classes.Classe
+    - listeArmes: List<jeu.joueurs.equipement.Arme>
+    - listeArmures: List<jeu.joueurs.equipement.Armure>
+    - listeSorts: List<jeu.joueurs.sorts.Sort>
+    - armeEquipee: jeu.joueurs.equipement.Arme
+    - armureEquipee: jeu.joueurs.equipement.Armure
+    + getNom(): String
+    + getAlias(): String
+    + getRace(): jeu.joueurs.races.Race
+    + getClasse(): jeu.joueurs.classes.Classe
+    + getCA(): int
+    + attaque(cible: Creature): boolean
+    + equipperArme(): boolean
+    + equipperArmure(): boolean
+    + ramasser(): boolean
+    + addArme(a: jeu.joueurs.equipement.Arme): void
+    + addArmure(a: jeu.joueurs.equipement.Armure): void
+    + getListeArmes(): List<jeu.joueurs.equipement.Arme>
+    + getListeAmures(): List<jeu.joueurs.equipement.Armure>
+    + getListeSorts(): List<jeu.joueurs.sorts.Sort>
+    + getCaracteristique(c: Caracteristique): int
+    + setCaracteristique(c: Caracteristique, v: int): void
+    + changePV(modifPV: int): boolean
+  }
+
+  Entite <|-- Creature
+  Entite <|-- CaseVide
+  Entite <|-- Obstacle
+  Creature <|-- Monstre
+  Creature <|-- Personnage
+}
+
+@enduml

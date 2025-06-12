@@ -1,0 +1,239 @@
+@startuml
+
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+' ==== PACKAGE entite ====
+package entite #LightBlue {
+  abstract class Entite {
+    - position: utils.Position
+    + getNom(): String
+    + getAlias(): String
+    + getPosition(): utils.Position
+    + entreCarte(p: utils.Position): void
+    + sortCarte(): void
+    + sortCarte(carte: jeu.Carte): void
+    + TP(p: utils.Position): void
+    + TP(carte: jeu.Carte, p: utils.Position): void
+    + distance(e: Entite): int
+    + distance(p: utils.Position): int
+    + isEmpty(): boolean
+    + isEquipment(): boolean
+    + isMonstre(): boolean
+  }
+  abstract class Creature extends Entite {
+    # caracteristiques: Map<Caracteristique, Integer>
+    # surEquipement: Entite
+    + move(p: utils.Position): boolean
+    + stepOnEquipement(eqpt: Entite): void
+    + leaveEquipement(): Entite
+    + getCaracteristique(c: Caracteristique): int
+    + setCaracteristique(c: Caracteristique, v: int): void
+    + attaque(cible: Creature): boolean
+    + equipperArme(): boolean
+    + equipperArmure(): boolean
+    + ramasser(): boolean
+    + getCA(): int
+    + changePV(pv: int): boolean
+  }
+  class Monstre extends Creature {
+    - espece: String
+    - numero: int
+    - nomAttaque: String
+    - des: String
+    - alias: String
+    + getEspece(): String
+    + getNomAttaque(): String
+    + getAttaque(): String
+    + getMapCaracteristiques(): Map<Caracteristique, Integer>
+    + setEspece(esp: String): void
+    + setAlias(icn: String): void
+    + setNomAtt(nomAtt: String): void
+    + setSpeAtt(speAtt: String): void
+    + attaque(cible: Creature): boolean
+    + getCA(): int
+    + changePV(modifPV: int): boolean
+    + equipperArme(): boolean
+    + equipperArmure(): boolean
+    + ramasser(): boolean
+    + isMonstre(): boolean
+    + copie(): Monstre
+    + static random(): Monstre
+    + static orc(): Monstre
+    + static dragon(): Monstre
+    + static arrachnide(): Monstre
+    + static create(): Entite
+    + static resetMonstres(): void
+  }
+  class Personnage extends Creature {
+    - nom: String
+    - race: personnages.races.Race
+    - classe: personnages.classes.Classe
+    - listeArmes: List<personnages.equipement.Arme>
+    - listeArmures: List<personnages.equipement.Armure>
+    - listeSorts: List<personnages.sorts.Sort>
+    - armeEquipee: personnages.equipement.Arme
+    - armureEquipee: personnages.equipement.Armure
+    + addArme(a: personnages.equipement.Arme): void
+    + addArmure(a: personnages.equipement.Armure): void
+    + getListeArmes(): List<personnages.equipement.Arme>
+    + getListeAmures(): List<personnages.equipement.Armure>
+    + getListeSorts(): List<personnages.sorts.Sort>
+    + getNom(): String
+    + getAlias(): String
+    + getRace(): personnages.races.Race
+    + getClasse(): personnages.classes.Classe
+    + getCA(): int
+    + attaque(cible: Creature): boolean
+    + equipperArme(): boolean
+    + equipperArmure(): boolean
+    + ramasser(): boolean
+    + getCaracteristique(c: Caracteristique): int
+    + setCaracteristique(c: Caracteristique, v: int): void
+    + changePV(modifPV: int): boolean
+  }
+  class Obstacle extends Entite {
+    + getNom(): String
+    + getAlias(): String
+  }
+  class CaseVide extends Entite {
+    + getAlias(): String
+    + getNom(): String
+    + isEmpty(): boolean
+  }
+  enum Caracteristique
+}
+
+' ==== PACKAGE jeu ====
+package jeu #LightYellow {
+  class Carte {
+    - taille: utils.Position
+    - carte: entite.Entite[][]
+    - listeMonstresEnJeu: ArrayList<entite.Monstre>
+    + getLargeur(): int
+    + getHauteur(): int
+    + getTaille(): utils.Position
+    + getCarte(): entite.Entite[][]
+    + getListeMonstresEnJeu(): ArrayList<entite.Monstre>
+    + afficherCarte(): void
+    + ajouterEntite(e: entite.Entite, p: utils.Position): void
+    + enleveEntite(p: utils.Position): void
+    + getEntite(p: utils.Position): entite.Entite
+    + inCarte(pos: utils.Position): boolean
+    + copieCarte(c: Carte): void
+    + changeTaille(taille: utils.Position): void
+    + menuCarte(): void
+    + carteAleatoire(): Carte
+    + carteManuelle(): Carte
+    + choixCase(c: Carte): utils.Position
+  }
+  class Donjon {
+    - static carte: Carte
+    - tour: int
+    - donjonNB: int
+    - listeOrdreJeu: ArrayList<entite.Creature>
+    + Donjon()
+    + lancerJeu(): void
+    + commenter(): void
+    + getCarte(): Carte
+    + setCarte(c: Carte): void
+  }
+  class Jeu {
+    - static listeMonstres: ArrayList<entite.Monstre>
+    - static listePersonnages: ArrayList<entite.Personnage>
+    + getMonstre(index: int): entite.Monstre
+    + getNombreMonstres(): int
+    + getListeMonstres(): ArrayList<entite.Monstre>
+    + getPersonnage(index: int): entite.Personnage
+    + getNombrePersonnages(): int
+    + addPersonnage(p: entite.Personnage): void
+    + getListePersonnages(): ArrayList<entite.Personnage>
+    + main(args: String[]): void
+  }
+}
+
+' ==== PACKAGE personnages ====
+package personnages #Thistle {
+  class InitialisationJoueurs {
+    - listePersonnages: ArrayList<entite.Personnage>
+    - listeRaces: ArrayList<personnages.races.Race>
+    - listeClasses: ArrayList<personnages.classes.Classe>
+    + combienJoueurs(): Integer
+    + creationPersonnages(nombreJoueurs: Integer): ArrayList<entite.Personnage>
+  }
+}
+
+package "personnages.classes" #LightPink {
+  abstract class Classe
+  class Guerrier
+  class Roublard
+  class Magicien
+  class Clerc
+  Classe <|-- Guerrier
+  Classe <|-- Roublard
+  Classe <|-- Magicien
+  Classe <|-- Clerc
+}
+
+package "personnages.equipement" #PaleGreen {
+  abstract class Equipement
+  class Arme
+  class Armure
+  class Catalogue {
+    - LISTE_ARMES: List<Arme>
+    - LISTE_ARMURES: List<Armure>
+    + getListeArmes(): List<Arme>
+    + getListeArmures(): List<Armure>
+    + getArmeParNom(nom: String): Arme
+    + getArmureParNom(nom: String): Armure
+  }
+  Equipement <|-- Arme
+  Equipement <|-- Armure
+}
+
+package "personnages.races" #LightCyan {
+  abstract class Race {
+    - nom: String
+    - bonusCaracteristiques: Map<entite.Caracteristique, Integer>
+    + getNom(): String
+    + bonus(c: entite.Caracteristique): Integer
+  }
+  class Humain
+  class Nain
+  class Elfe
+  class Halfelin
+  Race <|-- Humain
+  Race <|-- Nain
+  Race <|-- Elfe
+  Race <|-- Halfelin
+}
+
+package "personnages.sorts" #Plum {
+  class Sort
+}
+
+' ==== PACKAGE utils ====
+package utils #Wheat {
+  class Position {
+    - x: int
+    - y: int
+    + Position(x: int, y: int)
+    + getX(): int
+    + getY(): int
+    + distance(x: int, y: int): int
+    + equalsTo(pos2: Position): boolean
+  }
+  class Output
+  class Input {
+    + entier(): int
+    + string(): String
+  }
+  class Des {
+    + lancer(nombreDeDes: int, nombreDeFaces: int): int
+    + lancer(): int
+    + lancer(degats: String): int
+  }
+}
+
+@enduml

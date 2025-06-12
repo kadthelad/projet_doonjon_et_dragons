@@ -1,0 +1,122 @@
+@startuml
+skinparam linetype ortho
+skinparam style strictuml
+hide empty members
+
+package "entite" #LightBlue {
+abstract class Entite {
+    - position : utils.Position
+    + Entite()
+    + getNom() : String
+    + getAlias() : String
+    + getPosition() : utils.Position
+    + entreCarte(p : utils.Position) : void
+    + sortCarte() : void
+    + sortCarte(carte : jeu.Carte) : void
+    + TP(p : utils.Position) : void
+    + TP(carte : jeu.Carte, p : utils.Position) : void
+    + distance(e : Entite) : int
+    + distance(p : utils.Position) : int
+    + isEmpty() : boolean
+    + isEquipment() : boolean
+    + isMonstre() : boolean
+}
+abstract class Creature extends Entite {
+    # caracteristiques : Map<Caracteristique, Integer>
+    # surEquipement : Entite
+    + Creature()
+    + move(p : utils.Position) : boolean
+    + stepOnEquipement(eqpt : Entite) : void
+    + leaveEquipement() : Entite
+    + getCaracteristique(c : Caracteristique) : int
+    + setCaracteristique(c : Caracteristique, v : int) : void
+    + attaque(cible : Creature) : boolean
+    + equipperArme() : boolean
+    + equipperArmure() : boolean
+    + ramasser() : boolean
+    + getCA() : int
+    + changePV(pv : int) : boolean
+}
+class Monstre extends Creature {
+    - espece : String
+    - numero : int
+    - nomAttaque : String
+    - des : String
+    - alias : String
+    + Monstre()
+    + getEspece() : String
+    + getNomAttaque() : String
+    + getAttaque() : String
+    + getMapCaracteristiques() : Map<Caracteristique, Integer>
+    + setEspece(esp : String) : void
+    + setAlias(icn : String) : void
+    + setNomAtt(nomAtt : String) : void
+    + setSpeAtt(speAtt : String) : void
+    + attaque(cible : Creature) : boolean
+    + getCA() : int
+    + changePV(modifPV : int) : boolean
+    + equipperArme() : boolean
+    + equipperArmure() : boolean
+    + ramasser() : boolean
+    + isMonstre() : boolean
+    + copie() : Monstre
+    + static random() : Monstre
+    + static orc() : Monstre
+    + static dragon() : Monstre
+    + static arrachnide() : Monstre
+    + static create() : Entite
+    + static resetMonstres() : void
+}
+class Personnage extends Creature {
+    - nom : String
+    - race : personnages.races.Race
+    - classe : personnages.classes.Classe
+    - listeArmes : List<personnages.equipement.Arme>
+    - listeArmures : List<personnages.equipement.Armure>
+    - listeSorts : List<personnages.sorts.Sort>
+    - armeEquipee : personnages.equipement.Arme
+    - armureEquipee : personnages.equipement.Armure
+    + Personnage()
+    + addArme(a : personnages.equipement.Arme) : void
+    + addArmure(a : personnages.equipement.Armure) : void
+    + getListeArmes() : List<personnages.equipement.Arme>
+    + getListeAmures() : List<personnages.equipement.Armure>
+    + getListeSorts() : List<personnages.sorts.Sort>
+    + getNom() : String
+    + getAlias() : String
+    + getRace() : personnages.races.Race
+    + getClasse() : personnages.classes.Classe
+    + getCA() : int
+    + attaque(cible : Creature) : boolean
+    + equipperArme() : boolean
+    + equipperArmure() : boolean
+    + ramasser() : boolean
+    + getCaracteristique(c : Caracteristique) : int
+    + setCaracteristique(c : Caracteristique, v : int) : void
+    + changePV(modifPV : int) : boolean
+}
+class Obstacle extends Entite {
+    + Obstacle()
+    + getNom() : String
+    + getAlias() : String
+}
+class CaseVide extends Entite {
+    + CaseVide()
+    + getAlias() : String
+    + getNom() : String
+    + isEmpty() : boolean
+}
+enum Caracteristique {
+}
+}
+
+Entite --> utils.Position : position
+Personnage --> personnages.races.Race : race
+Personnage --> personnages.classes.Classe : classe
+Personnage --> "0..*" personnages.equipement.Arme : listeArmes
+Personnage --> "0..*" personnages.equipement.Armure : listeArmures
+Personnage --> "0..*" personnages.sorts.Sort : listeSorts
+Personnage --> "0..1" personnages.equipement.Arme : armeEquipee
+Personnage --> "0..1" personnages.equipement.Armure : armureEquipee
+
+@enduml
